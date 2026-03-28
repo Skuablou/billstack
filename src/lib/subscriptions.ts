@@ -8,6 +8,7 @@ export interface Subscription {
   billingDate: number;
   color: string;
   icon: string;
+  reminderDays: number;
 }
 
 export const CATEGORIES = [
