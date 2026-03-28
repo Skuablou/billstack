@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { CreditCard, TrendingUp, RefreshCw, Plus, Clock, DollarSign, User } from "lucide-react";
+import { CreditCard, TrendingUp, RefreshCw, Plus, DollarSign, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import AddSubscriptionDialog from "@/components/AddSubscriptionDialog";
 import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
 import YearlyProjection from "@/components/YearlyProjection";
+import { useCurrency } from "@/lib/CurrencyContext";
 import {
   loadSubscriptions,
   saveSubscriptions,
@@ -22,6 +23,7 @@ export default function Index() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [premiumOpen, setPremiumOpen] = useState(false);
+  const { currency, toggle: toggleCurrency } = useCurrency();
 
   useEffect(() => {
     setSubscriptions(loadSubscriptions());
@@ -44,6 +46,8 @@ export default function Index() {
   const maxFree = getMaxFreeSubscriptions();
   const freeLeft = Math.max(0, maxFree - subscriptions.length);
 
+  const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -60,6 +64,8 @@ export default function Index() {
               variant="outline"
               size="icon"
               className="rounded-full border-border text-muted-foreground hover:text-foreground"
+              onClick={toggleCurrency}
+              title={`Switch to ${currency === "€" ? "$" : "€"}`}
             >
               <DollarSign className="w-4 h-4" />
             </Button>
@@ -90,15 +96,15 @@ export default function Index() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-xl bg-card border border-primary/20 p-5"
-            style={{ boxShadow: "0 0 30px -10px hsl(36 100% 50% / 0.15)" }}
+            className="rounded-xl bg-card border p-5"
+            style={{ borderColor: "hsl(270 80% 60% / 0.3)", boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.15)" }}
           >
             <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-              <CreditCard className="w-4 h-4 text-primary" />
+              <CreditCard className="w-4 h-4" style={{ color: "hsl(270 80% 60%)" }} />
               Monthly (avg)
             </div>
             <p className="text-3xl font-display font-bold text-foreground">
-              €{monthlyTotal.toFixed(2)}
+              {fmt(monthlyTotal)}
             </p>
           </motion.div>
 
@@ -107,15 +113,15 @@ export default function Index() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
-            className="rounded-xl bg-card border border-primary/20 p-5"
-            style={{ boxShadow: "0 0 30px -10px hsl(36 100% 50% / 0.15)" }}
+            className="rounded-xl bg-card border p-5"
+            style={{ borderColor: "hsl(180 70% 45% / 0.3)", boxShadow: "0 0 30px -10px hsl(180 70% 45% / 0.15)" }}
           >
             <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-              <TrendingUp className="w-4 h-4 text-primary" />
+              <TrendingUp className="w-4 h-4" style={{ color: "hsl(180 70% 45%)" }} />
               Yearly
             </div>
             <p className="text-3xl font-display font-bold text-foreground">
-              €{yearlyTotal.toFixed(2)}
+              {fmt(yearlyTotal)}
             </p>
           </motion.div>
 
@@ -124,22 +130,21 @@ export default function Index() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="rounded-xl bg-card border border-primary/20 p-5"
-            style={{ boxShadow: "0 0 30px -10px hsl(36 100% 50% / 0.15)" }}
+            className="rounded-xl bg-card border p-5"
+            style={{ borderColor: "hsl(140 70% 45% / 0.3)", boxShadow: "0 0 30px -10px hsl(140 70% 45% / 0.15)" }}
           >
             <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-              <RefreshCw className="w-4 h-4 text-primary" />
+              <RefreshCw className="w-4 h-4" style={{ color: "hsl(140 70% 45%)" }} />
               Subscriptions
             </div>
             <p className="text-3xl font-display font-bold text-foreground">
               {subscriptions.length}
               <span className="text-base font-normal text-muted-foreground ml-1">/ {maxFree} free</span>
             </p>
-            {/* Progress bar */}
             <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
               <div
-                className="h-full rounded-full bg-primary transition-all duration-500"
-                style={{ width: `${Math.min((subscriptions.length / maxFree) * 100, 100)}%` }}
+                className="h-full rounded-full transition-all duration-500"
+                style={{ width: `${Math.min((subscriptions.length / maxFree) * 100, 100)}%`, backgroundColor: "hsl(140 70% 45%)" }}
               />
             </div>
             <p className="text-xs text-muted-foreground mt-1">{freeLeft} left free</p>
@@ -148,7 +153,6 @@ export default function Index() {
 
         {/* Main Grid */}
         <div className="grid md:grid-cols-[1.2fr_1fr] gap-8">
-          {/* Left: Subscriptions */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="font-display font-semibold text-foreground text-lg">Your subscriptions</h2>
@@ -177,18 +181,12 @@ export default function Index() {
                 </motion.div>
               ) : (
                 subscriptions.map((sub, i) => (
-                  <SubscriptionCard
-                    key={sub.id}
-                    subscription={sub}
-                    index={i}
-                    onDelete={deleteSubscription}
-                  />
+                  <SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} />
                 ))
               )}
             </div>
           </div>
 
-          {/* Right: Upcoming + Projection */}
           <div className="space-y-6">
             <UpcomingPayments subscriptions={subscriptions} />
             <YearlyProjection subscriptions={subscriptions} />
