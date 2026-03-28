@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut } from "lucide-react";
+import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import SubscriptionCard from "@/components/SubscriptionCard";
@@ -205,6 +205,26 @@ export default function Index() {
                 subscriptions.map((sub, i) => (
                   <SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} />
                 ))
+              )}
+
+              {/* Track more subscriptions banner */}
+              {subscriptions.length >= maxFree && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="rounded-xl border p-4 flex items-center gap-4 cursor-pointer hover:border-opacity-60 transition-colors"
+                  style={{ borderColor: "hsl(36 100% 50% / 0.5)", borderStyle: "dashed", backgroundColor: "hsl(36 100% 50% / 0.03)" }}
+                  onClick={() => setPremiumOpen(true)}
+                >
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 100% 50% / 0.2)" }}>
+                    <Crown className="w-5 h-5" style={{ color: "hsl(36 100% 50%)" }} />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-foreground font-medium text-sm">Track more subscriptions?</p>
+                    <p className="text-muted-foreground text-xs">Unlock Premium for unlimited subscriptions</p>
+                  </div>
+                  <Plus className="w-5 h-5" style={{ color: "hsl(36 100% 50%)" }} />
+                </motion.div>
               )}
             </div>
           </div>

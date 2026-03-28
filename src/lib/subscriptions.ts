@@ -22,13 +22,13 @@ export const CATEGORIES = [
 ] as const;
 
 export const CATEGORY_COLORS: Record<string, string> = {
-  Streaming: "hsl(0 72% 56%)",
+  Streaming: "hsl(0 72% 50%)",
   Music: "hsl(140 60% 45%)",
-  Software: "hsl(210 80% 55%)",
-  Gaming: "hsl(45 90% 55%)",
-  Cloud: "hsl(160 70% 45%)",
-  Fitness: "hsl(280 70% 55%)",
-  News: "hsl(200 80% 55%)",
+  Software: "hsl(330 70% 55%)",
+  Gaming: "hsl(260 70% 55%)",
+  Cloud: "hsl(200 70% 45%)",
+  Fitness: "hsl(45 90% 55%)",
+  News: "hsl(170 60% 45%)",
   Other: "hsl(215 12% 50%)",
 };
 
