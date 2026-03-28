@@ -4,6 +4,7 @@ import { CreditCard, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,21 +12,30 @@ export default function Auth() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
+
+  // Redirect if already logged in
+  if (isAuthenticated) {
+    navigate("/");
+    return null;
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: connect to Lovable Cloud auth
-    navigate("/");
+    if (email && password) {
+      login(email);
+      navigate("/");
+    }
   };
 
   const handleGoogleSignIn = () => {
     // TODO: connect to Lovable Cloud Google auth
+    login("google-user@gmail.com");
     navigate("/");
   };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      {/* Purple glow effects */}
       <div className="fixed top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="fixed bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -34,7 +44,6 @@ export default function Auth() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-sm"
       >
-        {/* Logo */}
         <div className="text-center mb-8">
           <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-4">
             <CreditCard className="w-7 h-7 text-primary" />
@@ -45,13 +54,11 @@ export default function Auth() {
           <p className="text-muted-foreground text-sm mt-1">Track your subscriptions</p>
         </div>
 
-        {/* Card */}
         <div className="rounded-2xl bg-card border border-border p-6 space-y-5">
           <h2 className="font-display font-semibold text-foreground text-lg">
             {isLogin ? "Welcome back" : "Create account"}
           </h2>
 
-          {/* Google */}
           <Button
             type="button"
             variant="outline"
@@ -67,14 +74,12 @@ export default function Auth() {
             Sign in with Google
           </Button>
 
-          {/* Divider */}
           <div className="flex items-center gap-3">
             <div className="flex-1 h-px bg-border" />
             <span className="text-xs text-muted-foreground">or</span>
             <div className="flex-1 h-px bg-border" />
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -111,7 +116,6 @@ export default function Auth() {
             </Button>
           </form>
 
-          {/* Toggle */}
           <p className="text-center text-sm text-muted-foreground">
             {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
             <button
