@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { Trash2 } from "lucide-react";
+import { Trash2, RefreshCw, Calendar } from "lucide-react";
 import { Subscription } from "@/lib/subscriptions";
+import { Badge } from "@/components/ui/badge";
 
 interface Props {
   subscription: Subscription;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 export default function SubscriptionCard({ subscription: s, index, onDelete }: Props) {
+  const initial = s.name.charAt(0).toLowerCase();
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -16,21 +19,42 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
       transition={{ delay: index * 0.05 }}
       className="group flex items-center gap-4 rounded-xl bg-card border border-border p-4 hover:border-primary/30 transition-colors"
     >
+      {/* Icon */}
       <div
-        className="w-10 h-10 rounded-lg flex items-center justify-center text-lg"
-        style={{ backgroundColor: `${s.color}20` }}
+        className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold"
+        style={{ backgroundColor: `${s.color}30`, color: s.color }}
       >
-        {s.icon}
+        {initial}
       </div>
+
+      {/* Info */}
       <div className="flex-1 min-w-0">
-        <p className="text-foreground font-medium truncate">{s.name}</p>
-        <p className="text-xs text-muted-foreground">
-          {s.category} · Day {s.billingDate}
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="text-foreground font-medium truncate">{s.name}</p>
+          <Badge
+            variant="outline"
+            className="text-[10px] px-1.5 py-0"
+            style={{ borderColor: `${s.color}60`, color: s.color }}
+          >
+            {s.category}
+          </Badge>
+        </div>
+        <div className="flex items-center gap-3 text-xs text-muted-foreground mt-0.5">
+          <span className="flex items-center gap-1">
+            <RefreshCw className="w-3 h-3" /> {s.billingCycle}
+          </span>
+          <span className="flex items-center gap-1">
+            <Calendar className="w-3 h-3" /> {s.billingDate} {new Date(0, new Date().getMonth()).toLocaleString('default', { month: 'short' })}
+          </span>
+        </div>
       </div>
+
+      {/* Amount */}
       <p className="text-foreground font-display font-semibold text-lg">
-        {s.currency}{s.amount.toFixed(2)}
+        ${s.amount.toFixed(2)}
       </p>
+
+      {/* Delete */}
       <button
         onClick={() => onDelete(s.id)}
         className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive p-1"
