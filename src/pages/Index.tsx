@@ -36,7 +36,13 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    if (subscriptions.length > 0) saveSubscriptions(subscriptions);
+    if (subscriptions.length > 0) {
+      saveSubscriptions(subscriptions);
+      // Re-sync bill reminders if push is subscribed
+      if (isSubscribed) {
+        subscribe(subscriptions);
+      }
+    }
   }, [subscriptions]);
 
   const addSubscription = (sub: Subscription) => {
