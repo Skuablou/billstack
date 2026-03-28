@@ -117,9 +117,9 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
                     onClick={() => setCategory(c)}
                     className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
                     style={{
-                      borderColor: isSelected ? color : 'hsl(230 14% 25%)',
-                      color: isSelected ? color : 'hsl(215 12% 50%)',
-                      backgroundColor: isSelected ? `${color}15` : 'transparent',
+                      borderColor: isSelected ? color : `${color}60`,
+                      color: color,
+                      backgroundColor: isSelected ? `${color}20` : `${color}10`,
                     }}
                   >
                     {c}
