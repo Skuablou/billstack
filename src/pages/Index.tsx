@@ -112,42 +112,46 @@ export default function Index() {
       {/* Stat Cards */}
       <main className="max-w-5xl mx-auto px-6 py-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          {/* Monthly */}
+          {/* Monthly - purple */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-xl bg-card border p-5"
-            style={{ borderColor: "hsl(270 80% 60% / 0.3)", boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.15)" }}
+            className="rounded-xl border p-5"
+            style={{ background: "linear-gradient(135deg, hsl(270 60% 18%), hsl(270 40% 12%))", borderColor: "hsl(270 80% 60% / 0.4)", boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.2)" }}
           >
             <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-              <CreditCard className="w-4 h-4" style={{ color: "hsl(270 80% 60%)" }} />
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}>
+                <CreditCard className="w-3.5 h-3.5" style={{ color: "hsl(270 80% 60%)" }} />
+              </div>
               Monthly (avg)
             </div>
             <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
           </motion.div>
 
-          {/* Yearly */}
+          {/* Yearly - blue/teal */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
-            className="rounded-xl bg-card border p-5"
-            style={{ borderColor: "hsl(180 70% 45% / 0.3)", boxShadow: "0 0 30px -10px hsl(180 70% 45% / 0.15)" }}
+            className="rounded-xl border p-5"
+            style={{ background: "linear-gradient(135deg, hsl(210 50% 14%), hsl(220 40% 10%))", borderColor: "hsl(210 70% 50% / 0.3)", boxShadow: "0 0 30px -10px hsl(210 70% 50% / 0.15)" }}
           >
             <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-              <TrendingUp className="w-4 h-4" style={{ color: "hsl(180 70% 45%)" }} />
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(210 70% 50% / 0.25)" }}>
+                <TrendingUp className="w-3.5 h-3.5" style={{ color: "hsl(210 70% 55%)" }} />
+              </div>
               Yearly
             </div>
             <p className="text-3xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
           </motion.div>
 
-          {/* Subscription Count */}
+          {/* Subscription Count - green/teal */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="rounded-xl bg-card border p-5"
-            style={{ borderColor: "hsl(140 70% 45% / 0.3)", boxShadow: "0 0 30px -10px hsl(140 70% 45% / 0.15)" }}
+            className="rounded-xl border p-5"
+            style={{ background: "linear-gradient(135deg, hsl(160 50% 14%), hsl(160 40% 10%))", borderColor: "hsl(160 70% 45% / 0.3)", boxShadow: "0 0 30px -10px hsl(160 70% 45% / 0.15)" }}
           >
             <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
               <RefreshCw className="w-4 h-4" style={{ color: "hsl(140 70% 45%)" }} />
