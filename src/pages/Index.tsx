@@ -20,7 +20,7 @@ import {
   getYearlyTotal,
   getMaxFreeSubscriptions,
 } from "@/lib/subscriptions";
-
+import { isPremiumUser, checkPremiumActivation } from "@/lib/premium";
 const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 
 export default function Index() {
