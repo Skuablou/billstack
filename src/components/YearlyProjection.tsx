@@ -15,17 +15,17 @@ export default function YearlyProjection({ subscriptions }: Props) {
 
   return (
     <div
-      className="rounded-xl bg-card border border-primary/20 p-5 space-y-4"
-      style={{ boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.1)" }}
+      className="rounded-xl border p-5 space-y-4"
+      style={{ background: "linear-gradient(135deg, hsl(220 50% 14%), hsl(230 40% 10%))", borderColor: "hsl(210 70% 50% / 0.3)", boxShadow: "0 0 30px -10px hsl(210 70% 50% / 0.1)" }}
     >
       <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
-        <DollarSign className="w-4 h-4 text-primary" />
+        <DollarSign className="w-4 h-4" style={{ color: "hsl(210 70% 55%)" }} />
         Yearly projection
       </h3>
       <div className="space-y-3">
         <div className="flex justify-between items-center">
           <span className="text-muted-foreground text-sm">Next 12 months</span>
-          <span className="text-primary font-display font-bold text-xl">{fmt(yearlyTotal)}</span>
+          <span className="font-display font-bold text-xl" style={{ color: "hsl(210 80% 60%)" }}>{fmt(yearlyTotal)}</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-muted-foreground text-sm">Average/month</span>
