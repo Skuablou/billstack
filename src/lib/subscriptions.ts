@@ -66,8 +66,8 @@ export function saveSubscriptions(subs: Subscription[]) {
 
 function getDefaultSubscriptions(): Subscription[] {
   return [
-    { id: "1", name: "Netflix", amount: 15.99, currency: "$", category: "Streaming", billingCycle: "Monthly", billingDate: 15, color: "hsl(0 72% 56%)", icon: "🎬" },
-    { id: "2", name: "Spotify", amount: 9.99, currency: "$", category: "Music", billingCycle: "Monthly", billingDate: 12, color: "hsl(140 60% 45%)", icon: "🎵" },
+    { id: "1", name: "Netflix", amount: 15.99, currency: "€", category: "Streaming", billingCycle: "Monthly", billingDate: 15, color: "hsl(0 72% 56%)", icon: "🎬" },
+    { id: "2", name: "Spotify", amount: 9.99, currency: "€", category: "Music", billingCycle: "Monthly", billingDate: 12, color: "hsl(140 60% 45%)", icon: "🎵" },
   ];
 }
 

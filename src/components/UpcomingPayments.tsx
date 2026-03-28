@@ -39,7 +39,7 @@ export default function UpcomingPayments({ subscriptions }: Props) {
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-foreground font-semibold text-sm">${sub.amount.toFixed(2)}</p>
+                  <p className="text-foreground font-semibold text-sm">€{sub.amount.toFixed(2)}</p>
                   <p className="text-xs text-muted-foreground">in {sub.daysUntil} days</p>
                 </div>
               </div>
