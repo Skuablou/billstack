@@ -32,6 +32,7 @@ export default function Index() {
   const { isSupported, isSubscribed, isLoading: pushLoading, subscribe, unsubscribe } = usePushNotifications();
 
   useEffect(() => {
+    checkPremiumActivation();
     setSubscriptions(loadSubscriptions());
   }, []);
 
@@ -59,7 +60,7 @@ export default function Index() {
     );
   };
 
-  const isPremium = true; // Toggle to false for free mode
+  const isPremium = isPremiumUser();
   const monthlyTotal = getMonthlyTotal(subscriptions);
   const yearlyTotal = getYearlyTotal(subscriptions);
   const maxFree = getMaxFreeSubscriptions();
