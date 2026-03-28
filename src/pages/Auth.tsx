@@ -57,9 +57,9 @@ export default function Auth() {
             <CreditCard className="w-7 h-7 text-primary" />
           </div>
           <h1 className="text-2xl font-display font-bold text-foreground">
-            Sub<span className="text-primary">Tracker</span>
+            <span style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Bill</span><span style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
           </h1>
-          <p className="text-muted-foreground text-sm mt-1">Track your subscriptions</p>
+          <p className="text-muted-foreground text-sm mt-1">Keep track of all your monthly bills</p>
         </div>
 
         <div className="rounded-2xl bg-card border border-border p-6 space-y-5">

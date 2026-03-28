@@ -195,7 +195,7 @@ export default function Index() {
               <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}>
                 <RefreshCw className="w-3.5 h-3.5" style={{ color: "hsl(160 70% 45%)" }} />
               </div>
-              Subscriptions
+              Spendings
             </div>
             <p className="text-3xl font-display font-bold text-foreground">
               {subscriptions.length}
@@ -221,7 +221,7 @@ export default function Index() {
         <div className="grid md:grid-cols-[1.2fr_1fr] gap-8">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-display font-semibold text-foreground text-lg">Your subscriptions</h2>
+              <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
               <Button
                 onClick={() => {
                   if (!isPremium && subscriptions.length >= maxFree) {
@@ -243,7 +243,7 @@ export default function Index() {
                   animate={{ opacity: 1 }}
                   className="rounded-xl bg-card border border-border p-12 text-center"
                 >
-                  <p className="text-muted-foreground">No subscriptions yet. Add one to get started!</p>
+                  <p className="text-muted-foreground">No spendings yet. Add one to get started!</p>
                 </motion.div>
               ) : (
                 subscriptions.map((sub, i) => (
@@ -264,8 +264,8 @@ export default function Index() {
                     <Crown className="w-5 h-5" style={{ color: "hsl(36 100% 50%)" }} />
                   </div>
                   <div className="flex-1">
-                    <p className="text-foreground font-medium text-sm">Track more subscriptions?</p>
-                    <p className="text-muted-foreground text-xs">Unlock Premium for unlimited subscriptions</p>
+                    <p className="text-foreground font-medium text-sm">Track more spendings?</p>
+                    <p className="text-muted-foreground text-xs">Unlock Premium for unlimited spendings</p>
                   </div>
                   <Plus className="w-5 h-5" style={{ color: "hsl(36 100% 50%)" }} />
                 </motion.div>
