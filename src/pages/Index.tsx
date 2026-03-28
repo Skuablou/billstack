@@ -154,7 +154,9 @@ export default function Index() {
             style={{ background: "linear-gradient(135deg, hsl(160 50% 14%), hsl(160 40% 10%))", borderColor: "hsl(160 70% 45% / 0.3)", boxShadow: "0 0 30px -10px hsl(160 70% 45% / 0.15)" }}
           >
             <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-              <RefreshCw className="w-4 h-4" style={{ color: "hsl(140 70% 45%)" }} />
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}>
+                <RefreshCw className="w-3.5 h-3.5" style={{ color: "hsl(160 70% 45%)" }} />
+              </div>
               Subscriptions
             </div>
             <p className="text-3xl font-display font-bold text-foreground">
