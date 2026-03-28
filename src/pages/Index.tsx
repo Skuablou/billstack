@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown } from "lucide-react";
+import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import SubscriptionCard from "@/components/SubscriptionCard";
@@ -10,6 +10,7 @@ import UpcomingPayments from "@/components/UpcomingPayments";
 import YearlyProjection from "@/components/YearlyProjection";
 import BudgetCalculator from "@/components/BudgetCalculator";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { usePushNotifications } from "@/hooks/use-push-notifications";
 import { useAuth } from "@/lib/AuthContext";
 import {
   loadSubscriptions,
@@ -28,13 +29,20 @@ export default function Index() {
   const [premiumOpen, setPremiumOpen] = useState(false);
   const { currency, toggle: toggleCurrency } = useCurrency();
   const { user, logout } = useAuth();
+  const { isSupported, isSubscribed, isLoading: pushLoading, subscribe, unsubscribe } = usePushNotifications();
 
   useEffect(() => {
     setSubscriptions(loadSubscriptions());
   }, []);
 
   useEffect(() => {
-    if (subscriptions.length > 0) saveSubscriptions(subscriptions);
+    if (subscriptions.length > 0) {
+      saveSubscriptions(subscriptions);
+      // Re-sync bill reminders if push is subscribed
+      if (isSubscribed) {
+        subscribe(subscriptions);
+      }
+    }
   }, [subscriptions]);
 
   const addSubscription = (sub: Subscription) => {
@@ -79,6 +87,19 @@ export default function Index() {
             >
               {currency}
             </Button>
+            {/* Notification toggle */}
+            {isSupported && (
+              <Button
+                variant="outline"
+                size="icon"
+                className="rounded-full border-border text-muted-foreground hover:text-foreground"
+                onClick={() => isSubscribed ? unsubscribe() : subscribe(subscriptions)}
+                disabled={pushLoading}
+                title={isSubscribed ? "Erinnerungen deaktivieren" : "Erinnerungen 1 Tag vor Abbuchung"}
+              >
+                {isSubscribed ? <Bell className="w-4 h-4 text-primary" /> : <BellOff className="w-4 h-4" />}
+              </Button>
+            )}
             {/* Premium / Manage */}
             <Button
               asChild
