@@ -116,8 +116,8 @@ export default function Index() {
       </header>
 
       {/* Stat Cards */}
-      <main className="max-w-5xl mx-auto px-6 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <main className="max-w-5xl mx-auto px-6 py-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
           {/* Monthly - purple */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
