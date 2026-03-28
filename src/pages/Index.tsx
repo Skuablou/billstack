@@ -239,7 +239,7 @@ export default function Index() {
           <div className="space-y-6">
             <UpcomingPayments subscriptions={subscriptions} />
             <YearlyProjection subscriptions={subscriptions} />
-            <BudgetCalculator subscriptions={subscriptions} isPremium={false} onUpgrade={() => setPremiumOpen(true)} />
+            <BudgetCalculator subscriptions={subscriptions} isPremium={true} onUpgrade={() => setPremiumOpen(true)} />
           </div>
         </div>
       </main>
