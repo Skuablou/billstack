@@ -16,11 +16,9 @@ export const CATEGORIES = [
   "Health Insurance",
   "Debt Payments",
   "Utilities & Phone",
-  "Groceries",
   "Education",
   "Streaming & Subscriptions",
   "Fitness & Wellness",
-  "Savings & Investments",
   "Other",
 ] as const;
 
@@ -30,11 +28,9 @@ export const CATEGORY_COLORS: Record<string, string> = {
   "Health Insurance": "hsl(0 72% 50%)",
   "Debt Payments": "hsl(340 70% 50%)",
   "Utilities & Phone": "hsl(200 70% 45%)",
-  "Groceries": "hsl(140 60% 45%)",
   "Education": "hsl(270 60% 55%)",
   "Streaming & Subscriptions": "hsl(330 70% 55%)",
   "Fitness & Wellness": "hsl(45 90% 55%)",
-  "Savings & Investments": "hsl(160 70% 45%)",
   "Other": "hsl(215 12% 50%)",
 };
 
@@ -44,11 +40,9 @@ export const CATEGORY_ICONS: Record<string, string> = {
   "Health Insurance": "🏥",
   "Debt Payments": "💳",
   "Utilities & Phone": "📱",
-  "Groceries": "🛒",
   "Education": "🎓",
   "Streaming & Subscriptions": "🎬",
   "Fitness & Wellness": "💪",
-  "Savings & Investments": "📈",
   "Other": "📦",
 };
 
