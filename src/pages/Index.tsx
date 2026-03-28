@@ -59,6 +59,7 @@ export default function Index() {
     );
   };
 
+  const isPremium = true; // Toggle to false for free mode
   const monthlyTotal = getMonthlyTotal(subscriptions);
   const yearlyTotal = getYearlyTotal(subscriptions);
   const maxFree = getMaxFreeSubscriptions();
@@ -197,15 +198,21 @@ export default function Index() {
             </div>
             <p className="text-3xl font-display font-bold text-foreground">
               {subscriptions.length}
-              <span className="text-base font-normal text-muted-foreground ml-1">/ {maxFree} free</span>
+              {!isPremium && (
+                <span className="text-base font-normal text-muted-foreground ml-1">/ {maxFree} free</span>
+              )}
             </p>
-            <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all duration-500"
-                style={{ width: `${Math.min((subscriptions.length / maxFree) * 100, 100)}%`, backgroundColor: "hsl(140 70% 45%)" }}
-              />
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">{freeLeft} left free</p>
+            {!isPremium && (
+              <>
+                <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{ width: `${Math.min((subscriptions.length / maxFree) * 100, 100)}%`, backgroundColor: "hsl(140 70% 45%)" }}
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">{freeLeft} left free</p>
+              </>
+            )}
           </motion.div>
         </div>
 
@@ -216,7 +223,7 @@ export default function Index() {
               <h2 className="font-display font-semibold text-foreground text-lg">Your subscriptions</h2>
               <Button
                 onClick={() => {
-                  if (subscriptions.length >= maxFree) {
+                  if (!isPremium && subscriptions.length >= maxFree) {
                     setPremiumOpen(true);
                   } else {
                     setDialogOpen(true);
@@ -243,8 +250,8 @@ export default function Index() {
                 ))
               )}
 
-              {/* Track more subscriptions banner */}
-              {subscriptions.length >= maxFree && (
+              {/* Track more subscriptions banner - free mode only */}
+              {!isPremium && subscriptions.length >= maxFree && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
