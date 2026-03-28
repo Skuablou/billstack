@@ -56,6 +56,8 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
         {currency}{s.amount.toFixed(2)}
       </p>
 
+
+
       {/* Delete */}
       <button
         onClick={() => onDelete(s.id)}
