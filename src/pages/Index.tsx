@@ -20,7 +20,7 @@ import {
   getYearlyTotal,
   getMaxFreeSubscriptions,
 } from "@/lib/subscriptions";
-
+import { isPremiumUser, checkPremiumActivation } from "@/lib/premium";
 const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 
 export default function Index() {
@@ -32,6 +32,7 @@ export default function Index() {
   const { isSupported, isSubscribed, isLoading: pushLoading, subscribe, unsubscribe } = usePushNotifications();
 
   useEffect(() => {
+    checkPremiumActivation();
     setSubscriptions(loadSubscriptions());
   }, []);
 
@@ -59,7 +60,7 @@ export default function Index() {
     );
   };
 
-  const isPremium = true; // Toggle to false for free mode
+  const isPremium = isPremiumUser();
   const monthlyTotal = getMonthlyTotal(subscriptions);
   const yearlyTotal = getYearlyTotal(subscriptions);
   const maxFree = getMaxFreeSubscriptions();
