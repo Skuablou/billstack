@@ -239,7 +239,7 @@ export default function Index() {
                 </motion.div>
               ) : (
                 subscriptions.map((sub, i) => (
-                  <SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} />
+                  <SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />
                 ))
               )}
 
