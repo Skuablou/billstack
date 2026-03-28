@@ -1,11 +1,13 @@
 import { Clock } from "lucide-react";
 import { Subscription, getUpcomingPayments } from "@/lib/subscriptions";
+import { useCurrency } from "@/lib/CurrencyContext";
 
 interface Props {
   subscriptions: Subscription[];
 }
 
 export default function UpcomingPayments({ subscriptions }: Props) {
+  const { currency } = useCurrency();
   const upcoming = getUpcomingPayments(subscriptions).slice(0, 5);
 
   return (
@@ -39,7 +41,7 @@ export default function UpcomingPayments({ subscriptions }: Props) {
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-foreground font-semibold text-sm">€{sub.amount.toFixed(2)}</p>
+                  <p className="text-foreground font-semibold text-sm">{currency}{sub.amount.toFixed(2)}</p>
                   <p className="text-xs text-muted-foreground">in {sub.daysUntil} days</p>
                 </div>
               </div>

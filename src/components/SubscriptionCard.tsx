@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Trash2, RefreshCw, Calendar } from "lucide-react";
 import { Subscription } from "@/lib/subscriptions";
 import { Badge } from "@/components/ui/badge";
+import { useCurrency } from "@/lib/CurrencyContext";
 
 interface Props {
   subscription: Subscription;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function SubscriptionCard({ subscription: s, index, onDelete }: Props) {
+  const { currency } = useCurrency();
   const initial = s.name.charAt(0).toLowerCase();
 
   return (
@@ -51,7 +53,7 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
 
       {/* Amount */}
       <p className="text-foreground font-display font-semibold text-lg">
-        €{s.amount.toFixed(2)}
+        {currency}{s.amount.toFixed(2)}
       </p>
 
       {/* Delete */}
