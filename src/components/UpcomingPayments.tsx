@@ -36,7 +36,7 @@ export default function UpcomingPayments({ subscriptions }: Props) {
         ) : (
           upcoming.map((sub) => {
             const initial = sub.name.charAt(0).toLowerCase();
-            const monthName = sub.nextDate.toLocaleString('default', { month: 'short' });
+            const monthName = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'][sub.nextDate.getMonth()];
             const daysColor = getDaysColor(sub.daysUntil);
             return (
               <div
