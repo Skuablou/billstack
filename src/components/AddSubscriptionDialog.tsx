@@ -1,22 +1,23 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus } from "lucide-react";
 import { CATEGORIES, CATEGORY_COLORS, CATEGORY_ICONS, Subscription } from "@/lib/subscriptions";
 
 interface Props {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   onAdd: (sub: Subscription) => void;
 }
 
-export default function AddSubscriptionDialog({ onAdd }: Props) {
-  const [open, setOpen] = useState(false);
+export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Props) {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState<string>("Other");
+  const [billingCycle, setBillingCycle] = useState<"Monthly" | "Yearly">("Monthly");
   const [billingDate, setBillingDate] = useState("1");
+  const [category, setCategory] = useState<string>("Other");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,59 +26,126 @@ export default function AddSubscriptionDialog({ onAdd }: Props) {
       id: Date.now().toString(),
       name,
       amount: parseFloat(amount),
-      currency: "€",
+      currency: "$",
       category,
+      billingCycle,
       billingDate: parseInt(billingDate),
       color: CATEGORY_COLORS[category] || CATEGORY_COLORS.Other,
       icon: CATEGORY_ICONS[category] || CATEGORY_ICONS.Other,
     });
     setName("");
     setAmount("");
-    setCategory("Other");
+    setBillingCycle("Monthly");
     setBillingDate("1");
-    setOpen(false);
+    setCategory("Other");
+    onOpenChange(false);
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-          <Plus className="w-4 h-4" /> Add Subscription
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="bg-card border-border">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-card border-border max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-display text-foreground">Add Subscription</DialogTitle>
+          <DialogTitle className="font-display text-foreground text-xl">New subscription</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label className="text-muted-foreground">Name</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Netflix" className="bg-muted border-border text-foreground" />
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Name */}
+          <div className="space-y-1.5">
+            <Label className="text-muted-foreground text-sm">Name</Label>
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. Netflix"
+              className="bg-muted border-border text-foreground"
+            />
           </div>
-          <div>
-            <Label className="text-muted-foreground">Monthly Amount (€)</Label>
-            <Input type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="9.99" className="bg-muted border-border text-foreground" />
+
+          {/* Amount */}
+          <div className="space-y-1.5">
+            <Label className="text-muted-foreground text-sm">Amount ($)</Label>
+            <Input
+              type="number"
+              step="0.01"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="14.99"
+              className="bg-muted border-border text-foreground"
+            />
           </div>
-          <div>
-            <Label className="text-muted-foreground">Category</Label>
-            <Select value={category} onValueChange={setCategory}>
+
+          {/* Billing Cycle */}
+          <div className="space-y-1.5">
+            <Label className="text-muted-foreground text-sm">Billing cycle</Label>
+            <Select value={billingCycle} onValueChange={(v) => setBillingCycle(v as "Monthly" | "Yearly")}>
               <SelectTrigger className="bg-muted border-border text-foreground">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-popover border-border">
-                {CATEGORIES.map((c) => (
-                  <SelectItem key={c} value={c}>{CATEGORY_ICONS[c]} {c}</SelectItem>
+                <SelectItem value="Monthly">Monthly</SelectItem>
+                <SelectItem value="Yearly">Yearly</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Billing Day */}
+          <div className="space-y-1.5">
+            <Label className="text-muted-foreground text-sm">Billing day</Label>
+            <Select value={billingDate} onValueChange={setBillingDate}>
+              <SelectTrigger className="bg-muted border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-popover border-border max-h-60">
+                {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+                  <SelectItem key={day} value={day.toString()}>
+                    Day {day}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
-          <div>
-            <Label className="text-muted-foreground">Billing Day</Label>
-            <Input type="number" min={1} max={31} value={billingDate} onChange={(e) => setBillingDate(e.target.value)} className="bg-muted border-border text-foreground" />
+
+          {/* Category chips */}
+          <div className="space-y-1.5">
+            <Label className="text-muted-foreground text-sm">Category</Label>
+            <div className="flex flex-wrap gap-2">
+              {CATEGORIES.map((c) => {
+                const isSelected = category === c;
+                const color = CATEGORY_COLORS[c];
+                return (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => setCategory(c)}
+                    className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
+                    style={{
+                      borderColor: isSelected ? color : 'hsl(230 14% 25%)',
+                      color: isSelected ? color : 'hsl(215 12% 50%)',
+                      backgroundColor: isSelected ? `${color}15` : 'transparent',
+                    }}
+                  >
+                    {c}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-            Add
-          </Button>
+
+          {/* Actions */}
+          <div className="flex gap-3 pt-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="flex-1 border-border text-foreground hover:bg-muted"
+              onClick={() => onOpenChange(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              Add
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

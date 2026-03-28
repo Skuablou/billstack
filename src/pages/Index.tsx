@@ -1,16 +1,25 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { CreditCard, Sparkles } from "lucide-react";
+import { CreditCard, TrendingUp, RefreshCw, Plus, Clock, DollarSign, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import SpendingOverview from "@/components/SpendingOverview";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import AddSubscriptionDialog from "@/components/AddSubscriptionDialog";
-import { loadSubscriptions, saveSubscriptions, Subscription } from "@/lib/subscriptions";
+import UpcomingPayments from "@/components/UpcomingPayments";
+import YearlyProjection from "@/components/YearlyProjection";
+import {
+  loadSubscriptions,
+  saveSubscriptions,
+  Subscription,
+  getMonthlyTotal,
+  getYearlyTotal,
+  getMaxFreeSubscriptions,
+} from "@/lib/subscriptions";
 
 const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 
 export default function Index() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     setSubscriptions(loadSubscriptions());
@@ -28,41 +37,126 @@ export default function Index() {
     setSubscriptions((prev) => prev.filter((s) => s.id !== id));
   };
 
+  const monthlyTotal = getMonthlyTotal(subscriptions);
+  const yearlyTotal = getYearlyTotal(subscriptions);
+  const maxFree = getMaxFreeSubscriptions();
+  const freeLeft = Math.max(0, maxFree - subscriptions.length);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-              <CreditCard className="w-4 h-4 text-primary" />
-            </div>
-            <h1 className="text-lg font-display font-bold text-foreground">SubTracker</h1>
+      <header className="max-w-5xl mx-auto px-6 pt-8 pb-2">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-display font-bold text-foreground">
+              Sub<span className="text-primary">Tracker</span>
+            </h1>
+            <p className="text-muted-foreground text-sm mt-1">Keep track of your subscriptions</p>
           </div>
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            className="border-primary/30 text-primary hover:bg-primary/10 gap-1.5"
-          >
-            <a href={STRIPE_LINK} target="_blank" rel="noopener noreferrer">
-              <Sparkles className="w-3.5 h-3.5" /> Pro · €2.99/mo
-            </a>
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full border-border text-muted-foreground hover:text-foreground"
+            >
+              <DollarSign className="w-4 h-4" />
+            </Button>
+            <Button
+              asChild
+              size="sm"
+              className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"
+            >
+              <a href={STRIPE_LINK} target="_blank" rel="noopener noreferrer">
+                <CreditCard className="w-3.5 h-3.5" /> Premium
+              </a>
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full border-border text-muted-foreground hover:text-foreground"
+            >
+              <User className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </header>
 
-      {/* Content */}
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="grid md:grid-cols-[1fr_1.4fr] gap-8">
-          {/* Left: Overview */}
-          <SpendingOverview subscriptions={subscriptions} />
+      {/* Stat Cards */}
+      <main className="max-w-5xl mx-auto px-6 py-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {/* Monthly */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="rounded-xl bg-card border border-primary/20 p-5"
+            style={{ boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.15)" }}
+          >
+            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
+              <CreditCard className="w-4 h-4 text-primary" />
+              Monthly (avg)
+            </div>
+            <p className="text-3xl font-display font-bold text-foreground">
+              ${monthlyTotal.toFixed(2)}
+            </p>
+          </motion.div>
 
-          {/* Right: List */}
+          {/* Yearly */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="rounded-xl bg-card border border-primary/20 p-5"
+            style={{ boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.15)" }}
+          >
+            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
+              <TrendingUp className="w-4 h-4 text-primary" />
+              Yearly
+            </div>
+            <p className="text-3xl font-display font-bold text-foreground">
+              ${yearlyTotal.toFixed(2)}
+            </p>
+          </motion.div>
+
+          {/* Subscription Count */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="rounded-xl bg-card border border-primary/20 p-5"
+            style={{ boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.15)" }}
+          >
+            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
+              <RefreshCw className="w-4 h-4 text-primary" />
+              Subscriptions
+            </div>
+            <p className="text-3xl font-display font-bold text-foreground">
+              {subscriptions.length}
+              <span className="text-base font-normal text-muted-foreground ml-1">/ {maxFree} free</span>
+            </p>
+            {/* Progress bar */}
+            <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
+              <div
+                className="h-full rounded-full bg-primary transition-all duration-500"
+                style={{ width: `${Math.min((subscriptions.length / maxFree) * 100, 100)}%` }}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">{freeLeft} left free</p>
+          </motion.div>
+        </div>
+
+        {/* Main Grid */}
+        <div className="grid md:grid-cols-[1.2fr_1fr] gap-8">
+          {/* Left: Subscriptions */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-display font-semibold text-foreground">Subscriptions</h2>
-              <AddSubscriptionDialog onAdd={addSubscription} />
+              <h2 className="font-display font-semibold text-foreground text-lg">Your subscriptions</h2>
+              <Button
+                onClick={() => setDialogOpen(true)}
+                size="sm"
+                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"
+              >
+                <Plus className="w-4 h-4" /> Add
+              </Button>
             </div>
             <div className="space-y-2">
               {subscriptions.length === 0 ? (
@@ -85,8 +179,16 @@ export default function Index() {
               )}
             </div>
           </div>
+
+          {/* Right: Upcoming + Projection */}
+          <div className="space-y-6">
+            <UpcomingPayments subscriptions={subscriptions} />
+            <YearlyProjection subscriptions={subscriptions} />
+          </div>
         </div>
       </main>
+
+      <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
     </div>
   );
 }

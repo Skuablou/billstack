@@ -4,7 +4,8 @@ export interface Subscription {
   amount: number;
   currency: string;
   category: string;
-  billingDate: number; // day of month
+  billingCycle: "Monthly" | "Yearly";
+  billingDate: number;
   color: string;
   icon: string;
 }
@@ -22,12 +23,12 @@ export const CATEGORIES = [
 
 export const CATEGORY_COLORS: Record<string, string> = {
   Streaming: "hsl(0 72% 56%)",
-  Music: "hsl(280 70% 55%)",
-  Software: "hsl(172 66% 50%)",
+  Music: "hsl(140 60% 45%)",
+  Software: "hsl(210 80% 55%)",
   Gaming: "hsl(45 90% 55%)",
-  Cloud: "hsl(210 80% 55%)",
-  Fitness: "hsl(140 60% 45%)",
-  News: "hsl(25 85% 55%)",
+  Cloud: "hsl(160 70% 45%)",
+  Fitness: "hsl(280 70% 55%)",
+  News: "hsl(200 80% 55%)",
   Other: "hsl(215 12% 50%)",
 };
 
@@ -43,6 +44,11 @@ export const CATEGORY_ICONS: Record<string, string> = {
 };
 
 const STORAGE_KEY = "subtracker-subscriptions";
+const MAX_FREE_SUBSCRIPTIONS = 4;
+
+export function getMaxFreeSubscriptions() {
+  return MAX_FREE_SUBSCRIPTIONS;
+}
 
 export function loadSubscriptions(): Subscription[] {
   const data = localStorage.getItem(STORAGE_KEY);
@@ -60,9 +66,42 @@ export function saveSubscriptions(subs: Subscription[]) {
 
 function getDefaultSubscriptions(): Subscription[] {
   return [
-    { id: "1", name: "Netflix", amount: 15.99, currency: "€", category: "Streaming", billingDate: 5, color: "hsl(0 72% 56%)", icon: "🎬" },
-    { id: "2", name: "Spotify", amount: 9.99, currency: "€", category: "Music", billingDate: 12, color: "hsl(280 70% 55%)", icon: "🎵" },
-    { id: "3", name: "iCloud+", amount: 2.99, currency: "€", category: "Cloud", billingDate: 20, color: "hsl(210 80% 55%)", icon: "☁️" },
-    { id: "4", name: "ChatGPT Plus", amount: 20.00, currency: "€", category: "Software", billingDate: 1, color: "hsl(172 66% 50%)", icon: "💻" },
+    { id: "1", name: "Netflix", amount: 15.99, currency: "$", category: "Streaming", billingCycle: "Monthly", billingDate: 15, color: "hsl(0 72% 56%)", icon: "🎬" },
+    { id: "2", name: "Spotify", amount: 9.99, currency: "$", category: "Music", billingCycle: "Monthly", billingDate: 12, color: "hsl(140 60% 45%)", icon: "🎵" },
   ];
+}
+
+export function getMonthlyAmount(sub: Subscription): number {
+  return sub.billingCycle === "Yearly" ? sub.amount / 12 : sub.amount;
+}
+
+export function getYearlyTotal(subs: Subscription[]): number {
+  return subs.reduce((sum, s) => {
+    return sum + (s.billingCycle === "Yearly" ? s.amount : s.amount * 12);
+  }, 0);
+}
+
+export function getMonthlyTotal(subs: Subscription[]): number {
+  return subs.reduce((sum, s) => sum + getMonthlyAmount(s), 0);
+}
+
+export function getUpcomingPayments(subs: Subscription[]) {
+  const today = new Date();
+  const currentDay = today.getDate();
+  const currentMonth = today.getMonth();
+  const currentYear = today.getFullYear();
+
+  return subs
+    .map((sub) => {
+      let nextDate: Date;
+      if (sub.billingDate >= currentDay) {
+        nextDate = new Date(currentYear, currentMonth, sub.billingDate);
+      } else {
+        nextDate = new Date(currentYear, currentMonth + 1, sub.billingDate);
+      }
+      const diffTime = nextDate.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return { ...sub, nextDate, daysUntil: diffDays };
+    })
+    .sort((a, b) => a.daysUntil - b.daysUntil);
 }
