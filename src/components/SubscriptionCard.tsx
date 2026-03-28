@@ -13,12 +13,12 @@ interface Props {
 }
 
 const REMINDER_OPTIONS = [
-  { value: "0", label: "Aus" },
-  { value: "1", label: "1 Tag" },
-  { value: "2", label: "2 Tage" },
-  { value: "3", label: "3 Tage" },
-  { value: "5", label: "5 Tage" },
-  { value: "7", label: "7 Tage" },
+  { value: "0", label: "Off" },
+  { value: "1", label: "1 day" },
+  { value: "2", label: "2 days" },
+  { value: "3", label: "3 days" },
+  { value: "5", label: "5 days" },
+  { value: "7", label: "7 days" },
 ];
 
 export default function SubscriptionCard({ subscription: s, index, onDelete, onUpdate }: Props) {
