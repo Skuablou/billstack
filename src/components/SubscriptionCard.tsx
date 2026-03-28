@@ -51,7 +51,7 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
 
       {/* Amount */}
       <p className="text-foreground font-display font-semibold text-lg">
-        ${s.amount.toFixed(2)}
+        €{s.amount.toFixed(2)}
       </p>
 
       {/* Delete */}

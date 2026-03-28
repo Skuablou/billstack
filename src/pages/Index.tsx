@@ -4,6 +4,7 @@ import { CreditCard, TrendingUp, RefreshCw, Plus, Clock, DollarSign, User } from
 import { Button } from "@/components/ui/button";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import AddSubscriptionDialog from "@/components/AddSubscriptionDialog";
+import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
 import YearlyProjection from "@/components/YearlyProjection";
 import {
@@ -20,6 +21,7 @@ const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 export default function Index() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [premiumOpen, setPremiumOpen] = useState(false);
 
   useEffect(() => {
     setSubscriptions(loadSubscriptions());
@@ -89,14 +91,14 @@ export default function Index() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="rounded-xl bg-card border border-primary/20 p-5"
-            style={{ boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.15)" }}
+            style={{ boxShadow: "0 0 30px -10px hsl(36 100% 50% / 0.15)" }}
           >
             <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
               <CreditCard className="w-4 h-4 text-primary" />
               Monthly (avg)
             </div>
             <p className="text-3xl font-display font-bold text-foreground">
-              ${monthlyTotal.toFixed(2)}
+              €{monthlyTotal.toFixed(2)}
             </p>
           </motion.div>
 
@@ -106,14 +108,14 @@ export default function Index() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
             className="rounded-xl bg-card border border-primary/20 p-5"
-            style={{ boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.15)" }}
+            style={{ boxShadow: "0 0 30px -10px hsl(36 100% 50% / 0.15)" }}
           >
             <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
               <TrendingUp className="w-4 h-4 text-primary" />
               Yearly
             </div>
             <p className="text-3xl font-display font-bold text-foreground">
-              ${yearlyTotal.toFixed(2)}
+              €{yearlyTotal.toFixed(2)}
             </p>
           </motion.div>
 
@@ -123,7 +125,7 @@ export default function Index() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="rounded-xl bg-card border border-primary/20 p-5"
-            style={{ boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.15)" }}
+            style={{ boxShadow: "0 0 30px -10px hsl(36 100% 50% / 0.15)" }}
           >
             <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
               <RefreshCw className="w-4 h-4 text-primary" />
@@ -151,7 +153,13 @@ export default function Index() {
             <div className="flex items-center justify-between">
               <h2 className="font-display font-semibold text-foreground text-lg">Your subscriptions</h2>
               <Button
-                onClick={() => setDialogOpen(true)}
+                onClick={() => {
+                  if (subscriptions.length >= maxFree) {
+                    setPremiumOpen(true);
+                  } else {
+                    setDialogOpen(true);
+                  }
+                }}
                 size="sm"
                 className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"
               >
@@ -189,6 +197,7 @@ export default function Index() {
       </main>
 
       <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
+      <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} />
     </div>
   );
 }
