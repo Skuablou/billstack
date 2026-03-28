@@ -57,7 +57,7 @@ export default function SubscriptionCard({ subscription: s, index, onDelete, onU
             <RefreshCw className="w-3 h-3" /> {s.billingCycle}
           </span>
           <span className="flex items-center gap-1">
-            <Calendar className="w-3 h-3" /> {s.billingDate} {new Date(0, new Date().getMonth()).toLocaleString('default', { month: 'short' })}
+            <Calendar className="w-3 h-3" /> {s.billingDate} {['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'][new Date().getMonth()]}
           </span>
         </div>
       </div>
