@@ -11,39 +11,48 @@ export interface Subscription {
 }
 
 export const CATEGORIES = [
-  "Streaming",
-  "Music",
-  "Software",
-  "Gaming",
-  "Cloud",
-  "Fitness",
-  "News",
+  "Housing",
+  "Car & Transport",
+  "Health Insurance",
+  "Debt Payments",
+  "Utilities & Phone",
+  "Groceries",
+  "Education",
+  "Streaming & Subscriptions",
+  "Fitness & Wellness",
+  "Savings & Investments",
   "Other",
 ] as const;
 
 export const CATEGORY_COLORS: Record<string, string> = {
-  Streaming: "hsl(0 72% 50%)",
-  Music: "hsl(140 60% 45%)",
-  Software: "hsl(330 70% 55%)",
-  Gaming: "hsl(260 70% 55%)",
-  Cloud: "hsl(200 70% 45%)",
-  Fitness: "hsl(45 90% 55%)",
-  News: "hsl(170 60% 45%)",
-  Other: "hsl(215 12% 50%)",
+  "Housing": "hsl(220 70% 50%)",
+  "Car & Transport": "hsl(35 90% 50%)",
+  "Health Insurance": "hsl(0 72% 50%)",
+  "Debt Payments": "hsl(340 70% 50%)",
+  "Utilities & Phone": "hsl(200 70% 45%)",
+  "Groceries": "hsl(140 60% 45%)",
+  "Education": "hsl(270 60% 55%)",
+  "Streaming & Subscriptions": "hsl(330 70% 55%)",
+  "Fitness & Wellness": "hsl(45 90% 55%)",
+  "Savings & Investments": "hsl(160 70% 45%)",
+  "Other": "hsl(215 12% 50%)",
 };
 
 export const CATEGORY_ICONS: Record<string, string> = {
-  Streaming: "🎬",
-  Music: "🎵",
-  Software: "💻",
-  Gaming: "🎮",
-  Cloud: "☁️",
-  Fitness: "💪",
-  News: "📰",
-  Other: "📦",
+  "Housing": "🏠",
+  "Car & Transport": "🚗",
+  "Health Insurance": "🏥",
+  "Debt Payments": "💳",
+  "Utilities & Phone": "📱",
+  "Groceries": "🛒",
+  "Education": "🎓",
+  "Streaming & Subscriptions": "🎬",
+  "Fitness & Wellness": "💪",
+  "Savings & Investments": "📈",
+  "Other": "📦",
 };
 
-const STORAGE_KEY = "subtracker-subscriptions";
+const STORAGE_KEY = "billstack-subscriptions";
 const MAX_FREE_SUBSCRIPTIONS = 4;
 
 export function getMaxFreeSubscriptions() {
@@ -66,8 +75,8 @@ export function saveSubscriptions(subs: Subscription[]) {
 
 function getDefaultSubscriptions(): Subscription[] {
   return [
-    { id: "1", name: "Netflix", amount: 15.99, currency: "€", category: "Streaming", billingCycle: "Monthly", billingDate: 15, color: "hsl(0 72% 56%)", icon: "🎬" },
-    { id: "2", name: "Spotify", amount: 9.99, currency: "€", category: "Music", billingCycle: "Monthly", billingDate: 12, color: "hsl(140 60% 45%)", icon: "🎵" },
+    { id: "1", name: "Rent", amount: 950, currency: "€", category: "Housing", billingCycle: "Monthly", billingDate: 1, color: "hsl(220 70% 50%)", icon: "🏠" },
+    { id: "2", name: "Netflix", amount: 15.99, currency: "€", category: "Streaming & Subscriptions", billingCycle: "Monthly", billingDate: 15, color: "hsl(330 70% 55%)", icon: "🎬" },
   ];
 }
 
