@@ -75,13 +75,11 @@ export default function Index() {
             </Button>
             {/* Premium */}
             <Button
-              asChild
+              onClick={() => setPremiumOpen(true)}
               size="sm"
               className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"
             >
-              <a href={STRIPE_LINK} target="_blank" rel="noopener noreferrer">
-                <CreditCard className="w-3.5 h-3.5" /> Premium
-              </a>
+              <CreditCard className="w-3.5 h-3.5" /> Premium
             </Button>
             {/* Profile dropdown */}
             <DropdownMenu>
