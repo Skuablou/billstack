@@ -3,35 +3,35 @@ import { motion } from "framer-motion";
 import { CreditCard, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { isAuthenticated, loading: authLoading, login, signup, signInWithGoogle } = useAuth();
+  const { toast } = useToast();
 
-  // Redirect if already logged in
-  if (isAuthenticated) {
-    navigate("/");
-    return null;
-  }
+  if (authLoading) return null;
+  if (isAuthenticated) return <Navigate to="/" replace />;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && password) {
-      login(email);
-      navigate("/");
-    }
-  };
+    if (!email || !password) return;
+    setLoading(true);
 
-  const handleGoogleSignIn = () => {
-    // TODO: connect to Lovable Cloud Google auth
-    login("google-user@gmail.com");
-    navigate("/");
+    const { error } = isLogin ? await login(email, password) : await signup(email, password);
+
+    if (error) {
+      toast({ title: "Error", description: error, variant: "destructive" });
+    } else if (!isLogin) {
+      toast({ title: "Account created!", description: "You are now signed in." });
+    }
+    setLoading(false);
   };
 
   return (
@@ -63,7 +63,7 @@ export default function Auth() {
             type="button"
             variant="outline"
             className="w-full border-border text-foreground hover:bg-muted gap-2 h-11"
-            onClick={handleGoogleSignIn}
+            onClick={signInWithGoogle}
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -89,6 +89,7 @@ export default function Auth() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="bg-muted border-border text-foreground pl-10 h-11"
+                required
               />
             </div>
             <div className="relative">
@@ -99,6 +100,7 @@ export default function Auth() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="bg-muted border-border text-foreground pl-10 pr-10 h-11"
+                required
               />
               <button
                 type="button"
@@ -110,9 +112,10 @@ export default function Auth() {
             </div>
             <Button
               type="submit"
+              disabled={loading}
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-11 font-medium"
             >
-              {isLogin ? "Sign in" : "Sign up"}
+              {loading ? "Loading..." : isLogin ? "Sign in" : "Sign up"}
             </Button>
           </form>
 
