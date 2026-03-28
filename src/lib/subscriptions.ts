@@ -58,7 +58,9 @@ export function loadSubscriptions(): Subscription[] {
   const data = localStorage.getItem(STORAGE_KEY);
   if (!data) return getDefaultSubscriptions();
   try {
-    return JSON.parse(data);
+    const parsed = JSON.parse(data) as Subscription[];
+    // Migrate old data without reminderDays
+    return parsed.map((s) => ({ ...s, reminderDays: s.reminderDays ?? 1 }));
   } catch {
     return getDefaultSubscriptions();
   }
