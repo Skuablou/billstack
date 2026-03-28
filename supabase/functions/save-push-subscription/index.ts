@@ -83,6 +83,7 @@ Deno.serve(async (req) => {
           billing_day: Math.max(1, Math.min(31, Number(b.billingDate))),
           amount: Number(b.amount),
           category: b.category || null,
+          reminder_days: Math.max(0, Math.min(30, Number(b.reminderDays ?? 1))),
         }));
         await supabase.from("bill_reminders").insert(reminders);
       }

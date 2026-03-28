@@ -87,6 +87,7 @@ export function usePushNotifications() {
               billingDate: s.billingDate,
               amount: s.amount,
               category: s.category,
+              reminderDays: s.reminderDays ?? 1,
             })),
           }),
         }

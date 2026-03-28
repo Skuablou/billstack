@@ -8,6 +8,7 @@ export interface Subscription {
   billingDate: number;
   color: string;
   icon: string;
+  reminderDays: number;
 }
 
 export const CATEGORIES = [
@@ -57,7 +58,9 @@ export function loadSubscriptions(): Subscription[] {
   const data = localStorage.getItem(STORAGE_KEY);
   if (!data) return getDefaultSubscriptions();
   try {
-    return JSON.parse(data);
+    const parsed = JSON.parse(data) as Subscription[];
+    // Migrate old data without reminderDays
+    return parsed.map((s) => ({ ...s, reminderDays: s.reminderDays ?? 1 }));
   } catch {
     return getDefaultSubscriptions();
   }
@@ -69,8 +72,8 @@ export function saveSubscriptions(subs: Subscription[]) {
 
 function getDefaultSubscriptions(): Subscription[] {
   return [
-    { id: "1", name: "Rent", amount: 950, currency: "€", category: "Housing", billingCycle: "Monthly", billingDate: 1, color: "hsl(220 70% 50%)", icon: "🏠" },
-    { id: "2", name: "Netflix", amount: 15.99, currency: "€", category: "Streaming & Subscriptions", billingCycle: "Monthly", billingDate: 15, color: "hsl(330 70% 55%)", icon: "🎬" },
+    { id: "1", name: "Rent", amount: 950, currency: "€", category: "Housing", billingCycle: "Monthly", billingDate: 1, color: "hsl(220 70% 50%)", icon: "🏠", reminderDays: 1 },
+    { id: "2", name: "Netflix", amount: 15.99, currency: "€", category: "Streaming & Subscriptions", billingCycle: "Monthly", billingDate: 15, color: "hsl(330 70% 55%)", icon: "🎬", reminderDays: 1 },
   ];
 }
 

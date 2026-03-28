@@ -1,16 +1,27 @@
 import { motion } from "framer-motion";
-import { Trash2, RefreshCw, Calendar } from "lucide-react";
+import { Trash2, RefreshCw, Calendar, Bell } from "lucide-react";
 import { Subscription } from "@/lib/subscriptions";
 import { Badge } from "@/components/ui/badge";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Props {
   subscription: Subscription;
   index: number;
   onDelete: (id: string) => void;
+  onUpdate?: (id: string, updates: Partial<Subscription>) => void;
 }
 
-export default function SubscriptionCard({ subscription: s, index, onDelete }: Props) {
+const REMINDER_OPTIONS = [
+  { value: "0", label: "Aus" },
+  { value: "1", label: "1 Tag" },
+  { value: "2", label: "2 Tage" },
+  { value: "3", label: "3 Tage" },
+  { value: "5", label: "5 Tage" },
+  { value: "7", label: "7 Tage" },
+];
+
+export default function SubscriptionCard({ subscription: s, index, onDelete, onUpdate }: Props) {
   const { currency } = useCurrency();
   const initial = s.name.charAt(0).toLowerCase();
 
@@ -51,12 +62,30 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
         </div>
       </div>
 
+      {/* Reminder selector */}
+      <div className="flex items-center gap-1.5">
+        <Bell className="w-3.5 h-3.5 text-muted-foreground" />
+        <Select
+          value={String(s.reminderDays ?? 1)}
+          onValueChange={(v) => onUpdate?.(s.id, { reminderDays: parseInt(v) })}
+        >
+          <SelectTrigger className="h-7 w-[75px] text-xs bg-muted border-border px-2">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="bg-popover border-border">
+            {REMINDER_OPTIONS.map((opt) => (
+              <SelectItem key={opt.value} value={opt.value} className="text-xs">
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       {/* Amount */}
       <p className="text-foreground font-display font-semibold text-lg">
         {currency}{s.amount.toFixed(2)}
       </p>
-
-
 
       {/* Delete */}
       <button
