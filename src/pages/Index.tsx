@@ -8,6 +8,7 @@ import AddSubscriptionDialog from "@/components/AddSubscriptionDialog";
 import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
 import YearlyProjection from "@/components/YearlyProjection";
+import BudgetCalculator from "@/components/BudgetCalculator";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useAuth } from "@/lib/AuthContext";
 import {
@@ -238,6 +239,7 @@ export default function Index() {
           <div className="space-y-6">
             <UpcomingPayments subscriptions={subscriptions} />
             <YearlyProjection subscriptions={subscriptions} />
+            <BudgetCalculator subscriptions={subscriptions} isPremium={false} onUpgrade={() => setPremiumOpen(true)} />
           </div>
         </div>
       </main>
