@@ -4,6 +4,7 @@ import { CreditCard, TrendingUp, RefreshCw, Plus, Clock, DollarSign, User } from
 import { Button } from "@/components/ui/button";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import AddSubscriptionDialog from "@/components/AddSubscriptionDialog";
+import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
 import YearlyProjection from "@/components/YearlyProjection";
 import {
