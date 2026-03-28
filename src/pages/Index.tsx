@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { CreditCard, TrendingUp, RefreshCw, Plus, DollarSign, User } from "lucide-react";
+import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import AddSubscriptionDialog from "@/components/AddSubscriptionDialog";
 import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
 import YearlyProjection from "@/components/YearlyProjection";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { useAuth } from "@/lib/AuthContext";
 import {
   loadSubscriptions,
   saveSubscriptions,
@@ -24,6 +26,7 @@ export default function Index() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [premiumOpen, setPremiumOpen] = useState(false);
   const { currency, toggle: toggleCurrency } = useCurrency();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     setSubscriptions(loadSubscriptions());
@@ -60,15 +63,17 @@ export default function Index() {
             <p className="text-muted-foreground text-sm mt-1">Keep track of your subscriptions</p>
           </div>
           <div className="flex items-center gap-3">
+            {/* Currency toggle - shows current symbol */}
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full border-border text-muted-foreground hover:text-foreground"
+              className="rounded-full border-border text-muted-foreground hover:text-foreground font-semibold text-sm"
               onClick={toggleCurrency}
               title={`Switch to ${currency === "€" ? "$" : "€"}`}
             >
-              <DollarSign className="w-4 h-4" />
+              {currency}
             </Button>
+            {/* Premium */}
             <Button
               asChild
               size="sm"
@@ -78,13 +83,30 @@ export default function Index() {
                 <CreditCard className="w-3.5 h-3.5" /> Premium
               </a>
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full border-border text-muted-foreground hover:text-foreground"
-            >
-              <User className="w-4 h-4" />
-            </Button>
+            {/* Profile dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full border-border text-muted-foreground hover:text-foreground"
+                >
+                  <User className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="bg-card border-border w-56">
+                <div className="px-3 py-2 border-b border-border">
+                  <p className="text-sm text-foreground font-medium truncate">{user?.email ?? "User"}</p>
+                </div>
+                <DropdownMenuItem
+                  onClick={logout}
+                  className="text-destructive focus:text-destructive cursor-pointer gap-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>
@@ -103,9 +125,7 @@ export default function Index() {
               <CreditCard className="w-4 h-4" style={{ color: "hsl(270 80% 60%)" }} />
               Monthly (avg)
             </div>
-            <p className="text-3xl font-display font-bold text-foreground">
-              {fmt(monthlyTotal)}
-            </p>
+            <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
           </motion.div>
 
           {/* Yearly */}
@@ -120,9 +140,7 @@ export default function Index() {
               <TrendingUp className="w-4 h-4" style={{ color: "hsl(180 70% 45%)" }} />
               Yearly
             </div>
-            <p className="text-3xl font-display font-bold text-foreground">
-              {fmt(yearlyTotal)}
-            </p>
+            <p className="text-3xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
           </motion.div>
 
           {/* Subscription Count */}
