@@ -1,0 +1,1 @@
+ALTER TABLE public.bill_reminders ADD COLUMN reminder_days integer NOT NULL DEFAULT 1;
