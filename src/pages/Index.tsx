@@ -79,14 +79,16 @@ export default function Index() {
             >
               {currency}
             </Button>
-            {/* Premium - gold badge */}
+            {/* Premium / Manage */}
             <Button
-              onClick={() => setPremiumOpen(true)}
+              asChild
               size="sm"
               className="rounded-full gap-1.5 px-5 py-2 text-black font-semibold border-0"
               style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }}
             >
-              <Crown className="w-4 h-4" /> Premium
+              <a href="https://billing.stripe.com/p/login/28EbJ3gB28dT2ZL9PxgA800" target="_blank" rel="noopener noreferrer">
+                <Crown className="w-4 h-4" /> Manage Plan
+              </a>
             </Button>
             {/* Profile dropdown */}
             <DropdownMenu>
