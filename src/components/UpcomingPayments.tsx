@@ -1,9 +1,21 @@
-import { Clock } from "lucide-react";
+import { Clock, AlertCircle } from "lucide-react";
 import { Subscription, getUpcomingPayments } from "@/lib/subscriptions";
 import { useCurrency } from "@/lib/CurrencyContext";
 
 interface Props {
   subscriptions: Subscription[];
+}
+
+function getDaysColor(days: number): string {
+  if (days <= 4) return "hsl(0 72% 55%)";   // red
+  if (days <= 7) return "hsl(45 90% 55%)";   // yellow
+  return "hsl(140 60% 45%)";                  // green
+}
+
+function getDaysLabel(days: number): string {
+  if (days === 0) return "Today";
+  if (days === 1) return "Tomorrow";
+  return `in ${days} days`;
 }
 
 export default function UpcomingPayments({ subscriptions }: Props) {
@@ -13,16 +25,19 @@ export default function UpcomingPayments({ subscriptions }: Props) {
   return (
     <div className="space-y-3">
       <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
-        <Clock className="w-4 h-4 text-muted-foreground" />
+        <AlertCircle className="w-4 h-4" style={{ color: "hsl(45 90% 55%)" }} />
         Upcoming payments
       </h3>
       <div className="space-y-2">
         {upcoming.length === 0 ? (
-          <p className="text-muted-foreground text-sm">No upcoming payments</p>
+          <div className="rounded-xl bg-card border border-border p-6 text-center">
+            <p className="text-muted-foreground text-sm">No upcoming payments</p>
+          </div>
         ) : (
           upcoming.map((sub) => {
             const initial = sub.name.charAt(0).toLowerCase();
             const monthName = sub.nextDate.toLocaleString('default', { month: 'short' });
+            const daysColor = getDaysColor(sub.daysUntil);
             return (
               <div
                 key={sub.id}
@@ -42,7 +57,9 @@ export default function UpcomingPayments({ subscriptions }: Props) {
                 </div>
                 <div className="text-right">
                   <p className="text-foreground font-semibold text-sm">{currency}{sub.amount.toFixed(2)}</p>
-                  <p className="text-xs text-muted-foreground">in {sub.daysUntil} days</p>
+                  <p className="text-xs font-medium" style={{ color: daysColor }}>
+                    {getDaysLabel(sub.daysUntil)}
+                  </p>
                 </div>
               </div>
             );
