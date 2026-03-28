@@ -130,7 +130,6 @@ export default function Index() {
                 <Crown className="w-4 h-4" /> Premium
               </Button>
             )}
-            </Button>
             {/* Profile dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
