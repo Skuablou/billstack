@@ -78,10 +78,10 @@ Deno.serve(async (req) => {
       if (!subs || subs.length === 0) continue;
 
       for (const bill of bills) {
-        const daysWord = bill.reminder_days === 1 ? "morgen" : `in ${bill.reminder_days} Tagen`;
+        const daysWord = bill.reminder_days === 1 ? "tomorrow" : `in ${bill.reminder_days} days`;
         const payload = JSON.stringify({
-          title: "💰 BillStack Erinnerung",
-          body: `${bill.bill_name} (${Number(bill.amount).toFixed(2)}€) wird ${daysWord} abgebucht!`,
+          title: "💰 BillStack Reminder",
+          body: `${bill.bill_name} (${Number(bill.amount).toFixed(2)}€) is due ${daysWord}!`,
           tag: `bill-reminder-${bill.id}`,
         });
 
