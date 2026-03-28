@@ -1,0 +1,158 @@
+import { useState } from "react";
+import { Calculator, Lock, TrendingDown } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Subscription, getMonthlyAmount } from "@/lib/subscriptions";
+import { useCurrency } from "@/lib/CurrencyContext";
+import { motion } from "framer-motion";
+
+interface Props {
+  subscriptions: Subscription[];
+  isPremium: boolean;
+  onUpgrade: () => void;
+}
+
+export default function BudgetCalculator({ subscriptions, isPremium, onUpgrade }: Props) {
+  const { currency } = useCurrency();
+  const [income, setIncome] = useState("");
+  const [saveTarget, setSaveTarget] = useState("");
+
+  const incomeNum = parseFloat(income) || 0;
+  const saveNum = parseFloat(saveTarget) || 0;
+  const totalMonthly = subscriptions.reduce((s, sub) => s + getMonthlyAmount(sub), 0);
+  const available = incomeNum - saveNum;
+  const overspend = totalMonthly > available && available > 0;
+
+  // Sort subscriptions by amount descending to suggest which to quit
+  const sorted = [...subscriptions]
+    .map((s) => ({ ...s, monthly: getMonthlyAmount(s) }))
+    .sort((a, b) => b.monthly - a.monthly);
+
+  let cumulative = 0;
+  const toQuit: typeof sorted = [];
+  if (overspend) {
+    const needToSave = totalMonthly - available;
+    for (const sub of sorted) {
+      if (cumulative >= needToSave) break;
+      toQuit.push(sub);
+      cumulative += sub.monthly;
+    }
+  }
+
+  const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
+
+  return (
+    <div
+      className="rounded-xl border p-5 space-y-4 relative overflow-hidden"
+      style={{
+        background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))",
+        borderColor: "hsl(270 60% 50% / 0.25)",
+        boxShadow: "0 0 30px -10px hsl(270 60% 50% / 0.1)",
+      }}
+    >
+      <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
+        <Calculator className="w-4 h-4 text-primary" />
+        Budget Calculator
+      </h3>
+
+      {/* Lock overlay for non-premium */}
+      {!isPremium && (
+        <div
+          className="absolute inset-0 top-12 z-10 flex flex-col items-center justify-center gap-3 cursor-pointer rounded-b-xl"
+          style={{ backgroundColor: "hsl(230 20% 7% / 0.85)", backdropFilter: "blur(4px)" }}
+          onClick={onUpgrade}
+        >
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center"
+            style={{ backgroundColor: "hsl(36 100% 50% / 0.2)" }}
+          >
+            <Lock className="w-6 h-6" style={{ color: "hsl(36 100% 50%)" }} />
+          </div>
+          <p className="text-foreground font-medium text-sm">Premium Feature</p>
+          <p className="text-muted-foreground text-xs">Upgrade to use the Budget Calculator</p>
+        </div>
+      )}
+
+      <div className="space-y-3">
+        <div className="space-y-1.5">
+          <Label className="text-muted-foreground text-xs">Monthly income</Label>
+          <Input
+            type="number"
+            placeholder={`e.g. 3000`}
+            value={income}
+            onChange={(e) => setIncome(e.target.value)}
+            disabled={!isPremium}
+            className="bg-muted/50 border-border text-foreground h-9 text-sm"
+          />
+        </div>
+        <div className="space-y-1.5">
+          <Label className="text-muted-foreground text-xs">Monthly savings goal</Label>
+          <Input
+            type="number"
+            placeholder={`e.g. 500`}
+            value={saveTarget}
+            onChange={(e) => setSaveTarget(e.target.value)}
+            disabled={!isPremium}
+            className="bg-muted/50 border-border text-foreground h-9 text-sm"
+          />
+        </div>
+      </div>
+
+      {/* Results */}
+      {isPremium && incomeNum > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-3 pt-2 border-t border-border/50"
+        >
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Available after savings</span>
+            <span className="text-foreground font-medium">{fmt(available)}</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Total subscriptions</span>
+            <span className={`font-medium ${overspend ? "text-destructive" : "text-foreground"}`}>
+              {fmt(totalMonthly)}
+            </span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Left over</span>
+            <span
+              className="font-display font-bold"
+              style={{ color: available - totalMonthly >= 0 ? "hsl(140 60% 45%)" : "hsl(0 72% 55%)" }}
+            >
+              {fmt(available - totalMonthly)}
+            </span>
+          </div>
+
+          {/* Suggestions */}
+          {overspend && toQuit.length > 0 && (
+            <div className="rounded-lg p-3 space-y-2" style={{ backgroundColor: "hsl(0 72% 50% / 0.08)", borderLeft: "3px solid hsl(0 72% 55%)" }}>
+              <p className="text-xs font-medium flex items-center gap-1.5" style={{ color: "hsl(0 72% 55%)" }}>
+                <TrendingDown className="w-3.5 h-3.5" />
+                Consider cancelling to meet your goal:
+              </p>
+              {toQuit.map((sub) => (
+                <div key={sub.id} className="flex justify-between text-xs">
+                  <span className="text-foreground">{sub.name}</span>
+                  <span className="text-muted-foreground">-{fmt(sub.monthly)}/mo</span>
+                </div>
+              ))}
+              <p className="text-xs text-muted-foreground pt-1">
+                Saves you {fmt(cumulative)}/month
+              </p>
+            </div>
+          )}
+
+          {!overspend && available - totalMonthly >= 0 && (
+            <div className="rounded-lg p-3" style={{ backgroundColor: "hsl(140 60% 45% / 0.08)", borderLeft: "3px solid hsl(140 60% 45%)" }}>
+              <p className="text-xs font-medium" style={{ color: "hsl(140 60% 45%)" }}>
+                ✓ You're within budget! {fmt(available - totalMonthly)} left after subscriptions.
+              </p>
+            </div>
+          )}
+        </motion.div>
+      )}
+    </div>
+  );
+}
