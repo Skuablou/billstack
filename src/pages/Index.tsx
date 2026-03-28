@@ -53,6 +53,12 @@ export default function Index() {
     setSubscriptions((prev) => prev.filter((s) => s.id !== id));
   };
 
+  const updateSubscription = (id: string, updates: Partial<Subscription>) => {
+    setSubscriptions((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, ...updates } : s))
+    );
+  };
+
   const monthlyTotal = getMonthlyTotal(subscriptions);
   const yearlyTotal = getYearlyTotal(subscriptions);
   const maxFree = getMaxFreeSubscriptions();
