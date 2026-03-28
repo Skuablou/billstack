@@ -44,8 +44,8 @@ export default function UpcomingPayments({ subscriptions }: Props) {
                 className="flex items-center gap-3 rounded-xl bg-card border border-border p-3"
               >
                 <div
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold"
-                  style={{ backgroundColor: `${sub.color}30`, color: sub.color }}
+                  className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold text-white"
+                  style={{ backgroundColor: sub.color }}
                 >
                   {initial}
                 </div>

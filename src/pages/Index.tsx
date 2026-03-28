@@ -52,13 +52,18 @@ export default function Index() {
   const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Background gradient effects */}
+      <div className="fixed top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-[180px] pointer-events-none" style={{ background: "hsl(270 80% 40% / 0.08)" }} />
+      <div className="fixed bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-[160px] pointer-events-none" style={{ background: "hsl(36 100% 50% / 0.05)" }} />
+      <div className="fixed top-1/2 right-0 w-[400px] h-[400px] rounded-full blur-[140px] pointer-events-none" style={{ background: "hsl(210 70% 50% / 0.06)" }} />
+
       {/* Header */}
-      <header className="max-w-5xl mx-auto px-6 pt-8 pb-2">
+      <header className="max-w-5xl mx-auto px-6 pt-10 pb-2 relative z-10">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-display font-bold text-foreground">
-              Sub<span className="text-primary">Tracker</span>
+            <h1 className="text-5xl font-display font-bold">
+              <span className="text-foreground">Sub</span><span style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Tracker</span>
             </h1>
             <p className="text-muted-foreground text-sm mt-1">Keep track of your subscriptions</p>
           </div>
@@ -73,13 +78,14 @@ export default function Index() {
             >
               {currency}
             </Button>
-            {/* Premium */}
+            {/* Premium - gold badge */}
             <Button
               onClick={() => setPremiumOpen(true)}
               size="sm"
-              className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"
+              className="rounded-full gap-1.5 px-5 py-2 text-black font-semibold border-0"
+              style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }}
             >
-              <CreditCard className="w-3.5 h-3.5" /> Premium
+              <Crown className="w-4 h-4" /> Premium
             </Button>
             {/* Profile dropdown */}
             <DropdownMenu>
@@ -110,8 +116,8 @@ export default function Index() {
       </header>
 
       {/* Stat Cards */}
-      <main className="max-w-5xl mx-auto px-6 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <main className="max-w-5xl mx-auto px-6 py-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
           {/* Monthly - purple */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
