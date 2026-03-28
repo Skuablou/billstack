@@ -101,7 +101,7 @@ export default function Index() {
                 className="rounded-full border-border text-muted-foreground hover:text-foreground"
                 onClick={() => isSubscribed ? unsubscribe() : subscribe(subscriptions)}
                 disabled={pushLoading}
-                title={isSubscribed ? "Erinnerungen deaktivieren" : "Erinnerungen 1 Tag vor Abbuchung"}
+                title={isSubscribed ? "Disable reminders" : "Enable bill reminders"}
               >
                 {isSubscribed ? <Bell className="w-4 h-4 text-primary" /> : <BellOff className="w-4 h-4" />}
               </Button>
