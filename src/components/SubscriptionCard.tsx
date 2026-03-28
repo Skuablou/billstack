@@ -59,7 +59,7 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
       {/* Delete */}
       <button
         onClick={() => onDelete(s.id)}
-        className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive p-1"
+        className="text-muted-foreground hover:text-destructive p-1 transition-colors"
       >
         <Trash2 className="w-4 h-4" />
       </button>

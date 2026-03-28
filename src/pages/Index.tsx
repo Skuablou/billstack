@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut } from "lucide-react";
+import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import SubscriptionCard from "@/components/SubscriptionCard";
