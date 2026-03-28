@@ -17,7 +17,7 @@ const REMINDER_OPTIONS = [
   { value: "1", label: "1 day" },
   { value: "2", label: "2 days" },
   { value: "3", label: "3 days" },
-  { value: "5", label: "5 days" },
+  { value: "4", label: "4 days" },
   { value: "7", label: "7 days" },
 ];
 
@@ -69,13 +69,13 @@ export default function SubscriptionCard({ subscription: s, index, onDelete, onU
           value={String(s.reminderDays ?? 1)}
           onValueChange={(v) => onUpdate?.(s.id, { reminderDays: parseInt(v) })}
         >
-          <SelectTrigger className="h-7 w-[75px] text-xs bg-muted border-border px-2">
-            <SelectValue />
+          <SelectTrigger className="h-7 w-[130px] text-xs bg-muted border-border px-2">
+            <SelectValue placeholder="Reminder" />
           </SelectTrigger>
           <SelectContent className="bg-popover border-border">
             {REMINDER_OPTIONS.map((opt) => (
               <SelectItem key={opt.value} value={opt.value} className="text-xs">
-                {opt.label}
+                {opt.value === "0" ? "Off" : `${opt.label} before`}
               </SelectItem>
             ))}
           </SelectContent>
