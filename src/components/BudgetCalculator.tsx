@@ -1,22 +1,11 @@
 import { useState } from "react";
-import { Calculator, Lock, TrendingDown, Target, CalendarIcon } from "lucide-react";
+import { Calculator, Lock, TrendingDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
 import { Subscription, getMonthlyAmount } from "@/lib/subscriptions";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { motion } from "framer-motion";
-import { format, differenceInMonths } from "date-fns";
 import { cn } from "@/lib/utils";
-
-interface SavingsGoal {
-  name: string;
-  totalAmount: number;
-  monthlyAmount: number;
-  targetDate: Date;
-}
 
 interface Props {
   subscriptions: Subscription[];
@@ -28,13 +17,6 @@ export default function BudgetCalculator({ subscriptions, isPremium, onUpgrade }
   const { currency } = useCurrency();
   const [income, setIncome] = useState("");
   const [saveTarget, setSaveTarget] = useState("");
-
-  // Savings goal state
-  const [goalName, setGoalName] = useState("");
-  const [goalTotal, setGoalTotal] = useState("");
-  const [goalDate, setGoalDate] = useState<Date>();
-  const [activeGoals, setActiveGoals] = useState<SavingsGoal[]>([]);
-
   const incomeNum = parseFloat(income) || 0;
   const saveNum = parseFloat(saveTarget) || 0;
   const totalMonthly = subscriptions.reduce((s, sub) => s + getMonthlyAmount(sub), 0);
@@ -57,25 +39,6 @@ export default function BudgetCalculator({ subscriptions, isPremium, onUpgrade }
   }
 
   const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
-
-  const handleStartSaving = () => {
-    if (!goalName.trim() || !goalTotal || !goalDate) return;
-    const total = parseFloat(goalTotal);
-    const monthsLeft = Math.max(1, differenceInMonths(goalDate, new Date()));
-    const monthly = total / monthsLeft;
-    setActiveGoals((prev) => [
-      ...prev,
-      { name: goalName.trim(), totalAmount: total, monthlyAmount: monthly, targetDate: goalDate },
-    ]);
-    setGoalName("");
-    setGoalTotal("");
-    setGoalDate(undefined);
-  };
-
-  const removeGoal = (index: number) => {
-    setActiveGoals((prev) => prev.filter((_, i) => i !== index));
-  };
-
   return (
     <div
       className="rounded-xl border p-5 space-y-4 relative overflow-hidden"
@@ -185,107 +148,6 @@ export default function BudgetCalculator({ subscriptions, isPremium, onUpgrade }
             </div>
           )}
         </motion.div>
-      )}
-
-      {/* Savings Goal Creator */}
-      {isPremium && (
-        <div className="space-y-3 pt-3 border-t border-border/50">
-          <h4 className="text-sm font-medium text-foreground flex items-center gap-2">
-            <Target className="w-3.5 h-3.5 text-primary" />
-            Savings Goal
-          </h4>
-          <div className="flex gap-3">
-            {/* Form */}
-            <div className="space-y-2 flex-1 min-w-0">
-              <Input
-                placeholder="Goal name (e.g. Vacation Spain)"
-                value={goalName}
-                onChange={(e) => setGoalName(e.target.value)}
-                className="bg-muted/50 border-border text-foreground h-9 text-sm"
-              />
-              <Input
-                type="number"
-                placeholder="Total amount to save"
-                value={goalTotal}
-                onChange={(e) => setGoalTotal(e.target.value)}
-                className="bg-muted/50 border-border text-foreground h-9 text-sm"
-              />
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full justify-start text-left font-normal h-9 text-sm bg-muted/50 border-border",
-                      !goalDate && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-3.5 w-3.5" />
-                    {goalDate ? format(goalDate, "PPP") : "Target date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={goalDate}
-                    onSelect={setGoalDate}
-                    disabled={(date) => date <= new Date()}
-                    initialFocus
-                    className={cn("p-3 pointer-events-auto")}
-                  />
-                </PopoverContent>
-              </Popover>
-              <Button
-                size="sm"
-                className="w-full rounded-lg gap-1.5 text-sm font-semibold"
-                style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))" }}
-                disabled={!goalName.trim() || !goalTotal || !goalDate}
-                onClick={handleStartSaving}
-              >
-                Start Saving
-              </Button>
-            </div>
-
-            {/* Active Goals beside the form */}
-            {activeGoals.length > 0 && (
-              <div className="space-y-2 flex-1 min-w-0">
-                {activeGoals.map((goal, i) => {
-                  const monthsLeft = Math.max(1, differenceInMonths(goal.targetDate, new Date()));
-                  return (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: 8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="rounded-lg p-3 space-y-1.5"
-                      style={{ backgroundColor: "hsl(270 40% 18% / 0.6)", border: "1px solid hsl(270 60% 50% / 0.2)" }}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-foreground text-xs font-medium truncate">{goal.name}</span>
-                        <button
-                          onClick={() => removeGoal(i)}
-                          className="text-muted-foreground hover:text-destructive text-xs transition-colors ml-1"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                      <div className="flex justify-between text-xs">
-                        <span className="text-muted-foreground">Target</span>
-                        <span className="text-foreground font-medium">{fmt(goal.totalAmount)}</span>
-                      </div>
-                      <div className="flex justify-between text-xs">
-                        <span className="text-muted-foreground">Monthly</span>
-                        <span className="font-medium" style={{ color: "hsl(270 80% 65%)" }}>{fmt(goal.monthlyAmount)}/mo</span>
-                      </div>
-                      <div className="flex justify-between text-xs text-muted-foreground">
-                        <span>{monthsLeft} months left</span>
-                        <span>until {format(goal.targetDate, "MMM yyyy")}</span>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
       )}
     </div>
   );
