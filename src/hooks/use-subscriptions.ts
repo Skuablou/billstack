@@ -41,7 +41,7 @@ export function useSubscriptions() {
     if (!user) return;
     setSubscriptions((prev) => [...prev, sub]);
 
-    await supabase.from("subscriptions").insert({
+    const { error } = await supabase.from("subscriptions").insert({
       id: sub.id,
       user_id: user.id,
       name: sub.name,
@@ -54,6 +54,7 @@ export function useSubscriptions() {
       icon: sub.icon,
       reminder_days: sub.reminderDays,
     });
+    if (error) console.error("Failed to save subscription:", error);
   }, [user]);
 
   const deleteSubscription = useCallback(async (id: string) => {
