@@ -1,9 +1,9 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Crown, Loader2 } from "lucide-react";
+import { Crown } from "lucide-react";
 import { useCurrency } from "@/lib/CurrencyContext";
-import { startCheckout } from "@/lib/premium";
-import { useState } from "react";
+
+const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 
 interface Props {
   open: boolean;
@@ -12,18 +12,7 @@ interface Props {
 
 export default function PremiumDialog({ open, onOpenChange }: Props) {
   const { currency } = useCurrency();
-  const [loading, setLoading] = useState(false);
   const price = currency === "€" ? "€2.99" : "$2.99";
-
-  const handleUpgrade = async () => {
-    setLoading(true);
-    const url = await startCheckout();
-    setLoading(false);
-    if (url) {
-      window.open(url, "_blank");
-      onOpenChange(false);
-    }
-  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -53,13 +42,13 @@ export default function PremiumDialog({ open, onOpenChange }: Props) {
         </div>
 
         <Button
+          asChild
           className="w-full mt-4 font-semibold rounded-xl h-11 text-black"
           style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }}
-          onClick={handleUpgrade}
-          disabled={loading}
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-          Upgrade now → {price}/month
+          <a href={STRIPE_LINK} target="_blank" rel="noopener noreferrer">
+            Upgrade now → {price}/month
+          </a>
         </Button>
 
         <button
