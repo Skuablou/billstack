@@ -36,8 +36,8 @@ export default function Index() {
   const { isSupported, isSubscribed, isLoading: pushLoading, subscribe, unsubscribe } = usePushNotifications();
 
   useEffect(() => {
-    checkPremiumActivation().then(() => {
-      setIsPremium(isPremiumUser());
+    checkPremiumActivation().then((result) => {
+      setIsPremium(result);
     });
   }, []);
 
