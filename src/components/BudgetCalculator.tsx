@@ -194,95 +194,97 @@ export default function BudgetCalculator({ subscriptions, isPremium, onUpgrade }
             <Target className="w-3.5 h-3.5 text-primary" />
             Savings Goal
           </h4>
-          <div className="space-y-2">
-            <Input
-              placeholder="Goal name (e.g. Vacation Spain)"
-              value={goalName}
-              onChange={(e) => setGoalName(e.target.value)}
-              className="bg-muted/50 border-border text-foreground h-9 text-sm"
-            />
-            <Input
-              type="number"
-              placeholder="Monthly saving amount"
-              value={goalAmount}
-              onChange={(e) => setGoalAmount(e.target.value)}
-              className="bg-muted/50 border-border text-foreground h-9 text-sm"
-            />
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full justify-start text-left font-normal h-9 text-sm bg-muted/50 border-border",
-                    !goalDate && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-3.5 w-3.5" />
-                  {goalDate ? format(goalDate, "PPP") : "Target date"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={goalDate}
-                  onSelect={setGoalDate}
-                  disabled={(date) => date <= new Date()}
-                  initialFocus
-                  className={cn("p-3 pointer-events-auto")}
-                />
-              </PopoverContent>
-            </Popover>
-            <Button
-              size="sm"
-              className="w-full rounded-lg gap-1.5 text-sm font-semibold"
-              style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))" }}
-              disabled={!goalName.trim() || !goalAmount || !goalDate}
-              onClick={handleStartSaving}
-            >
-              Start Saving
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Active Goals */}
-      {isPremium && activeGoals.length > 0 && (
-        <div className="space-y-2 pt-2">
-          {activeGoals.map((goal, i) => {
-            const monthsLeft = Math.max(1, differenceInMonths(goal.targetDate, new Date()));
-            const totalTarget = goal.monthlyAmount * monthsLeft;
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="rounded-lg p-3 space-y-2"
-                style={{ backgroundColor: "hsl(270 40% 18% / 0.6)", border: "1px solid hsl(270 60% 50% / 0.2)" }}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-foreground text-sm font-medium">{goal.name}</span>
-                  <button
-                    onClick={() => removeGoal(i)}
-                    className="text-muted-foreground hover:text-destructive text-xs transition-colors"
+          <div className="flex gap-3">
+            {/* Form */}
+            <div className="space-y-2 flex-1 min-w-0">
+              <Input
+                placeholder="Goal name (e.g. Vacation Spain)"
+                value={goalName}
+                onChange={(e) => setGoalName(e.target.value)}
+                className="bg-muted/50 border-border text-foreground h-9 text-sm"
+              />
+              <Input
+                type="number"
+                placeholder="Total amount to save"
+                value={goalTotal}
+                onChange={(e) => setGoalTotal(e.target.value)}
+                className="bg-muted/50 border-border text-foreground h-9 text-sm"
+              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal h-9 text-sm bg-muted/50 border-border",
+                      !goalDate && "text-muted-foreground"
+                    )}
                   >
-                    ✕
-                  </button>
-                </div>
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>{fmt(goal.monthlyAmount)}/mo</span>
-                  <span>until {format(goal.targetDate, "MMM yyyy")}</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-muted-foreground">Total target</span>
-                  <span className="text-foreground font-medium">{fmt(totalTarget)}</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-muted-foreground">Months left</span>
-                  <span className="text-foreground font-medium">{monthsLeft}</span>
-                </div>
-              </motion.div>
-            );
-          })}
+                    <CalendarIcon className="mr-2 h-3.5 w-3.5" />
+                    {goalDate ? format(goalDate, "PPP") : "Target date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={goalDate}
+                    onSelect={setGoalDate}
+                    disabled={(date) => date <= new Date()}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                </PopoverContent>
+              </Popover>
+              <Button
+                size="sm"
+                className="w-full rounded-lg gap-1.5 text-sm font-semibold"
+                style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))" }}
+                disabled={!goalName.trim() || !goalTotal || !goalDate}
+                onClick={handleStartSaving}
+              >
+                Start Saving
+              </Button>
+            </div>
+
+            {/* Active Goals beside the form */}
+            {activeGoals.length > 0 && (
+              <div className="space-y-2 flex-1 min-w-0">
+                {activeGoals.map((goal, i) => {
+                  const monthsLeft = Math.max(1, differenceInMonths(goal.targetDate, new Date()));
+                  return (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: 8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="rounded-lg p-3 space-y-1.5"
+                      style={{ backgroundColor: "hsl(270 40% 18% / 0.6)", border: "1px solid hsl(270 60% 50% / 0.2)" }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-foreground text-xs font-medium truncate">{goal.name}</span>
+                        <button
+                          onClick={() => removeGoal(i)}
+                          className="text-muted-foreground hover:text-destructive text-xs transition-colors ml-1"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-muted-foreground">Target</span>
+                        <span className="text-foreground font-medium">{fmt(goal.totalAmount)}</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-muted-foreground">Monthly</span>
+                        <span className="font-medium" style={{ color: "hsl(270 80% 65%)" }}>{fmt(goal.monthlyAmount)}/mo</span>
+                      </div>
+                      <div className="flex justify-between text-xs text-muted-foreground">
+                        <span>{monthsLeft} months left</span>
+                        <span>until {format(goal.targetDate, "MMM yyyy")}</span>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
