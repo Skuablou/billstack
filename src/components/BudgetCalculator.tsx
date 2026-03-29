@@ -30,7 +30,7 @@ export default function BudgetCalculator({ subscriptions, isPremium, onUpgrade }
 
   // Savings goal state
   const [goalName, setGoalName] = useState("");
-  const [goalAmount, setGoalAmount] = useState("");
+  const [goalTotal, setGoalTotal] = useState("");
   const [goalDate, setGoalDate] = useState<Date>();
   const [activeGoals, setActiveGoals] = useState<SavingsGoal[]>([]);
 
