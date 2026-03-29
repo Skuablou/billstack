@@ -51,7 +51,10 @@ export async function activatePremium(): Promise<boolean> {
 export async function checkPremiumActivation(): Promise<boolean> {
   const params = new URLSearchParams(window.location.search);
   if (params.get("premium") === "success") {
-    await activatePremium();
+    // Always set localStorage immediately so UI updates right away
+    setPremiumUser(true);
+    // Also try to persist to DB (may fail if auth not ready yet)
+    activatePremium().catch(() => {});
     // Clean the URL
     params.delete("premium");
     const newUrl = params.toString()
@@ -60,6 +63,10 @@ export async function checkPremiumActivation(): Promise<boolean> {
     window.history.replaceState({}, "", newUrl);
     return true;
   }
-  // Always sync from DB on load
-  return await syncPremiumStatus();
+  // Try syncing from DB, fall back to localStorage
+  try {
+    return await syncPremiumStatus();
+  } catch {
+    return isPremiumUser();
+  }
 }
