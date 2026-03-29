@@ -271,22 +271,7 @@ export default function Index() {
           <div className="space-y-6">
             <UpcomingPayments subscriptions={subscriptions} />
             <YearlyProjection subscriptions={subscriptions} />
-            <div className="grid grid-cols-[1fr_auto] gap-3 items-start">
-              <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
-              <div
-                className="rounded-xl border p-4 max-w-[180px] space-y-2"
-                style={{
-                  background: "linear-gradient(135deg, hsl(36 60% 14%), hsl(30 40% 10%))",
-                  borderColor: "hsl(36 100% 50% / 0.25)",
-                  boxShadow: "0 0 20px -10px hsl(36 100% 50% / 0.1)",
-                }}
-              >
-                <p className="text-xs font-semibold" style={{ color: "hsl(36 100% 55%)" }}>💡 Tip</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Before using the savings goal, calculate your left over budget first.
-                </p>
-              </div>
-            </div>
+            <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
             <SavingsGoalForm onAdd={addGoal} />
           </div>
         </div>
