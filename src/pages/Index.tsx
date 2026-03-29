@@ -196,9 +196,28 @@ export default function Index() {
         <div className="grid md:grid-cols-[1.2fr_1fr] gap-8">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
+              <div>
+                <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
+                {!isPremium && (
+                  <p className="text-muted-foreground text-xs mt-0.5">
+                    {freeLeft > 0
+                      ? `${subscriptions.length}/${maxFree} free spendings used`
+                      : `Free limit reached (${maxFree}/${maxFree})`}
+                    {" · "}
+                    <button onClick={() => setPremiumOpen(true)} className="underline hover:text-foreground transition-colors" style={{ color: "hsl(36 100% 50%)" }}>
+                      Upgrade for unlimited
+                    </button>
+                  </p>
+                )}
+              </div>
               <Button
-                onClick={() => setDialogOpen(true)}
+                onClick={() => {
+                  if (!isPremium && subscriptions.length >= maxFree) {
+                    setPremiumOpen(true);
+                  } else {
+                    setDialogOpen(true);
+                  }
+                }}
                 size="sm"
                 className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"
               >
@@ -228,8 +247,33 @@ export default function Index() {
           <div className="space-y-6">
             <UpcomingPayments subscriptions={subscriptions} />
             <YearlyProjection subscriptions={subscriptions} />
-            <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
-            <SavingsGoalForm onAdd={addGoal} />
+            {isPremium ? (
+              <>
+                <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
+                <SavingsGoalForm onAdd={addGoal} />
+              </>
+            ) : (
+              <>
+                <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                  <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
+                    <Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator
+                  </h3>
+                  <p className="text-muted-foreground text-sm">Unlock the Budget Calculator with Premium.</p>
+                  <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}>
+                    <Crown className="w-3.5 h-3.5" /> Upgrade
+                  </Button>
+                </div>
+                <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                  <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
+                    <Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goal
+                  </h3>
+                  <p className="text-muted-foreground text-sm">Set savings goals and track progress with Premium.</p>
+                  <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}>
+                    <Crown className="w-3.5 h-3.5" /> Upgrade
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </main>
