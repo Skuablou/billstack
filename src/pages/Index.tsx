@@ -51,39 +51,6 @@ export default function Index() {
     }
   }, [subscriptions]);
 
-  const addSubscription = (sub: Subscription) => {
-    setSubscriptions((prev) => [...prev, sub]);
-  };
-
-  const deleteSubscription = (id: string) => {
-    setSubscriptions((prev) => prev.filter((s) => s.id !== id));
-  };
-
-  const updateSubscription = (id: string, updates: Partial<Subscription>) => {
-    setSubscriptions((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, ...updates } : s))
-    );
-  };
-
-  const addGoal = (goal: ActiveGoal) => {
-    setActiveGoals((prev) => [...prev, goal]);
-  };
-
-  const markGoalPaid = (index: number) => {
-    setActiveGoals((prev) =>
-      prev.map((g, i) => {
-        if (i !== index) return g;
-        const totalPeriods = getTotalPeriods(g.targetDate, g.interval);
-        if (g.paidPeriods >= totalPeriods) return g;
-        return { ...g, paidPeriods: g.paidPeriods + 1 };
-      })
-    );
-  };
-
-  const removeGoal = (index: number) => {
-    setActiveGoals((prev) => prev.filter((_, i) => i !== index));
-  };
-
   // Calculate total monthly savings from all active (non-complete) goals
   const savingsMonthly = activeGoals.reduce((sum, goal) => {
     const totalPeriods = getTotalPeriods(goal.targetDate, goal.interval);
