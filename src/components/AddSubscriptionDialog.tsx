@@ -23,7 +23,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
     e.preventDefault();
     if (!name || !amount) return;
     onAdd({
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       name,
       amount: parseFloat(amount),
       currency: "€",
