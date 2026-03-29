@@ -63,15 +63,15 @@ export default function Index() {
       <div className="fixed top-1/2 right-0 w-[400px] h-[400px] rounded-full blur-[140px] pointer-events-none" style={{ background: "hsl(210 70% 50% / 0.06)" }} />
 
       {/* Header */}
-      <header className="max-w-5xl mx-auto px-6 pt-10 pb-2 relative z-10">
-        <div className="flex items-center justify-between gap-3">
+      <header className="max-w-5xl mx-auto px-6 pt-6 md:pt-10 pb-2 relative z-10">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1 md:gap-3">
           <div className="min-w-0 shrink">
             <h1 className="text-3xl md:text-5xl font-display font-bold">
               <span style={{ background: "linear-gradient(135deg, hsl(145 70% 45%), hsl(160 80% 40%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Bill</span><span style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
             </h1>
             <p className="text-muted-foreground text-sm mt-1 hidden md:block">Keep track of all your monthly bills</p>
           </div>
-          <div className="flex items-center gap-2 md:gap-3 shrink-0 flex-wrap justify-end">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0 mt-2 md:mt-0">
             <Button
               variant="outline"
               size="icon"
