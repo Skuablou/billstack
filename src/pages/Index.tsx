@@ -66,7 +66,7 @@ export default function Index() {
       <header className="max-w-5xl mx-auto px-6 pt-10 pb-2 relative z-10">
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0 shrink">
-            <h1 className="text-5xl md:text-5xl text-3xl font-display font-bold">
+            <h1 className="text-3xl md:text-5xl font-display font-bold">
               <span style={{ background: "linear-gradient(135deg, hsl(145 70% 45%), hsl(160 80% 40%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Bill</span><span style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
             </h1>
             <p className="text-muted-foreground text-sm mt-1 hidden md:block">Keep track of all your monthly bills</p>
