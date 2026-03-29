@@ -95,6 +95,84 @@ export type Database = {
         }
         Relationships: []
       }
+      savings_goals: {
+        Row: {
+          created_at: string | null
+          id: string
+          interval: string
+          name: string
+          paid_periods: number
+          target_date: string
+          total_amount: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          interval?: string
+          name: string
+          paid_periods?: number
+          target_date: string
+          total_amount: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          interval?: string
+          name?: string
+          paid_periods?: number
+          target_date?: string
+          total_amount?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          amount: number
+          billing_cycle: string
+          billing_date: number
+          category: string
+          color: string
+          created_at: string | null
+          currency: string
+          icon: string
+          id: string
+          name: string
+          reminder_days: number
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          billing_cycle?: string
+          billing_date?: number
+          category?: string
+          color?: string
+          created_at?: string | null
+          currency?: string
+          icon?: string
+          id?: string
+          name: string
+          reminder_days?: number
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          billing_cycle?: string
+          billing_date?: number
+          category?: string
+          color?: string
+          created_at?: string | null
+          currency?: string
+          icon?: string
+          id?: string
+          name?: string
+          reminder_days?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
