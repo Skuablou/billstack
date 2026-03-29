@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 
 interface SavingsGoal {
   name: string;
+  totalAmount: number;
   monthlyAmount: number;
   targetDate: Date;
 }
