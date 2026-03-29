@@ -9,6 +9,7 @@ import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
 import YearlyProjection from "@/components/YearlyProjection";
 import BudgetCalculator from "@/components/BudgetCalculator";
+import SavingsGoal from "@/components/SavingsGoal";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { usePushNotifications } from "@/hooks/use-push-notifications";
 import { useAuth } from "@/lib/AuthContext";
@@ -286,6 +287,9 @@ export default function Index() {
                 </motion.div>
               )}
             </div>
+
+            {/* Savings Goals - left column, below subscriptions */}
+            <SavingsGoal />
           </div>
 
           <div className="space-y-6">
