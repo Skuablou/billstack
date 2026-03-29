@@ -59,13 +59,16 @@ export default function BudgetCalculator({ subscriptions, isPremium, onUpgrade }
   const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
 
   const handleStartSaving = () => {
-    if (!goalName.trim() || !goalAmount || !goalDate) return;
+    if (!goalName.trim() || !goalTotal || !goalDate) return;
+    const total = parseFloat(goalTotal);
+    const monthsLeft = Math.max(1, differenceInMonths(goalDate, new Date()));
+    const monthly = total / monthsLeft;
     setActiveGoals((prev) => [
       ...prev,
-      { name: goalName.trim(), monthlyAmount: parseFloat(goalAmount), targetDate: goalDate },
+      { name: goalName.trim(), totalAmount: total, monthlyAmount: monthly, targetDate: goalDate },
     ]);
     setGoalName("");
-    setGoalAmount("");
+    setGoalTotal("");
     setGoalDate(undefined);
   };
 
