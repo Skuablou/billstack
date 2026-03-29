@@ -1,46 +1,44 @@
 import { useState } from "react";
 import { Target, CalendarIcon, Check } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { motion } from "framer-motion";
-import { format, differenceInDays, differenceInWeeks, differenceInMonths, addDays } from "date-fns";
+import { format, differenceInDays, differenceInWeeks, differenceInMonths } from "date-fns";
 import { cn } from "@/lib/utils";
 
-type Interval = "weekly" | "biweekly" | "monthly";
+export type SavingsInterval = "weekly" | "monthly";
 
-interface ActiveGoal {
+export interface ActiveGoal {
   name: string;
   totalAmount: number;
   targetDate: Date;
-  interval: Interval;
+  interval: SavingsInterval;
   paidPeriods: number;
 }
 
-function getIntervalDays(interval: Interval): number {
-  switch (interval) {
-    case "weekly": return 7;
-    case "biweekly": return 14;
-    case "monthly": return 30;
-  }
+function getIntervalDays(interval: SavingsInterval): number {
+  return interval === "weekly" ? 7 : 30;
 }
 
-function getIntervalLabel(interval: Interval): string {
-  switch (interval) {
-    case "weekly": return "wk";
-    case "biweekly": return "2wk";
-    case "monthly": return "mo";
-  }
+function getIntervalLabel(interval: SavingsInterval): string {
+  return interval === "weekly" ? "wk" : "mo";
 }
 
-function getTotalPeriods(targetDate: Date, interval: Interval): number {
+export function getTotalPeriods(targetDate: Date, interval: SavingsInterval): number {
   const now = new Date();
   const totalDays = Math.max(1, differenceInDays(targetDate, now));
   return Math.max(1, Math.ceil(totalDays / getIntervalDays(interval)));
+}
+
+export function getMonthlyEquivalent(goal: ActiveGoal): number {
+  const totalPeriods = getTotalPeriods(goal.targetDate, goal.interval);
+  const perPeriod = goal.totalAmount / totalPeriods;
+  if (goal.interval === "weekly") return perPeriod * (30 / 7);
+  return perPeriod;
 }
 
 function getTimeLeftLabel(targetDate: Date): string {
@@ -56,123 +54,122 @@ function getTimeLeftLabel(targetDate: Date): string {
   return "Due today";
 }
 
-export default function SavingsGoal() {
-  const { currency } = useCurrency();
+/* ──── Creator Form (goes in right column under Budget Calculator) ──── */
+interface FormProps {
+  onAdd: (goal: ActiveGoal) => void;
+}
+
+export function SavingsGoalForm({ onAdd }: FormProps) {
   const [goalName, setGoalName] = useState("");
   const [goalTotal, setGoalTotal] = useState("");
   const [goalDate, setGoalDate] = useState<Date>();
-  const [interval, setInterval] = useState<Interval>("weekly");
-  const [activeGoals, setActiveGoals] = useState<ActiveGoal[]>([]);
-
-  const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
+  const [interval, setInterval] = useState<SavingsInterval>("weekly");
 
   const handleStartSaving = () => {
     if (!goalName.trim() || !goalTotal || !goalDate) return;
     const total = parseFloat(goalTotal);
     if (total <= 0) return;
-    setActiveGoals((prev) => [
-      ...prev,
-      { name: goalName.trim(), totalAmount: total, targetDate: goalDate, interval, paidPeriods: 0 },
-    ]);
+    onAdd({ name: goalName.trim(), totalAmount: total, targetDate: goalDate, interval, paidPeriods: 0 });
     setGoalName("");
     setGoalTotal("");
     setGoalDate(undefined);
   };
 
-  const markPaid = (index: number) => {
-    setActiveGoals((prev) =>
-      prev.map((g, i) => {
-        if (i !== index) return g;
-        const totalPeriods = getTotalPeriods(g.targetDate, g.interval);
-        if (g.paidPeriods >= totalPeriods) return g;
-        return { ...g, paidPeriods: g.paidPeriods + 1 };
-      })
-    );
-  };
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="rounded-xl border p-5 space-y-3"
+      style={{
+        background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))",
+        borderColor: "hsl(270 60% 50% / 0.25)",
+        boxShadow: "0 0 30px -10px hsl(270 60% 50% / 0.1)",
+      }}
+    >
+      <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
+        <Target className="w-4 h-4 text-primary" />
+        Savings Goal
+      </h3>
+      <Input
+        placeholder="Goal name (e.g. Vacation Spain)"
+        value={goalName}
+        onChange={(e) => setGoalName(e.target.value)}
+        className="bg-muted/50 border-border text-foreground h-10 text-sm"
+      />
+      <div className="grid grid-cols-2 gap-3">
+        <Input
+          type="number"
+          placeholder="Total amount"
+          value={goalTotal}
+          onChange={(e) => setGoalTotal(e.target.value)}
+          className="bg-muted/50 border-border text-foreground h-10 text-sm"
+        />
+        <Select value={interval} onValueChange={(v) => setInterval(v as SavingsInterval)}>
+          <SelectTrigger className="bg-muted/50 border-border text-foreground h-10 text-sm">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="weekly">Weekly</SelectItem>
+            <SelectItem value="monthly">Monthly</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            className={cn(
+              "w-full justify-start text-left font-normal h-10 text-sm bg-muted/50 border-border",
+              !goalDate && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {goalDate ? format(goalDate, "PPP") : "Target date"}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={goalDate}
+            onSelect={setGoalDate}
+            disabled={(date) => date <= new Date()}
+            initialFocus
+            className="p-3 pointer-events-auto"
+          />
+        </PopoverContent>
+      </Popover>
+      <Button
+        className="w-full rounded-lg gap-1.5 text-sm font-semibold h-10"
+        style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))" }}
+        disabled={!goalName.trim() || !goalTotal || !goalDate}
+        onClick={handleStartSaving}
+      >
+        Start Saving
+      </Button>
+    </motion.div>
+  );
+}
 
-  const removeGoal = (index: number) => {
-    setActiveGoals((prev) => prev.filter((_, i) => i !== index));
-  };
+/* ──── Active Goals Display (goes in left column) ──── */
+interface DisplayProps {
+  goals: ActiveGoal[];
+  onMarkPaid: (index: number) => void;
+  onRemove: (index: number) => void;
+}
+
+export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps) {
+  const { currency } = useCurrency();
+  const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
+
+  if (goals.length === 0) return null;
 
   return (
     <div className="space-y-4">
       <h2 className="font-display font-semibold text-foreground text-lg flex items-center gap-2">
         <Target className="w-5 h-5 text-primary" />
-        Savings Goals
+        Savings Plans
       </h2>
-
-      {/* Creator form */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="rounded-xl border p-5 space-y-3"
-        style={{
-          background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))",
-          borderColor: "hsl(270 60% 50% / 0.25)",
-          boxShadow: "0 0 30px -10px hsl(270 60% 50% / 0.1)",
-        }}
-      >
-        <Input
-          placeholder="Goal name (e.g. Vacation Spain)"
-          value={goalName}
-          onChange={(e) => setGoalName(e.target.value)}
-          className="bg-muted/50 border-border text-foreground h-10 text-sm"
-        />
-        <div className="grid grid-cols-2 gap-3">
-          <Input
-            type="number"
-            placeholder="Total amount"
-            value={goalTotal}
-            onChange={(e) => setGoalTotal(e.target.value)}
-            className="bg-muted/50 border-border text-foreground h-10 text-sm"
-          />
-          <Select value={interval} onValueChange={(v) => setInterval(v as Interval)}>
-            <SelectTrigger className="bg-muted/50 border-border text-foreground h-10 text-sm">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="weekly">Weekly</SelectItem>
-              <SelectItem value="biweekly">Bi-weekly</SelectItem>
-              <SelectItem value="monthly">Monthly</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={cn(
-                "w-full justify-start text-left font-normal h-10 text-sm bg-muted/50 border-border",
-                !goalDate && "text-muted-foreground"
-              )}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {goalDate ? format(goalDate, "PPP") : "Target date"}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={goalDate}
-              onSelect={setGoalDate}
-              disabled={(date) => date <= new Date()}
-              initialFocus
-              className="p-3 pointer-events-auto"
-            />
-          </PopoverContent>
-        </Popover>
-        <Button
-          className="w-full rounded-lg gap-1.5 text-sm font-semibold h-10"
-          style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))" }}
-          disabled={!goalName.trim() || !goalTotal || !goalDate}
-          onClick={handleStartSaving}
-        >
-          Start Saving
-        </Button>
-      </motion.div>
-
-      {/* Active Goals */}
-      {activeGoals.map((goal, i) => {
+      {goals.map((goal, i) => {
         const totalPeriods = getTotalPeriods(goal.targetDate, goal.interval);
         const perPeriod = goal.totalAmount / totalPeriods;
         const savedSoFar = perPeriod * goal.paidPeriods;
@@ -192,7 +189,6 @@ export default function SavingsGoal() {
                 : "0 0 30px -10px hsl(270 60% 50% / 0.1)",
             }}
           >
-            {/* Header */}
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-foreground font-semibold text-base">{goal.name}</h3>
@@ -201,14 +197,13 @@ export default function SavingsGoal() {
                 </p>
               </div>
               <button
-                onClick={() => removeGoal(i)}
+                onClick={() => onRemove(i)}
                 className="text-muted-foreground hover:text-destructive text-sm transition-colors"
               >
                 ✕
               </button>
             </div>
 
-            {/* Stats row */}
             <div className="grid grid-cols-3 gap-3">
               <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(270 40% 20% / 0.6)" }}>
                 <p className="text-xs text-muted-foreground">Target</p>
@@ -224,7 +219,6 @@ export default function SavingsGoal() {
               </div>
             </div>
 
-            {/* Calendar grid */}
             <div>
               <p className="text-xs text-muted-foreground mb-2">Progress ({goal.paidPeriods}/{totalPeriods})</p>
               <div className="flex flex-wrap gap-1">
@@ -257,10 +251,9 @@ export default function SavingsGoal() {
               </div>
             </div>
 
-            {/* Paid button */}
             {!isComplete ? (
               <Button
-                onClick={() => markPaid(i)}
+                onClick={() => onMarkPaid(i)}
                 className="w-full rounded-lg gap-2 text-sm font-semibold h-10"
                 style={{ background: "linear-gradient(135deg, hsl(140 60% 40%), hsl(160 70% 35%))" }}
               >
@@ -279,4 +272,9 @@ export default function SavingsGoal() {
       })}
     </div>
   );
+}
+
+// Keep default export for backwards compat (not used anymore but safe)
+export default function SavingsGoal() {
+  return null;
 }

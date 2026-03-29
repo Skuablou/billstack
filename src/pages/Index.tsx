@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
 import YearlyProjection from "@/components/YearlyProjection";
 import BudgetCalculator from "@/components/BudgetCalculator";
-import SavingsGoal from "@/components/SavingsGoal";
+import { SavingsGoalForm, SavingsGoalDisplay, ActiveGoal, getMonthlyEquivalent, getTotalPeriods } from "@/components/SavingsGoal";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { usePushNotifications } from "@/hooks/use-push-notifications";
 import { useAuth } from "@/lib/AuthContext";
@@ -30,6 +30,7 @@ export default function Index() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [isPremium, setIsPremium] = useState(isPremiumUser());
+  const [activeGoals, setActiveGoals] = useState<ActiveGoal[]>([]);
   const { currency, toggle: toggleCurrency } = useCurrency();
   const { user, logout } = useAuth();
   const { isSupported, isSubscribed, isLoading: pushLoading, subscribe, unsubscribe } = usePushNotifications();
@@ -44,7 +45,6 @@ export default function Index() {
   useEffect(() => {
     if (subscriptions.length > 0) {
       saveSubscriptions(subscriptions);
-      // Re-sync bill reminders if push is subscribed
       if (isSubscribed) {
         subscribe(subscriptions);
       }
@@ -65,7 +65,32 @@ export default function Index() {
     );
   };
 
-  // isPremium is now managed via state above
+  const addGoal = (goal: ActiveGoal) => {
+    setActiveGoals((prev) => [...prev, goal]);
+  };
+
+  const markGoalPaid = (index: number) => {
+    setActiveGoals((prev) =>
+      prev.map((g, i) => {
+        if (i !== index) return g;
+        const totalPeriods = getTotalPeriods(g.targetDate, g.interval);
+        if (g.paidPeriods >= totalPeriods) return g;
+        return { ...g, paidPeriods: g.paidPeriods + 1 };
+      })
+    );
+  };
+
+  const removeGoal = (index: number) => {
+    setActiveGoals((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // Calculate total monthly savings from all active (non-complete) goals
+  const savingsMonthly = activeGoals.reduce((sum, goal) => {
+    const totalPeriods = getTotalPeriods(goal.targetDate, goal.interval);
+    if (goal.paidPeriods >= totalPeriods) return sum;
+    return sum + getMonthlyEquivalent(goal);
+  }, 0);
+
   const monthlyTotal = getMonthlyTotal(subscriptions);
   const yearlyTotal = getYearlyTotal(subscriptions);
   const maxFree = getMaxFreeSubscriptions();
@@ -90,7 +115,6 @@ export default function Index() {
             <p className="text-muted-foreground text-sm mt-1">Keep track of all your monthly bills</p>
           </div>
           <div className="flex items-center gap-3">
-            {/* Currency toggle - shows current symbol */}
             <Button
               variant="outline"
               size="icon"
@@ -100,7 +124,6 @@ export default function Index() {
             >
               {currency}
             </Button>
-            {/* Notification toggle */}
             {isSupported && (
               <Button
                 variant="outline"
@@ -113,7 +136,6 @@ export default function Index() {
                 {isSubscribed ? <Bell className="w-4 h-4 text-primary" /> : <BellOff className="w-4 h-4" />}
               </Button>
             )}
-            {/* Premium / Manage */}
             {isPremium ? (
               <Button
                 asChild
@@ -135,7 +157,6 @@ export default function Index() {
                 <Crown className="w-4 h-4" /> Premium
               </Button>
             )}
-            {/* Profile dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -166,7 +187,6 @@ export default function Index() {
       {/* Stat Cards */}
       <main className="max-w-5xl mx-auto px-6 py-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
-          {/* Monthly - purple */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -182,7 +202,6 @@ export default function Index() {
             <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
           </motion.div>
 
-          {/* Yearly - blue/teal */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -199,7 +218,6 @@ export default function Index() {
             <p className="text-3xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
           </motion.div>
 
-          {/* Subscription Count - green/teal */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -213,23 +231,7 @@ export default function Index() {
               </div>
               Spendings
             </div>
-            <p className="text-3xl font-display font-bold text-foreground">
-              {subscriptions.length}
-              {!isPremium && (
-                <span className="text-base font-normal text-muted-foreground ml-1">/ {maxFree} free</span>
-              )}
-            </p>
-            {!isPremium && (
-              <>
-                <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min((subscriptions.length / maxFree) * 100, 100)}%`, backgroundColor: "hsl(140 70% 45%)" }}
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">{freeLeft} left free</p>
-              </>
-            )}
+            <p className="text-3xl font-display font-bold text-foreground">{subscriptions.length}</p>
           </motion.div>
         </div>
 
@@ -239,13 +241,7 @@ export default function Index() {
             <div className="flex items-center justify-between">
               <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
               <Button
-                onClick={() => {
-                  if (!isPremium && subscriptions.length >= maxFree) {
-                    setPremiumOpen(true);
-                  } else {
-                    setDialogOpen(true);
-                  }
-                }}
+                onClick={() => setDialogOpen(true)}
                 size="sm"
                 className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"
               >
@@ -266,36 +262,17 @@ export default function Index() {
                   <SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />
                 ))
               )}
-
-              {/* Track more subscriptions banner - free mode only */}
-              {!isPremium && subscriptions.length >= maxFree && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="rounded-xl border p-4 flex items-center gap-4 cursor-pointer hover:border-opacity-60 transition-colors"
-                  style={{ borderColor: "hsl(36 100% 50% / 0.5)", borderStyle: "dashed", backgroundColor: "hsl(36 100% 50% / 0.03)" }}
-                  onClick={() => setPremiumOpen(true)}
-                >
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 100% 50% / 0.2)" }}>
-                    <Crown className="w-5 h-5" style={{ color: "hsl(36 100% 50%)" }} />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-foreground font-medium text-sm">Track more spendings?</p>
-                    <p className="text-muted-foreground text-xs">Unlock Premium for unlimited spendings</p>
-                  </div>
-                  <Plus className="w-5 h-5" style={{ color: "hsl(36 100% 50%)" }} />
-                </motion.div>
-              )}
             </div>
 
-            {/* Savings Goals - left column, below subscriptions */}
-            <SavingsGoal />
+            {/* Active Savings Plans - left column */}
+            <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
           </div>
 
           <div className="space-y-6">
             <UpcomingPayments subscriptions={subscriptions} />
             <YearlyProjection subscriptions={subscriptions} />
-            <BudgetCalculator subscriptions={subscriptions} isPremium={isPremium} onUpgrade={() => setPremiumOpen(true)} />
+            <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
+            <SavingsGoalForm onAdd={addGoal} />
           </div>
         </div>
       </main>
