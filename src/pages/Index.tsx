@@ -9,13 +9,13 @@ import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
 import YearlyProjection from "@/components/YearlyProjection";
 import BudgetCalculator from "@/components/BudgetCalculator";
-import { SavingsGoalForm, SavingsGoalDisplay, ActiveGoal, getMonthlyEquivalent, getTotalPeriods } from "@/components/SavingsGoal";
+import { SavingsGoalForm, SavingsGoalDisplay, getMonthlyEquivalent, getTotalPeriods } from "@/components/SavingsGoal";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { usePushNotifications } from "@/hooks/use-push-notifications";
 import { useAuth } from "@/lib/AuthContext";
+import { useSubscriptions } from "@/hooks/use-subscriptions";
+import { useSavingsGoals } from "@/hooks/use-savings-goals";
 import {
-  loadSubscriptions,
-  saveSubscriptions,
   Subscription,
   getMonthlyTotal,
   getYearlyTotal,
@@ -26,11 +26,11 @@ import { isPremiumUser, checkPremiumActivation } from "@/lib/premium";
 const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 
 export default function Index() {
-  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [isPremium, setIsPremium] = useState(isPremiumUser());
-  const [activeGoals, setActiveGoals] = useState<ActiveGoal[]>([]);
+  const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
+  const { activeGoals, addGoal, markGoalPaid, removeGoal } = useSavingsGoals();
   const { currency, toggle: toggleCurrency } = useCurrency();
   const { user, logout } = useAuth();
   const { isSupported, isSubscribed, isLoading: pushLoading, subscribe, unsubscribe } = usePushNotifications();
@@ -39,17 +39,7 @@ export default function Index() {
     checkPremiumActivation().then(() => {
       setIsPremium(isPremiumUser());
     });
-    setSubscriptions(loadSubscriptions());
   }, []);
-
-  useEffect(() => {
-    if (subscriptions.length > 0) {
-      saveSubscriptions(subscriptions);
-      if (isSubscribed) {
-        subscribe(subscriptions);
-      }
-    }
-  }, [subscriptions]);
 
   // Calculate total monthly savings from all active (non-complete) goals
   const savingsMonthly = activeGoals.reduce((sum, goal) => {
