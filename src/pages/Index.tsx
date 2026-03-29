@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,18 +21,22 @@ import {
   getMaxFreeSubscriptions,
 } from "@/lib/subscriptions";
 import { isPremiumUser, checkPremiumActivation } from "@/lib/premium";
+
 const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 
 export default function Index() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [premiumOpen, setPremiumOpen] = useState(false);
+  const [isPremium, setIsPremium] = useState(isPremiumUser());
   const { currency, toggle: toggleCurrency } = useCurrency();
   const { user, logout } = useAuth();
   const { isSupported, isSubscribed, isLoading: pushLoading, subscribe, unsubscribe } = usePushNotifications();
 
   useEffect(() => {
-    checkPremiumActivation();
+    checkPremiumActivation().then(() => {
+      setIsPremium(isPremiumUser());
+    });
     setSubscriptions(loadSubscriptions());
   }, []);
 
@@ -60,7 +64,7 @@ export default function Index() {
     );
   };
 
-  const isPremium = isPremiumUser();
+  // isPremium is now managed via state above
   const monthlyTotal = getMonthlyTotal(subscriptions);
   const yearlyTotal = getYearlyTotal(subscriptions);
   const maxFree = getMaxFreeSubscriptions();
