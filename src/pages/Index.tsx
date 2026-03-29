@@ -240,8 +240,7 @@ export default function Index() {
               )}
             </div>
 
-            {/* Active Savings Plans - left column */}
-            <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
+            {isPremium && <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />}
           </div>
 
           <div className="space-y-6">
