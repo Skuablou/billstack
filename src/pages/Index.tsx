@@ -96,7 +96,7 @@ export default function Index() {
             {isPremium ? (
               <Button
                 size="sm"
-                className="rounded-full gap-1.5 px-5 py-2 text-black font-semibold border-0"
+                className="rounded-full gap-1 md:gap-1.5 px-3 md:px-5 py-1.5 md:py-2 text-black font-semibold border-0 text-xs md:text-sm"
                 style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }}
                 onClick={async () => {
                   const url = await openCustomerPortal();
@@ -108,7 +108,7 @@ export default function Index() {
             ) : (
               <Button
                 size="sm"
-                className="rounded-full gap-1.5 px-5 py-2 text-black font-semibold border-0"
+                className="rounded-full gap-1 md:gap-1.5 px-3 md:px-5 py-1.5 md:py-2 text-black font-semibold border-0 text-xs md:text-sm"
                 style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }}
                 onClick={() => setPremiumOpen(true)}
               >
