@@ -78,7 +78,7 @@ export default function SubscriptionCard({ subscription: s, index, onDelete, onU
       </div>
 
       {/* Reminder - below on mobile, inline on desktop */}
-      <div className="flex items-center gap-1.5 mt-2 md:mt-0 md:absolute md:right-[120px] md:top-1/2 md:-translate-y-1/2">
+      <div className="flex items-center gap-1.5 mt-2 pl-[52px] md:pl-[60px]">
         <Bell className="w-3.5 h-3.5 text-muted-foreground" />
         <Select
           value={String(s.reminderDays ?? 1)}
