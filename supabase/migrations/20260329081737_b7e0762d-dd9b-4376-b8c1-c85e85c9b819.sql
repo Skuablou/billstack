@@ -1,0 +1,1 @@
+DELETE FROM premium_users WHERE user_id = '37c13fc5-0fa4-4a09-b5ee-6773f6e84ec6';
