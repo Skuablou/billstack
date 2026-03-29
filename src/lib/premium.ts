@@ -15,45 +15,54 @@ export function setPremiumUser(value: boolean) {
   }
 }
 
-/** Check subscription status via Stripe */
-export async function checkSubscription(): Promise<{ subscribed: boolean; subscription_end?: string }> {
-  try {
-    const { data, error } = await supabase.functions.invoke("check-subscription");
-    if (error) throw error;
-    setPremiumUser(data?.subscribed ?? false);
-    return data ?? { subscribed: false };
-  } catch {
-    // Fallback to DB check
-    return { subscribed: isPremiumUser() };
+/** Sync premium status from the database */
+export async function syncPremiumStatus(): Promise<boolean> {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return false;
+
+  const { data } = await supabase
+    .from("premium_users")
+    .select("id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  const isPremium = !!data;
+  setPremiumUser(isPremium);
+  return isPremium;
+}
+
+/** Activate premium: save to DB + localStorage */
+export async function activatePremium(): Promise<boolean> {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return false;
+
+  const { error } = await supabase
+    .from("premium_users")
+    .upsert({ user_id: user.id }, { onConflict: "user_id" });
+
+  if (!error) {
+    setPremiumUser(true);
+    return true;
   }
+  return false;
 }
 
-/** Start Stripe checkout for premium */
-export async function startCheckout(): Promise<string | null> {
-  const { data, error } = await supabase.functions.invoke("create-checkout");
-  if (error || !data?.url) return null;
-  return data.url;
-}
-
-/** Open Stripe customer portal */
-export async function openCustomerPortal(): Promise<string | null> {
-  const { data, error } = await supabase.functions.invoke("customer-portal");
-  if (error || !data?.url) return null;
-  return data.url;
-}
-
-/** Check URL for ?premium=success, then verify with Stripe */
+/** Check URL for ?premium=success, activate premium, clean URL */
 export async function checkPremiumActivation(): Promise<boolean> {
   const params = new URLSearchParams(window.location.search);
   if (params.get("premium") === "success") {
     setPremiumUser(true);
+    activatePremium().catch(() => {});
     params.delete("premium");
     const newUrl = params.toString()
       ? `${window.location.pathname}?${params.toString()}`
       : window.location.pathname;
     window.history.replaceState({}, "", newUrl);
+    return true;
   }
-  
-  const result = await checkSubscription();
-  return result.subscribed;
+  try {
+    return await syncPremiumStatus();
+  } catch {
+    return isPremiumUser();
+  }
 }
