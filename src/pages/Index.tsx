@@ -64,14 +64,14 @@ export default function Index() {
 
       {/* Header */}
       <header className="max-w-5xl mx-auto px-6 pt-10 pb-2 relative z-10">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-5xl font-display font-bold">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0 shrink">
+            <h1 className="text-3xl md:text-5xl font-display font-bold">
               <span style={{ background: "linear-gradient(135deg, hsl(145 70% 45%), hsl(160 80% 40%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Bill</span><span style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
             </h1>
-            <p className="text-muted-foreground text-sm mt-1">Keep track of all your monthly bills</p>
+            <p className="text-muted-foreground text-sm mt-1 hidden md:block">Keep track of all your monthly bills</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0 flex-wrap justify-end">
             <Button
               variant="outline"
               size="icon"
@@ -96,7 +96,7 @@ export default function Index() {
             {isPremium ? (
               <Button
                 size="sm"
-                className="rounded-full gap-1.5 px-5 py-2 text-black font-semibold border-0"
+                className="rounded-full gap-1 md:gap-1.5 px-3 md:px-5 py-1.5 md:py-2 text-black font-semibold border-0 text-xs md:text-sm"
                 style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }}
                 onClick={async () => {
                   const url = await openCustomerPortal();
@@ -108,7 +108,7 @@ export default function Index() {
             ) : (
               <Button
                 size="sm"
-                className="rounded-full gap-1.5 px-5 py-2 text-black font-semibold border-0"
+                className="rounded-full gap-1 md:gap-1.5 px-3 md:px-5 py-1.5 md:py-2 text-black font-semibold border-0 text-xs md:text-sm"
                 style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }}
                 onClick={() => setPremiumOpen(true)}
               >
