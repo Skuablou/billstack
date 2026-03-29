@@ -56,7 +56,7 @@ export default function Index() {
   const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-x-hidden">
       {/* Background gradient effects */}
       <div className="fixed top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-[180px] pointer-events-none" style={{ background: "hsl(270 80% 40% / 0.08)" }} />
       <div className="fixed bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-[160px] pointer-events-none" style={{ background: "hsl(36 100% 50% / 0.05)" }} />
