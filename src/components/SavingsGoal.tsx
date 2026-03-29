@@ -42,16 +42,13 @@ export function getMonthlyEquivalent(goal: ActiveGoal): number {
 }
 
 function getTimeLeftLabel(targetDate: Date): string {
-  const months = differenceInMonths(targetDate, new Date());
-  if (months > 1) return `${months} months left`;
+  const now = new Date();
+  const days = differenceInDays(targetDate, now);
+  if (days <= 0) return "Due today";
+  if (days < 30) return days === 1 ? "1 day left" : `${days} days left`;
+  const months = differenceInMonths(targetDate, now);
   if (months === 1) return "1 month left";
-  const weeks = differenceInWeeks(targetDate, new Date());
-  if (weeks > 1) return `${weeks} weeks left`;
-  if (weeks === 1) return "1 week left";
-  const days = differenceInDays(targetDate, new Date());
-  if (days > 1) return `${days} days left`;
-  if (days === 1) return "1 day left";
-  return "Due today";
+  return `${months} months left`;
 }
 
 /* ──── Creator Form (goes in right column under Budget Calculator) ──── */
@@ -193,7 +190,7 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
               <div>
                 <h3 className="text-foreground font-semibold text-base">{goal.name}</h3>
                 <p className="text-muted-foreground text-xs mt-0.5">
-                  {getTimeLeftLabel(goal.targetDate)} · until {format(goal.targetDate, "MMM yyyy")}
+                  {getTimeLeftLabel(goal.targetDate)} · until {format(goal.targetDate, "MMM d, yyyy")}
                 </p>
               </div>
               <button
