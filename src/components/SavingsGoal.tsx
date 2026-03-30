@@ -156,7 +156,7 @@ interface DisplayProps {
 
 export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps) {
   const { currency } = useCurrency();
-  const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
+  const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
 
   if (goals.length === 0) return null;
 

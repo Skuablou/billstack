@@ -11,7 +11,7 @@ export default function YearlyProjection({ subscriptions }: Props) {
   const yearlyTotal = getYearlyTotal(subscriptions);
   const monthlyAvg = getMonthlyTotal(subscriptions);
   const dailyAvg = monthlyAvg / 30;
-  const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
+  const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
 
   return (
     <div

@@ -54,7 +54,7 @@ export default function Index() {
   const maxFree = getMaxFreeSubscriptions();
   const freeLeft = Math.max(0, maxFree - subscriptions.length);
 
-  const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
+  const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
 
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">

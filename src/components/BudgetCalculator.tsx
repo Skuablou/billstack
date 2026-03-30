@@ -37,7 +37,7 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
     }
   }
 
-  const fmt = (n: number) => `${currency}${n.toFixed(2)}`;
+  const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
 
   return (
     <div
