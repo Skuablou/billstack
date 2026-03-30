@@ -65,7 +65,7 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
           />
         </div>
         <div className="space-y-1.5">
-          <Label className="text-muted-foreground text-xs">Monthly spendings on average (e.g. groceries, gas)</Label>
+          <Label className="text-muted-foreground text-xs">Variable monthly spendings on average (e.g. groceries, gas)</Label>
           <Input
             type="number"
             placeholder="e.g. 500"
@@ -96,9 +96,6 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
               <span className="font-medium" style={{ color: "hsl(270 80% 65%)" }}>{fmt(savingsMonthly)}</span>
             </div>
           )}
-          <p className="text-xs text-muted-foreground/70 italic">
-            💡 variable monthly spendings on average (e.g. groceries, gas)
-          </p>
           <div className="flex justify-between text-sm border-t border-border/30 pt-2">
             <span className="text-muted-foreground">Left over</span>
             <span

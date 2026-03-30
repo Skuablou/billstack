@@ -143,6 +143,9 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       >
         Start Saving
       </Button>
+      <p className="text-xs text-muted-foreground/70 italic">
+        💡 Tip: Before using the savings goal, calculate your left over budget first.
+      </p>
     </motion.div>
   );
 }
