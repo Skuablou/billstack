@@ -76,94 +76,103 @@ export default function Index() {
             </h1>
             <p className="text-muted-foreground text-sm mt-1 hidden md:block">Keep track of all your monthly bills</p>
           </div>
-          <div className="flex items-center gap-2 md:gap-3 shrink-0 mt-2 md:mt-0">
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full border-border text-muted-foreground hover:text-foreground font-semibold text-sm"
-              onClick={toggleCurrency}
-              title={`Switch to ${currency === "€" ? "$" : "€"}`}
-            >
-              {currency}
-            </Button>
+
+          {/* Desktop buttons */}
+          <div className="hidden md:flex items-center gap-3 shrink-0">
+            <Button variant="outline" size="icon" className="rounded-full border-border text-muted-foreground hover:text-foreground font-semibold text-sm" onClick={toggleCurrency} title={`Switch to ${currency === "€" ? "$" : "€"}`}>{currency}</Button>
             {isSupported && (
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full border-border text-muted-foreground hover:text-foreground"
-                onClick={() => isSubscribed ? unsubscribe() : subscribe(subscriptions)}
-                disabled={pushLoading}
-                title={isSubscribed ? "Disable reminders" : "Enable bill reminders"}
-              >
+              <Button variant="outline" size="icon" className="rounded-full border-border text-muted-foreground hover:text-foreground" onClick={() => isSubscribed ? unsubscribe() : subscribe(subscriptions)} disabled={pushLoading} title={isSubscribed ? "Disable reminders" : "Enable bill reminders"}>
                 {isSubscribed ? <Bell className="w-4 h-4 text-primary" /> : <BellOff className="w-4 h-4" />}
               </Button>
             )}
             {isPremium ? (
-              <button
-                onClick={() => setPlanExpanded(!planExpanded)}
-                className="rounded-full flex items-center gap-1.5 font-semibold border-0 text-black overflow-hidden transition-all duration-300 ease-in-out cursor-pointer"
-                style={{
-                  background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))",
-                  width: planExpanded ? "auto" : "32px",
-                  height: "32px",
-                  padding: planExpanded ? "0 16px" : "0",
-                  minWidth: "32px",
-                }}
-              >
+              <button onClick={() => setPlanExpanded(!planExpanded)} className="rounded-full flex items-center gap-1.5 font-semibold border-0 text-black overflow-hidden transition-all duration-300 ease-in-out cursor-pointer" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))", width: planExpanded ? "auto" : "32px", height: "32px", padding: planExpanded ? "0 16px" : "0", minWidth: "32px" }}>
                 <Crown className="w-4 h-4 shrink-0" style={{ marginLeft: planExpanded ? "0" : "8px" }} />
-                <motion.span
-                  initial={false}
-                  animate={{ opacity: planExpanded ? 1 : 0, width: planExpanded ? "auto" : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="whitespace-nowrap text-xs md:text-sm overflow-hidden"
-                >
-                  <a
-                    href="https://billing.stripe.com/p/login/28EbJ3gB28dT2ZL9PxgA800"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-black no-underline"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Manage Plan
-                  </a>
+                <motion.span initial={false} animate={{ opacity: planExpanded ? 1 : 0, width: planExpanded ? "auto" : 0 }} transition={{ duration: 0.2 }} className="whitespace-nowrap text-sm overflow-hidden">
+                  <a href="https://billing.stripe.com/p/login/28EbJ3gB28dT2ZL9PxgA800" target="_blank" rel="noopener noreferrer" className="text-black no-underline" onClick={(e) => e.stopPropagation()}>Manage Plan</a>
                 </motion.span>
               </button>
             ) : (
-              <Button
-                size="sm"
-                className="rounded-full gap-1 md:gap-1.5 px-3 md:px-5 py-1.5 md:py-2 text-black font-semibold border-0 text-xs md:text-sm"
-                style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }}
-                onClick={() => setPremiumOpen(true)}
-              >
-                <Crown className="w-4 h-4" /> Premium
-              </Button>
+              <Button size="sm" className="rounded-full gap-1.5 px-5 py-2 text-black font-semibold border-0 text-sm" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-4 h-4" /> Premium</Button>
             )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="rounded-full border-border text-muted-foreground hover:text-foreground"
-                >
-                  <User className="w-4 h-4" />
-                </Button>
+                <Button variant="outline" size="icon" className="rounded-full border-border text-muted-foreground hover:text-foreground"><User className="w-4 h-4" /></Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-card border-border w-56">
-                <div className="px-3 py-2 border-b border-border">
-                  <p className="text-sm text-foreground font-medium truncate">{user?.email ?? "User"}</p>
-                </div>
-                <DropdownMenuItem
-                  onClick={logout}
-                  className="text-destructive focus:text-destructive cursor-pointer gap-2"
-                >
-                  <LogOut className="w-4 h-4" />
-                  Log out
-                </DropdownMenuItem>
+                <div className="px-3 py-2 border-b border-border"><p className="text-sm text-foreground font-medium truncate">{user?.email ?? "User"}</p></div>
+                <DropdownMenuItem onClick={logout} className="text-destructive focus:text-destructive cursor-pointer gap-2"><LogOut className="w-4 h-4" />Log out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+
+          {/* Mobile: 3-dot menu button */}
+          <div className="flex md:hidden items-center shrink-0 mt-2">
+            <Button variant="outline" size="icon" className="rounded-full border-border text-muted-foreground hover:text-foreground" onClick={() => setMenuOpen(true)}>
+              <MoreVertical className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
       </header>
+
+      {/* Mobile slide-in menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/50 z-50"
+              onClick={() => setMenuOpen(false)}
+            />
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="fixed top-0 right-0 h-full w-72 bg-card border-l border-border z-50 p-6 space-y-2"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-sm text-muted-foreground font-medium truncate">{user?.email ?? "User"}</p>
+                <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground" onClick={() => setMenuOpen(false)}><X className="w-5 h-5" /></Button>
+              </div>
+
+              <button onClick={() => { toggleCurrency(); setMenuOpen(false); }} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-foreground hover:bg-muted/50 transition-colors">
+                <span className="w-8 h-8 rounded-full border border-border flex items-center justify-center font-semibold text-sm">{currency}</span>
+                Switch to {currency === "€" ? "$" : "€"}
+              </button>
+
+              {isSupported && (
+                <button onClick={() => { isSubscribed ? unsubscribe() : subscribe(subscriptions); setMenuOpen(false); }} disabled={pushLoading} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-foreground hover:bg-muted/50 transition-colors">
+                  {isSubscribed ? <Bell className="w-5 h-5 text-primary" /> : <BellOff className="w-5 h-5 text-muted-foreground" />}
+                  {isSubscribed ? "Disable reminders" : "Enable reminders"}
+                </button>
+              )}
+
+              {isPremium ? (
+                <a href="https://billing.stripe.com/p/login/28EbJ3gB28dT2ZL9PxgA800" target="_blank" rel="noopener noreferrer" className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-foreground hover:bg-muted/50 transition-colors no-underline">
+                  <Crown className="w-5 h-5" style={{ color: "hsl(36 100% 50%)" }} />
+                  Manage Plan
+                </a>
+              ) : (
+                <button onClick={() => { setPremiumOpen(true); setMenuOpen(false); }} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-semibold hover:bg-muted/50 transition-colors" style={{ color: "hsl(36 100% 50%)" }}>
+                  <Crown className="w-5 h-5" />
+                  Upgrade to Premium
+                </button>
+              )}
+
+              <div className="border-t border-border pt-2 mt-2">
+                <button onClick={() => { logout(); setMenuOpen(false); }} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-destructive hover:bg-muted/50 transition-colors">
+                  <LogOut className="w-5 h-5" />
+                  Log out
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Stat Cards */}
       <main className="max-w-5xl mx-auto px-6 py-8 relative z-10 pb-24 md:pb-8">
