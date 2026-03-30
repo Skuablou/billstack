@@ -113,12 +113,8 @@ export default function Index() {
             </DropdownMenu>
           </div>
 
-          {/* Mobile: 3-dot menu button */}
-          <div className="flex md:hidden items-center shrink-0 mt-2">
-            <Button variant="outline" size="icon" className="rounded-full border-border text-muted-foreground hover:text-foreground" onClick={() => setMenuOpen(true)}>
-              <MoreVertical className="w-5 h-5" />
-            </Button>
-          </div>
+
+
         </div>
       </header>
 
