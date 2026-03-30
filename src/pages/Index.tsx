@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff, CalendarClock } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff, CalendarClock, Wallet, Clock, Calculator } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import SubscriptionCard from "@/components/SubscriptionCard";
@@ -30,6 +31,8 @@ export default function Index() {
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [isPremium, setIsPremium] = useState(isPremiumUser());
   const [planExpanded, setPlanExpanded] = useState(false);
+  const [activeSection, setActiveSection] = useState(0);
+  const isMobile = useIsMobile();
   const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
   const { activeGoals, addGoal, markGoalPaid, removeGoal } = useSavingsGoals();
   const { currency, toggle: toggleCurrency } = useCurrency();
@@ -162,155 +165,183 @@ export default function Index() {
       </header>
 
       {/* Stat Cards */}
-      <main className="max-w-5xl mx-auto px-6 py-8 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="rounded-xl border p-5"
-            style={{ background: "linear-gradient(135deg, hsl(36 60% 18%), hsl(36 40% 12%))", borderColor: "hsl(36 80% 50% / 0.4)", boxShadow: "0 0 30px -10px hsl(36 80% 50% / 0.2)" }}
-          >
-            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}>
-                <CalendarClock className="w-3.5 h-3.5" style={{ color: "hsl(36 80% 50%)" }} />
-              </div>
-              Daily
+      <main className="max-w-5xl mx-auto px-6 py-8 relative z-10 pb-24 md:pb-8">
+        {/* Desktop: show everything */}
+        {!isMobile ? (
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(36 60% 18%), hsl(36 40% 12%))", borderColor: "hsl(36 80% 50% / 0.4)", boxShadow: "0 0 30px -10px hsl(36 80% 50% / 0.2)" }}>
+                <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}><CalendarClock className="w-3.5 h-3.5" style={{ color: "hsl(36 80% 50%)" }} /></div>Daily
+                </div>
+                <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal / 30)}</p>
+              </motion.div>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(270 60% 18%), hsl(270 40% 12%))", borderColor: "hsl(270 80% 60% / 0.4)", boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.2)" }}>
+                <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-3.5 h-3.5" style={{ color: "hsl(270 80% 60%)" }} /></div>Monthly
+                </div>
+                <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
+              </motion.div>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(210 50% 14%), hsl(220 40% 10%))", borderColor: "hsl(210 70% 50% / 0.3)", boxShadow: "0 0 30px -10px hsl(210 70% 50% / 0.15)" }}>
+                <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(210 70% 50% / 0.25)" }}><TrendingUp className="w-3.5 h-3.5" style={{ color: "hsl(210 70% 55%)" }} /></div>Yearly
+                </div>
+                <p className="text-3xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
+              </motion.div>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(160 50% 14%), hsl(160 40% 10%))", borderColor: "hsl(160 70% 45% / 0.3)", boxShadow: "0 0 30px -10px hsl(160 70% 45% / 0.15)" }}>
+                <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-3.5 h-3.5" style={{ color: "hsl(160 70% 45%)" }} /></div>Spendings
+                </div>
+                <p className="text-3xl font-display font-bold text-foreground">{subscriptions.length}</p>
+              </motion.div>
             </div>
-            <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal / 30)}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 }}
-            className="rounded-xl border p-5"
-            style={{ background: "linear-gradient(135deg, hsl(270 60% 18%), hsl(270 40% 12%))", borderColor: "hsl(270 80% 60% / 0.4)", boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.2)" }}
-          >
-            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}>
-                <CreditCard className="w-3.5 h-3.5" style={{ color: "hsl(270 80% 60%)" }} />
+            <div className="grid md:grid-cols-[1.2fr_1fr] gap-8">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
+                    {!isPremium && (
+                      <p className="text-muted-foreground text-xs mt-0.5">
+                        {freeLeft > 0 ? `${subscriptions.length}/${maxFree} free spendings used` : `Free limit reached (${maxFree}/${maxFree})`}{" · "}
+                        <button onClick={() => setPremiumOpen(true)} className="underline hover:text-foreground transition-colors" style={{ color: "hsl(36 100% 50%)" }}>Upgrade for unlimited</button>
+                      </p>
+                    )}
+                  </div>
+                  <Button onClick={() => { if (!isPremium && subscriptions.length >= maxFree) { setPremiumOpen(true); } else { setDialogOpen(true); } }} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
+                </div>
+                <div className="space-y-2">
+                  {subscriptions.length === 0 ? (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-xl bg-card border border-border p-12 text-center"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p></motion.div>
+                  ) : subscriptions.map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
+                </div>
+                {isPremium && <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />}
               </div>
-              Monthly
-            </div>
-            <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="rounded-xl border p-5"
-            style={{ background: "linear-gradient(135deg, hsl(210 50% 14%), hsl(220 40% 10%))", borderColor: "hsl(210 70% 50% / 0.3)", boxShadow: "0 0 30px -10px hsl(210 70% 50% / 0.15)" }}
-          >
-            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(210 70% 50% / 0.25)" }}>
-                <TrendingUp className="w-3.5 h-3.5" style={{ color: "hsl(210 70% 55%)" }} />
-              </div>
-              Yearly
-            </div>
-            <p className="text-3xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="rounded-xl border p-5"
-            style={{ background: "linear-gradient(135deg, hsl(160 50% 14%), hsl(160 40% 10%))", borderColor: "hsl(160 70% 45% / 0.3)", boxShadow: "0 0 30px -10px hsl(160 70% 45% / 0.15)" }}
-          >
-            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}>
-                <RefreshCw className="w-3.5 h-3.5" style={{ color: "hsl(160 70% 45%)" }} />
-              </div>
-              Spendings
-            </div>
-            <p className="text-3xl font-display font-bold text-foreground">{subscriptions.length}</p>
-          </motion.div>
-        </div>
-
-        {/* Main Grid */}
-        <div className="grid md:grid-cols-[1.2fr_1fr] gap-8">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
-                {!isPremium && (
-                  <p className="text-muted-foreground text-xs mt-0.5">
-                    {freeLeft > 0
-                      ? `${subscriptions.length}/${maxFree} free spendings used`
-                      : `Free limit reached (${maxFree}/${maxFree})`}
-                    {" · "}
-                    <button onClick={() => setPremiumOpen(true)} className="underline hover:text-foreground transition-colors" style={{ color: "hsl(36 100% 50%)" }}>
-                      Upgrade for unlimited
-                    </button>
-                  </p>
+              <div className="space-y-6">
+                <UpcomingPayments subscriptions={subscriptions} />
+                {isPremium ? (
+                  <><BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} /><SavingsGoalForm onAdd={addGoal} /></>
+                ) : (
+                  <>
+                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
+                      <p className="text-muted-foreground text-sm">Unlock the Budget Calculator with Premium.</p>
+                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
+                    </div>
+                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goal</h3>
+                      <p className="text-muted-foreground text-sm">Set savings goals and track progress with Premium.</p>
+                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
+                    </div>
+                  </>
                 )}
               </div>
-              <Button
-                onClick={() => {
-                  if (!isPremium && subscriptions.length >= maxFree) {
-                    setPremiumOpen(true);
-                  } else {
-                    setDialogOpen(true);
-                  }
-                }}
-                size="sm"
-                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"
-              >
-                <Plus className="w-4 h-4" /> Add
-              </Button>
             </div>
-            <div className="space-y-2">
-              {subscriptions.length === 0 ? (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="rounded-xl bg-card border border-border p-12 text-center"
-                >
-                  <p className="text-muted-foreground">No spendings yet. Add one to get started!</p>
-                </motion.div>
-              ) : (
-                subscriptions.map((sub, i) => (
-                  <SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />
-                ))
-              )}
-            </div>
-
-            {isPremium && <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />}
-          </div>
-
-          <div className="space-y-6">
-            <UpcomingPayments subscriptions={subscriptions} />
-            {isPremium ? (
-              <>
-                <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
-                <SavingsGoalForm onAdd={addGoal} />
-              </>
-            ) : (
-              <>
-                <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
-                  <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
-                    <Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator
-                  </h3>
-                  <p className="text-muted-foreground text-sm">Unlock the Budget Calculator with Premium.</p>
-                  <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}>
-                    <Crown className="w-3.5 h-3.5" /> Upgrade
-                  </Button>
+          </>
+        ) : (
+          /* Mobile: sectioned view */
+          <AnimatePresence mode="wait">
+            {activeSection === 0 && (
+              <motion.div key="spendings" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }}>
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(36 60% 18%), hsl(36 40% 12%))", borderColor: "hsl(36 80% 50% / 0.4)" }}>
+                    <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1.5">
+                      <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}><CalendarClock className="w-3 h-3" style={{ color: "hsl(36 80% 50%)" }} /></div>Daily
+                    </div>
+                    <p className="text-2xl font-display font-bold text-foreground">{fmt(monthlyTotal / 30)}</p>
+                  </div>
+                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(270 60% 18%), hsl(270 40% 12%))", borderColor: "hsl(270 80% 60% / 0.4)" }}>
+                    <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1.5">
+                      <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-3 h-3" style={{ color: "hsl(270 80% 60%)" }} /></div>Monthly
+                    </div>
+                    <p className="text-2xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
+                  </div>
+                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(210 50% 14%), hsl(220 40% 10%))", borderColor: "hsl(210 70% 50% / 0.3)" }}>
+                    <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1.5">
+                      <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(210 70% 50% / 0.25)" }}><TrendingUp className="w-3 h-3" style={{ color: "hsl(210 70% 55%)" }} /></div>Yearly
+                    </div>
+                    <p className="text-2xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
+                  </div>
+                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(160 50% 14%), hsl(160 40% 10%))", borderColor: "hsl(160 70% 45% / 0.3)" }}>
+                    <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1.5">
+                      <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-3 h-3" style={{ color: "hsl(160 70% 45%)" }} /></div>Spendings
+                    </div>
+                    <p className="text-2xl font-display font-bold text-foreground">{subscriptions.length}</p>
+                  </div>
                 </div>
-                <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
-                  <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
-                    <Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goal
-                  </h3>
-                  <p className="text-muted-foreground text-sm">Set savings goals and track progress with Premium.</p>
-                  <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}>
-                    <Crown className="w-3.5 h-3.5" /> Upgrade
-                  </Button>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
+                      {!isPremium && (
+                        <p className="text-muted-foreground text-xs mt-0.5">
+                          {freeLeft > 0 ? `${subscriptions.length}/${maxFree} free spendings used` : `Free limit reached (${maxFree}/${maxFree})`}{" · "}
+                          <button onClick={() => setPremiumOpen(true)} className="underline hover:text-foreground transition-colors" style={{ color: "hsl(36 100% 50%)" }}>Upgrade for unlimited</button>
+                        </p>
+                      )}
+                    </div>
+                    <Button onClick={() => { if (!isPremium && subscriptions.length >= maxFree) { setPremiumOpen(true); } else { setDialogOpen(true); } }} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
+                  </div>
+                  <div className="space-y-2">
+                    {subscriptions.length === 0 ? (
+                      <div className="rounded-xl bg-card border border-border p-12 text-center"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p></div>
+                    ) : subscriptions.map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
+                  </div>
+                  {isPremium && <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />}
                 </div>
-              </>
+              </motion.div>
             )}
+
+            {activeSection === 1 && (
+              <motion.div key="upcoming" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }}>
+                <UpcomingPayments subscriptions={subscriptions} />
+              </motion.div>
+            )}
+
+            {activeSection === 2 && (
+              <motion.div key="calculators" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }} className="space-y-6">
+                {isPremium ? (
+                  <><BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} /><SavingsGoalForm onAdd={addGoal} /></>
+                ) : (
+                  <>
+                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
+                      <p className="text-muted-foreground text-sm">Unlock the Budget Calculator with Premium.</p>
+                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
+                    </div>
+                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goal</h3>
+                      <p className="text-muted-foreground text-sm">Set savings goals and track progress with Premium.</p>
+                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
+                    </div>
+                  </>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        )}
+      </main>
+
+      {/* Mobile Bottom Navigation */}
+      {isMobile && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/80 backdrop-blur-xl">
+          <div className="flex items-center justify-around py-2 px-4">
+            {[
+              { icon: Wallet, label: "Spendings" },
+              { icon: Clock, label: "Upcoming" },
+              { icon: Calculator, label: "Tools" },
+            ].map((item, i) => (
+              <button
+                key={item.label}
+                onClick={() => setActiveSection(i)}
+                className={`flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-colors ${activeSection === i ? "text-primary" : "text-muted-foreground"}`}
+              >
+                <item.icon className="w-5 h-5" />
+                <span className="text-[10px] font-medium">{item.label}</span>
+              </button>
+            ))}
           </div>
         </div>
-      </main>
+      )}
 
       <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
       <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} />
