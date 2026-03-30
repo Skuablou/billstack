@@ -96,6 +96,9 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
               <span className="font-medium" style={{ color: "hsl(270 80% 65%)" }}>{fmt(savingsMonthly)}</span>
             </div>
           )}
+          <p className="text-xs text-muted-foreground/70 italic">
+            💡 variable monthly spendings on average (e.g. groceries, gas)
+          </p>
           <div className="flex justify-between text-sm border-t border-border/30 pt-2">
             <span className="text-muted-foreground">Left over</span>
             <span
@@ -134,9 +137,6 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
         </motion.div>
       )}
 
-      <p className="text-xs text-muted-foreground/70 italic">
-        💡 Tip: Before using the savings goal, calculate your left over budget first.
-      </p>
     </div>
   );
 }
