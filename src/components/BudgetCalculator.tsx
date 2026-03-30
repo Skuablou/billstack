@@ -137,9 +137,6 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
         </motion.div>
       )}
 
-      <p className="text-xs text-muted-foreground/70 italic">
-        💡 Tip: Before using the savings goal, calculate your left over budget first.
-      </p>
     </div>
   );
 }
