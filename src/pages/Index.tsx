@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff } from "lucide-react";
+import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff, CalendarClock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import AddSubscriptionDialog from "@/components/AddSubscriptionDialog";
 import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
-import YearlyProjection from "@/components/YearlyProjection";
+
 import BudgetCalculator from "@/components/BudgetCalculator";
 import { SavingsGoalForm, SavingsGoalDisplay, getMonthlyEquivalent, getTotalPeriods } from "@/components/SavingsGoal";
 import { useCurrency } from "@/lib/CurrencyContext";
@@ -143,10 +143,26 @@ export default function Index() {
 
       {/* Stat Cards */}
       <main className="max-w-5xl mx-auto px-6 py-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            className="rounded-xl border p-5"
+            style={{ background: "linear-gradient(135deg, hsl(36 60% 18%), hsl(36 40% 12%))", borderColor: "hsl(36 80% 50% / 0.4)", boxShadow: "0 0 30px -10px hsl(36 80% 50% / 0.2)" }}
+          >
+            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}>
+                <CalendarClock className="w-3.5 h-3.5" style={{ color: "hsl(36 80% 50%)" }} />
+              </div>
+              Daily
+            </div>
+            <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal / 30)}</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
             className="rounded-xl border p-5"
             style={{ background: "linear-gradient(135deg, hsl(270 60% 18%), hsl(270 40% 12%))", borderColor: "hsl(270 80% 60% / 0.4)", boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.2)" }}
           >
@@ -154,7 +170,7 @@ export default function Index() {
               <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}>
                 <CreditCard className="w-3.5 h-3.5" style={{ color: "hsl(270 80% 60%)" }} />
               </div>
-              Monthly (avg)
+              Monthly
             </div>
             <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
           </motion.div>
@@ -162,7 +178,7 @@ export default function Index() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 }}
+            transition={{ delay: 0.1 }}
             className="rounded-xl border p-5"
             style={{ background: "linear-gradient(135deg, hsl(210 50% 14%), hsl(220 40% 10%))", borderColor: "hsl(210 70% 50% / 0.3)", boxShadow: "0 0 30px -10px hsl(210 70% 50% / 0.15)" }}
           >
@@ -178,7 +194,7 @@ export default function Index() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.15 }}
             className="rounded-xl border p-5"
             style={{ background: "linear-gradient(135deg, hsl(160 50% 14%), hsl(160 40% 10%))", borderColor: "hsl(160 70% 45% / 0.3)", boxShadow: "0 0 30px -10px hsl(160 70% 45% / 0.15)" }}
           >
@@ -245,7 +261,6 @@ export default function Index() {
 
           <div className="space-y-6">
             <UpcomingPayments subscriptions={subscriptions} />
-            <YearlyProjection subscriptions={subscriptions} />
             {isPremium ? (
               <>
                 <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
