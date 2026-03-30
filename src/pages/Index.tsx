@@ -313,7 +313,11 @@ export default function Index() {
             {activeSection === 2 && (
               <motion.div key="calculators" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }} className="space-y-6">
                 {isPremium ? (
-                  <><BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} /><SavingsGoalForm onAdd={addGoal} /></>
+                  <>
+                    <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
+                    <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
+                    <SavingsGoalForm onAdd={addGoal} />
+                  </>
                 ) : (
                   <>
                     <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
