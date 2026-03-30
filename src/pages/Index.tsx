@@ -31,6 +31,8 @@ export default function Index() {
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [isPremium, setIsPremium] = useState(isPremiumUser());
   const [planExpanded, setPlanExpanded] = useState(false);
+  const [activeSection, setActiveSection] = useState(0);
+  const isMobile = useIsMobile();
   const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
   const { activeGoals, addGoal, markGoalPaid, removeGoal } = useSavingsGoals();
   const { currency, toggle: toggleCurrency } = useCurrency();
