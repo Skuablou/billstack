@@ -29,6 +29,7 @@ export default function Index() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [isPremium, setIsPremium] = useState(isPremiumUser());
+  const [planExpanded, setPlanExpanded] = useState(false);
   const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
   const { activeGoals, addGoal, markGoalPaid, removeGoal } = useSavingsGoals();
   const { currency, toggle: toggleCurrency } = useCurrency();
@@ -94,16 +95,35 @@ export default function Index() {
               </Button>
             )}
             {isPremium ? (
-              <Button
-                asChild
-                size="sm"
-                className="rounded-full gap-1 md:gap-1.5 px-3 md:px-5 py-1.5 md:py-2 text-black font-semibold border-0 text-xs md:text-sm"
-                style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }}
+              <button
+                onClick={() => setPlanExpanded(!planExpanded)}
+                className="rounded-full flex items-center gap-1.5 font-semibold border-0 text-black overflow-hidden transition-all duration-300 ease-in-out cursor-pointer"
+                style={{
+                  background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))",
+                  width: planExpanded ? "auto" : "32px",
+                  height: "32px",
+                  padding: planExpanded ? "0 16px" : "0",
+                  minWidth: "32px",
+                }}
               >
-                <a href="https://billing.stripe.com/p/login/28EbJ3gB28dT2ZL9PxgA800" target="_blank" rel="noopener noreferrer">
-                  <Crown className="w-4 h-4" /> Manage Plan
-                </a>
-              </Button>
+                <Crown className="w-4 h-4 shrink-0" style={{ marginLeft: planExpanded ? "0" : "8px" }} />
+                <motion.span
+                  initial={false}
+                  animate={{ opacity: planExpanded ? 1 : 0, width: planExpanded ? "auto" : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="whitespace-nowrap text-xs md:text-sm overflow-hidden"
+                >
+                  <a
+                    href="https://billing.stripe.com/p/login/28EbJ3gB28dT2ZL9PxgA800"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-black no-underline"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Manage Plan
+                  </a>
+                </motion.span>
+              </button>
             ) : (
               <Button
                 size="sm"
