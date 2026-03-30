@@ -12,7 +12,7 @@ interface Props {
 
 export default function PremiumDialog({ open, onOpenChange }: Props) {
   const { currency } = useCurrency();
-  const price = currency === "€" ? "€2.99" : "$2.99";
+  const price = currency === "€" ? "2.99€" : "$2.99";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
