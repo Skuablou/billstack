@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trash2, RefreshCw } from "lucide-react";
+import { Trash2, RefreshCw, Calendar } from "lucide-react";
 import { Subscription, getMonthlyAmount } from "@/lib/subscriptions";
 import { useCurrency } from "@/lib/CurrencyContext";
 
