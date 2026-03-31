@@ -10,6 +10,7 @@ import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
 
 import BudgetCalculator from "@/components/BudgetCalculator";
+import SurvivalCalculator from "@/components/SurvivalCalculator";
 import MonthlyTracker from "@/components/MonthlyTracker";
 import { SavingsGoalForm, SavingsGoalDisplay, getMonthlyEquivalent, getTotalPeriods } from "@/components/SavingsGoal";
 import { useCurrency } from "@/lib/CurrencyContext";
