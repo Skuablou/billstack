@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { ChevronLeft, ChevronRight, Briefcase, ChevronDown, ChevronUp, Check, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ interface MonthlyTrackerProps {
 }
 
 export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerProps) {
+  const isMobile = useIsMobile();
   const { currency } = useCurrency();
   const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
   const fmtShort = (n: number) => `${Math.abs(n).toFixed(0)}${currency}`;
@@ -31,7 +33,10 @@ export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerPro
 
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const [scheduleOpen, setScheduleOpen] = useState(false);
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [selectedDay, setSelectedDay] = useState<string | null>(() => {
+    const today = new Date();
+    return dateKey(today.getFullYear(), today.getMonth(), today.getDate());
+  });
   const [entryInput, setEntryInput] = useState("");
 
   const year = currentDate.getFullYear();
@@ -65,8 +70,13 @@ export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerPro
   const totalAmount = salary - totalSubscriptions - monthSpent;
 
   const changeMonth = (dir: number) => {
-    setCurrentDate(new Date(year, month + dir, 1));
-    setSelectedDay(null);
+    const newDate = new Date(year, month + dir, 1);
+    setCurrentDate(newDate);
+    if (isMobile) {
+      setSelectedDay(dateKey(newDate.getFullYear(), newDate.getMonth(), 1));
+    } else {
+      setSelectedDay(null);
+    }
   };
 
   const toggleDay = (dow: number) => {
@@ -280,7 +290,7 @@ export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerPro
                   const left = cell.earned - cell.spent;
                   const isSelected = selectedDay === cell.key;
                   return (
-                    <td key={ci} className="text-center p-0.5 cursor-pointer" onClick={() => setSelectedDay(cell.key)}>
+                    <td key={ci} className="text-center p-0.5 cursor-pointer" onClick={() => setSelectedDay(isMobile ? cell.key : (selectedDay === cell.key ? null : cell.key))}>
                       <div
                         className="rounded-lg py-1 px-0.5 min-h-[48px] flex flex-col items-center justify-start gap-0.5 transition-colors"
                         style={{
