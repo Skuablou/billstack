@@ -399,7 +399,7 @@ export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerPro
                 placeholder={`Total spent today ${currency}`}
                 className="flex-1 h-10 bg-muted/50 border-border text-foreground"
               />
-              <Button onClick={handleAddEntry} className="h-10 px-4 rounded-lg" style={{ background: "hsl(15 70% 50%)" }}>
+              <Button onClick={() => { if (navigator.vibrate) navigator.vibrate(50); handleAddEntry(); }} className="h-10 px-4 rounded-lg" style={{ background: "hsl(15 70% 50%)" }}>
                 <Plus className="w-4 h-4 text-white" />
               </Button>
             </div>
