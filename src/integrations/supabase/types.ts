@@ -50,6 +50,60 @@ export type Database = {
         }
         Relationships: []
       }
+      monthly_tracker_expenses: {
+        Row: {
+          amount: number
+          created_at: string | null
+          date: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          date: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          date?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      monthly_tracker_settings: {
+        Row: {
+          active_days: boolean[]
+          created_at: string | null
+          hours: number[]
+          id: string
+          salary: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          active_days?: boolean[]
+          created_at?: string | null
+          hours?: number[]
+          id?: string
+          salary?: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          active_days?: boolean[]
+          created_at?: string | null
+          hours?: number[]
+          id?: string
+          salary?: number
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       premium_users: {
         Row: {
           created_at: string | null
