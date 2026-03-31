@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Crown } from "lucide-react";
 import { useCurrency } from "@/lib/CurrencyContext";
 
-const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
+const STRIPE_LINK = "https://buy.stripe.com/cNi8wR3Ogcu96bX5zhgA801";
 
 interface Props {
   open: boolean;
