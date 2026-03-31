@@ -97,7 +97,7 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
               <Input type="number" placeholder="e.g. 2500" value={salary} onChange={(e) => setSalary(e.target.value)} className="bg-muted/50 border-border text-foreground h-9 text-sm" />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-muted-foreground text-xs">Variable spending (food, going out…)</Label>
+              <Label className="text-muted-foreground text-xs">Variable monthly spendings on average (e.g. groceries, gas)</Label>
               <Input type="number" placeholder="e.g. 500" value={variable} onChange={(e) => setVariable(e.target.value)} className="bg-muted/50 border-border text-foreground h-9 text-sm" />
             </div>
             <p className="text-muted-foreground text-[10px]">
