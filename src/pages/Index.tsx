@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff, CalendarClock, Wallet, Clock, Calculator, MoreVertical, X } from "lucide-react";
+import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff, CalendarClock, Wallet, Clock, Calculator, MoreVertical, X, CalendarDays } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -10,6 +10,7 @@ import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
 
 import BudgetCalculator from "@/components/BudgetCalculator";
+import MonthlyTracker from "@/components/MonthlyTracker";
 import { SavingsGoalForm, SavingsGoalDisplay, getMonthlyEquivalent, getTotalPeriods } from "@/components/SavingsGoal";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { usePushNotifications } from "@/hooks/use-push-notifications";
@@ -333,6 +334,12 @@ export default function Index() {
                 )}
               </motion.div>
             )}
+
+            {activeSection === 3 && (
+              <motion.div key="calendar" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }}>
+                <MonthlyTracker />
+              </motion.div>
+            )}
           </AnimatePresence>
         )}
       </main>
@@ -345,6 +352,7 @@ export default function Index() {
               { icon: Wallet, label: "Spendings" },
               { icon: Clock, label: "Upcoming" },
               { icon: Calculator, label: "Tools" },
+              { icon: CalendarDays, label: "Calendar" },
             ].map((item, i) => (
               <button
                 key={item.label}
