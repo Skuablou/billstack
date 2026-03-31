@@ -39,6 +39,10 @@ serve(async (req) => {
       customer_email: customerId ? undefined : user.email,
       line_items: [{ price: "price_1TEsXGQQITJSc7Edu3gL9VXx", quantity: 1 }],
       mode: "subscription",
+      subscription_data: {
+        trial_period_days: 7,
+      },
+      payment_method_collection: "always",
       success_url: `${req.headers.get("origin")}/?premium=success`,
       cancel_url: `${req.headers.get("origin")}/`,
     });
