@@ -10,6 +10,7 @@ import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
 
 import BudgetCalculator from "@/components/BudgetCalculator";
+import SurvivalCalculator from "@/components/SurvivalCalculator";
 import MonthlyTracker from "@/components/MonthlyTracker";
 import { SavingsGoalForm, SavingsGoalDisplay, getMonthlyEquivalent, getTotalPeriods } from "@/components/SavingsGoal";
 import { useCurrency } from "@/lib/CurrencyContext";
@@ -234,12 +235,17 @@ export default function Index() {
                 <UpcomingPayments subscriptions={subscriptions} />
                 <MonthlyTracker subscriptions={subscriptions} />
                 {isPremium ? (
-                  <><BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} /><SavingsGoalForm onAdd={addGoal} /></>
+                  <><BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} /><SurvivalCalculator subscriptions={subscriptions} /><SavingsGoalForm onAdd={addGoal} /></>
                 ) : (
                   <>
                     <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
                       <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
                       <p className="text-muted-foreground text-sm">Unlock the Budget Calculator with Premium.</p>
+                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
+                    </div>
+                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(0 30% 14%), hsl(0 20% 10%))", borderColor: "hsl(0 60% 50% / 0.25)" }}>
+                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Survival Calculator</h3>
+                      <p className="text-muted-foreground text-sm">Find out how long you'd survive without income.</p>
                       <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
                     </div>
                     <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
@@ -317,6 +323,7 @@ export default function Index() {
                   <>
                     <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
                     <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
+                    <SurvivalCalculator subscriptions={subscriptions} />
                     <SavingsGoalForm onAdd={addGoal} />
                   </>
                 ) : (
@@ -324,6 +331,11 @@ export default function Index() {
                     <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
                       <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
                       <p className="text-muted-foreground text-sm">Unlock the Budget Calculator with Premium.</p>
+                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
+                    </div>
+                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(0 30% 14%), hsl(0 20% 10%))", borderColor: "hsl(0 60% 50% / 0.25)" }}>
+                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Survival Calculator</h3>
+                      <p className="text-muted-foreground text-sm">Find out how long you'd survive without income.</p>
                       <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
                     </div>
                     <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
