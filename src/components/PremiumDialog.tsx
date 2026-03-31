@@ -42,7 +42,6 @@ export default function PremiumDialog({ open, onOpenChange }: Props) {
               <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "hsl(36 100% 50%)" }} />
               7-day free trial included
             </li>
-            </li>
           </ul>
         </div>
 
