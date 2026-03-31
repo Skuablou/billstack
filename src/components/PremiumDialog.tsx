@@ -56,12 +56,14 @@ export default function PremiumDialog({ open, onOpenChange, forced }: Props) {
           </a>
         </Button>
 
-        <button
-          onClick={() => onOpenChange(false)}
-          className="text-muted-foreground text-sm hover:text-foreground transition-colors mt-1"
-        >
-          Maybe later
-        </button>
+        {!forced && (
+          <button
+            onClick={() => onOpenChange(false)}
+            className="text-muted-foreground text-sm hover:text-foreground transition-colors mt-1"
+          >
+            Maybe later
+          </button>
+        )}
       </DialogContent>
     </Dialog>
   );
