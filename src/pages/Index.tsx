@@ -334,6 +334,12 @@ export default function Index() {
                 )}
               </motion.div>
             )}
+
+            {activeSection === 3 && (
+              <motion.div key="calendar" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }}>
+                <MonthlyTracker />
+              </motion.div>
+            )}
           </AnimatePresence>
         )}
       </main>
