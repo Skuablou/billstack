@@ -31,7 +31,10 @@ export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerPro
 
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const [scheduleOpen, setScheduleOpen] = useState(false);
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [selectedDay, setSelectedDay] = useState<string | null>(() => {
+    const today = new Date();
+    return dateKey(today.getFullYear(), today.getMonth(), today.getDate());
+  });
   const [entryInput, setEntryInput] = useState("");
 
   const year = currentDate.getFullYear();
