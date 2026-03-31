@@ -20,6 +20,7 @@ interface MonthlyTrackerProps {
 }
 
 export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerProps) {
+  const isMobile = useIsMobile();
   const { currency } = useCurrency();
   const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
   const fmtShort = (n: number) => `${Math.abs(n).toFixed(0)}${currency}`;
