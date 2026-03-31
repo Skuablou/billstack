@@ -22,7 +22,7 @@ export default function PremiumDialog({ open, onOpenChange }: Props) {
         </div>
 
         <h2 className="font-display font-bold text-foreground text-xl">Unlock Premium</h2>
-        <p className="text-muted-foreground text-sm">Upgrade for unlimited subscriptions.</p>
+        <p className="text-muted-foreground text-sm">Start your 7-day free trial — upgrade for unlimited subscriptions.</p>
 
         <div className="rounded-xl border p-5 mt-4 text-left space-y-3" style={{ borderColor: "hsl(36 100% 50% / 0.4)", backgroundColor: "hsl(36 100% 50% / 0.05)" }}>
           <div className="text-center">
