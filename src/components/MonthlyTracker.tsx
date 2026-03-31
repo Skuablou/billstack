@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useMonthlyTracker } from "@/hooks/use-monthly-tracker";
+import { Subscription, getMonthlyTotal } from "@/lib/subscriptions";
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DAY_LABELS = ["Mo","Tu","We","Th","Fr","Sa","Su"];
@@ -13,7 +14,11 @@ function dateKey(y: number, m: number, d: number) {
   return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
 }
 
-export default function MonthlyTracker() {
+interface MonthlyTrackerProps {
+  subscriptions?: Subscription[];
+}
+
+export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerProps) {
   const { currency } = useCurrency();
   const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
   const fmtShort = (n: number) => `${Math.abs(n).toFixed(0)}${currency}`;
