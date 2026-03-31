@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trash2, RefreshCw } from "lucide-react";
+import { Trash2, RefreshCw, Calendar } from "lucide-react";
 import { Subscription, getMonthlyAmount } from "@/lib/subscriptions";
 import { useCurrency } from "@/lib/CurrencyContext";
 
@@ -34,9 +34,14 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
         {/* Name + Monthly */}
         <div className="flex-1 min-w-0">
           <p className="text-foreground font-semibold truncate text-base md:text-lg">{s.name}</p>
-          <p className="text-xs text-muted-foreground flex items-center gap-1">
-            <RefreshCw className="w-3 h-3" /> {s.billingCycle}
-          </p>
+          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1">
+              <RefreshCw className="w-3 h-3" /> {s.billingCycle}
+            </span>
+            <span className="flex items-center gap-1">
+              <Calendar className="w-3 h-3" /> {s.billingDate}.
+            </span>
+          </div>
         </div>
 
         {/* Amount */}
