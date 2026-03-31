@@ -17,7 +17,7 @@ export default function PremiumDialog({ open, onOpenChange, forced }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={forced ? () => {} : onOpenChange}>
-      <DialogContent className="bg-card border-border max-w-sm text-center p-8">
+      <DialogContent className={`bg-card border-border max-w-sm text-center p-8 ${forced ? "[&>button]:hidden" : ""}`}>
         <div className="mx-auto w-14 h-14 rounded-xl flex items-center justify-center mb-2" style={{ backgroundColor: "hsl(36 100% 50% / 0.2)" }}>
           <Crown className="w-7 h-7" style={{ color: "hsl(36 100% 50%)" }} />
         </div>
