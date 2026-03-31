@@ -4,12 +4,10 @@ import { ChevronLeft, ChevronRight, Briefcase, ChevronDown, ChevronUp, Check, Pl
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { useMonthlyTracker } from "@/hooks/use-monthly-tracker";
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DAY_LABELS = ["Mo","Tu","We","Th","Fr","Sa","Su"];
-
-interface DayEntry { amt: number }
-type DataMap = Record<string, DayEntry[]>;
 
 function dateKey(y: number, m: number, d: number) {
   return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
@@ -20,26 +18,19 @@ export default function MonthlyTracker() {
   const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
   const fmtShort = (n: number) => `${Math.abs(n).toFixed(0)}${currency}`;
 
+  const {
+    salary, setSalary, salaryInput, setSalaryInput, salaryConfirmed, confirmSalary,
+    activeDays, setActiveDays, hours, setHours,
+    data, addExpense, deleteExpense,
+  } = useMonthlyTracker();
+
   const [currentDate, setCurrentDate] = useState(() => new Date());
-  const [salary, setSalary] = useState(0);
-  const [salaryInput, setSalaryInput] = useState("");
-  const [salaryConfirmed, setSalaryConfirmed] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
-  const [activeDays, setActiveDays] = useState([true, true, true, true, true, false, false]);
-  const [hours, setHours] = useState([8, 8, 8, 8, 8, 0, 0]);
-  const [data, setData] = useState<DataMap>({});
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [entryInput, setEntryInput] = useState("");
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
-
-  const confirmSalary = useCallback(() => {
-    const val = parseFloat(salaryInput) || 0;
-    if (val <= 0) return;
-    setSalary(val);
-    setSalaryConfirmed(true);
-  }, [salaryInput]);
 
   const getHoursForDow = useCallback((dow: number) => activeDays[dow] ? hours[dow] : 0, [activeDays, hours]);
 
@@ -80,7 +71,6 @@ export default function MonthlyTracker() {
     setHours(prev => prev.map((v, i) => i === dow ? val : v));
   };
 
-  // Calendar grid
   const calendarRows = useMemo(() => {
     const first = new Date(year, month, 1);
     let startDow = first.getDay();
@@ -105,14 +95,7 @@ export default function MonthlyTracker() {
           const dayEarned = hourlyRate * dayHrs;
           const entries = data[k] || [];
           const daySpent = entries.reduce((s, e) => s + e.amt, 0);
-          row.push({
-            day: d,
-            key: k,
-            isToday: today.getFullYear() === year && today.getMonth() === month && today.getDate() === d,
-            earned: dayEarned,
-            spent: daySpent,
-            dayHrs,
-          });
+          row.push({ day: d, key: k, isToday: today.getFullYear() === year && today.getMonth() === month && today.getDate() === d, earned: dayEarned, spent: daySpent, dayHrs });
           dayCount++;
         }
       }
@@ -121,7 +104,6 @@ export default function MonthlyTracker() {
     return rows;
   }, [year, month, data, hourlyRate, getHoursForDow]);
 
-  // Selected day data
   const selectedData = useMemo(() => {
     if (!selectedDay) return null;
     const [yStr, mStr, dStr] = selectedDay.split("-");
@@ -135,26 +117,17 @@ export default function MonthlyTracker() {
     return { date: `${di} ${MONTHS[mi]} ${yStr}`, earned, spent, left: earned - spent, entries, dayHrs };
   }, [selectedDay, data, hourlyRate, getHoursForDow]);
 
-  const addEntry = () => {
+  const handleAddEntry = async () => {
     if (!selectedDay) return;
     const amt = parseFloat(entryInput);
     if (isNaN(amt) || amt <= 0) return;
-    setData(prev => ({
-      ...prev,
-      [selectedDay]: [...(prev[selectedDay] || []), { amt }],
-    }));
+    await addExpense(selectedDay, amt);
     setEntryInput("");
   };
 
-  const deleteEntry = (key: string, index: number) => {
-    setData(prev => {
-      const entries = [...(prev[key] || [])];
-      entries.splice(index, 1);
-      const next = { ...prev };
-      if (entries.length === 0) delete next[key];
-      else next[key] = entries;
-      return next;
-    });
+  const handleDeleteEntry = async (index: number) => {
+    if (!selectedDay) return;
+    await deleteExpense(selectedDay, index);
   };
 
   return (
@@ -181,7 +154,7 @@ export default function MonthlyTracker() {
             style={{ background: "hsl(var(--card))" }}
           >
             <div className="flex items-center gap-3 p-3">
-              <span className="text-muted-foreground text-sm whitespace-nowrap">Monthly salary (net)</span>
+              <span className="text-foreground text-sm whitespace-nowrap">Monthly salary (net)</span>
               <span className="text-muted-foreground text-sm">{currency}</span>
               <Input
                 type="number"
@@ -205,7 +178,7 @@ export default function MonthlyTracker() {
         <button onClick={() => setScheduleOpen(!scheduleOpen)} className="flex items-center justify-between w-full text-left">
           <div className="flex items-center gap-2">
             <Briefcase className="w-4 h-4 text-muted-foreground" />
-            <span className="text-muted-foreground text-sm">Work schedule</span>
+            <span className="text-muted-foreground text-sm">Work schedule / edit</span>
           </div>
           {scheduleOpen ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
         </button>
@@ -215,7 +188,7 @@ export default function MonthlyTracker() {
               <div className="pt-3 space-y-3">
                 {salaryConfirmed && (
                   <div className="flex items-center gap-2 pb-3 border-b border-border">
-                    <span className="text-muted-foreground text-sm flex-1">Monthly salary (net) {currency}</span>
+                    <span className="text-foreground text-sm flex-1">Monthly salary (net) {currency}</span>
                     <Input
                       type="number"
                       value={salary || ""}
@@ -295,11 +268,7 @@ export default function MonthlyTracker() {
                   const left = cell.earned - cell.spent;
                   const isSelected = selectedDay === cell.key;
                   return (
-                    <td
-                      key={ci}
-                      className="text-center p-0.5 cursor-pointer"
-                      onClick={() => setSelectedDay(cell.key)}
-                    >
+                    <td key={ci} className="text-center p-0.5 cursor-pointer" onClick={() => setSelectedDay(cell.key)}>
                       <div
                         className="rounded-lg py-1 px-0.5 min-h-[48px] flex flex-col items-center justify-start gap-0.5 transition-colors"
                         style={{
@@ -388,7 +357,7 @@ export default function MonthlyTracker() {
                       <span className="text-sm text-foreground">{hrsWorked ? `${hrsWorked}h of work` : "Expense"}</span>
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-medium" style={{ color: "hsl(15 70% 50%)" }}>-{fmt(e.amt)}</span>
-                        <button onClick={() => deleteEntry(selectedDay!, i)} className="text-muted-foreground hover:text-destructive transition-colors">
+                        <button onClick={() => handleDeleteEntry(i)} className="text-muted-foreground hover:text-destructive transition-colors">
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -404,11 +373,11 @@ export default function MonthlyTracker() {
                 type="number"
                 value={entryInput}
                 onChange={e => setEntryInput(e.target.value)}
-                onKeyDown={e => e.key === "Enter" && addEntry()}
+                onKeyDown={e => e.key === "Enter" && handleAddEntry()}
                 placeholder={`Total spent today ${currency}`}
                 className="flex-1 h-10 bg-muted/50 border-border text-foreground"
               />
-              <Button onClick={addEntry} className="h-10 px-4 rounded-lg" style={{ background: "hsl(15 70% 50%)" }}>
+              <Button onClick={handleAddEntry} className="h-10 px-4 rounded-lg" style={{ background: "hsl(15 70% 50%)" }}>
                 <Plus className="w-4 h-4 text-white" />
               </Button>
             </div>
