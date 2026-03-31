@@ -154,6 +154,10 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
                 <span className="text-muted-foreground">Total monthly burn</span>
                 <span style={{ color: "hsl(0 72% 55%)" }} className="font-medium">−{fmt(monthlyBurn)}</span>
               </div>
+              <div className="flex justify-between text-xs p-2.5 rounded-lg bg-muted/30">
+                <span className="text-muted-foreground">{fmt(bankNum)} ÷ {fmt(monthlyBurn)}</span>
+                <span className="text-foreground font-bold">= {months > 99 ? "99+" : months} months</span>
+              </div>
               {salaryNum > 0 && (
                 <div className="flex justify-between text-xs p-2.5 rounded-lg bg-muted/30">
                   <span className="text-muted-foreground">Income lost</span>
