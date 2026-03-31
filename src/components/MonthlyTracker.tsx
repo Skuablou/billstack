@@ -61,7 +61,8 @@ export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerPro
     return total;
   }, [data, year, month]);
 
-  const realMonthly = salary - monthSpent;
+  const totalSubscriptions = useMemo(() => getMonthlyTotal(subscriptions), [subscriptions]);
+  const totalAmount = salary - totalSubscriptions - monthSpent;
 
   const changeMonth = (dir: number) => {
     setCurrentDate(new Date(year, month + dir, 1));
