@@ -232,6 +232,7 @@ export default function Index() {
               </div>
               <div className="space-y-6">
                 <UpcomingPayments subscriptions={subscriptions} />
+                <MonthlyTracker />
                 {isPremium ? (
                   <><BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} /><SavingsGoalForm onAdd={addGoal} /></>
                 ) : (
