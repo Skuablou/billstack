@@ -352,6 +352,7 @@ export default function Index() {
               { icon: Wallet, label: "Spendings" },
               { icon: Clock, label: "Upcoming" },
               { icon: Calculator, label: "Tools" },
+              { icon: CalendarDays, label: "Calendar" },
             ].map((item, i) => (
               <button
                 key={item.label}
