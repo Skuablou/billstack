@@ -318,6 +318,7 @@ export default function Index() {
                   <>
                     <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
                     <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
+                    <SurvivalCalculator subscriptions={subscriptions} />
                     <SavingsGoalForm onAdd={addGoal} />
                   </>
                 ) : (
