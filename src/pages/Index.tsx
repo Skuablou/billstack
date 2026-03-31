@@ -232,7 +232,7 @@ export default function Index() {
                 {isPremium && <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />}
               </div>
               <div className="space-y-6">
-                <UpcomingPayments subscriptions={subscriptions} />
+                <UpcomingPayments subscriptions={subscriptions} onUpdate={updateSubscription} />
                 <MonthlyTracker subscriptions={subscriptions} />
                 {isPremium ? (
                   <><BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} /><SurvivalCalculator subscriptions={subscriptions} /><SavingsGoalForm onAdd={addGoal} /></>
