@@ -199,7 +199,7 @@ export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerPro
 
       {/* Work schedule */}
       <div className="rounded-xl border border-border p-3" style={{ background: "hsl(var(--card))" }}>
-        <button onClick={() => setScheduleOpen(!scheduleOpen)} className="flex items-center justify-between w-full text-left">
+        <button onClick={handleToggleSchedule} className="flex items-center justify-between w-full text-left">
           <div className="flex items-center gap-2">
             <Briefcase className="w-4 h-4 text-muted-foreground" />
             <span className="text-muted-foreground text-sm">Work schedule / edit</span>
