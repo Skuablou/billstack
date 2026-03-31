@@ -1,4 +1,4 @@
-import { AlertCircle, Bell } from "lucide-react";
+import { AlertCircle, Bell, Calendar } from "lucide-react";
 import { Subscription, getUpcomingPayments } from "@/lib/subscriptions";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -35,8 +35,8 @@ export default function UpcomingPayments({ subscriptions, onUpdate }: Props) {
 
   return (
     <div className="space-y-3">
-      <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
-        <AlertCircle className="w-4 h-4" style={{ color: "hsl(45 90% 55%)" }} />
+      <h3 className="font-display font-semibold text-foreground flex items-center gap-2 text-lg">
+        <AlertCircle className="w-5 h-5" style={{ color: "hsl(45 90% 55%)" }} />
         Upcoming payments
       </h3>
       <div className="space-y-2">
@@ -52,36 +52,36 @@ export default function UpcomingPayments({ subscriptions, onUpdate }: Props) {
             return (
               <div
                 key={sub.id}
-                className="rounded-xl bg-card border border-border p-3 space-y-2"
+                className="rounded-xl bg-card border border-border p-4 space-y-2"
               >
                 <div className="flex items-center gap-3">
                   <div
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold text-white shrink-0"
+                    className="w-11 h-11 rounded-xl flex items-center justify-center text-base font-bold text-white shrink-0"
                     style={{ backgroundColor: sub.color }}
                   >
                     {initial}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-foreground font-medium text-sm truncate">{sub.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {sub.billingDate} {monthName}
+                    <p className="text-foreground font-semibold text-base truncate">{sub.name}</p>
+                    <p className="text-xs text-muted-foreground flex items-center gap-1">
+                      <Calendar className="w-3 h-3" /> {sub.billingDate} {monthName}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-foreground font-semibold text-sm">{sub.amount.toFixed(2)}{currency}</p>
+                    <p className="text-foreground font-bold text-base">{sub.amount.toFixed(2)}{currency}</p>
                     <p className="text-xs font-medium" style={{ color: daysColor }}>
                       {getDaysLabel(sub.daysUntil)}
                     </p>
                   </div>
                 </div>
                 {/* Reminder */}
-                <div className="flex items-center gap-1.5 pl-12">
+                <div className="flex items-center gap-1.5 pl-14">
                   <Bell className="w-3.5 h-3.5 text-muted-foreground" />
                   <Select
                     value={String(sub.reminderDays ?? 1)}
                     onValueChange={(v) => onUpdate?.(sub.id, { reminderDays: parseInt(v) })}
                   >
-                    <SelectTrigger className="h-6 w-[110px] text-[11px] bg-muted border-border px-2">
+                    <SelectTrigger className="h-7 w-[120px] text-xs bg-muted border-border px-2">
                       <SelectValue placeholder="Reminder" />
                     </SelectTrigger>
                     <SelectContent className="bg-popover border-border">
