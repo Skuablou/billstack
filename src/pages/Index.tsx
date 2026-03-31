@@ -235,7 +235,7 @@ export default function Index() {
                 <UpcomingPayments subscriptions={subscriptions} />
                 <MonthlyTracker subscriptions={subscriptions} />
                 {isPremium ? (
-                  <><BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} /><SavingsGoalForm onAdd={addGoal} /></>
+                  <><BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} /><SurvivalCalculator subscriptions={subscriptions} /><SavingsGoalForm onAdd={addGoal} /></>
                 ) : (
                   <>
                     <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
