@@ -285,10 +285,9 @@ export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerPro
                   const left = cell.earned - cell.spent;
                   const isSelected = selectedDay === cell.key;
                   return (
-                    <td key={ci} className="text-center p-0.5 cursor-pointer" onClick={() => setSelectedDay(cell.key)}>
+                    <td key={ci} className="text-center p-0.5 cursor-pointer" onClick={() => setSelectedDay(isMobile ? cell.key : (selectedDay === cell.key ? null : cell.key))}>
                       <div
-285:                         className="rounded-lg py-1 px-0.5 min-h-[48px] flex flex-col items-center justify-start gap-0.5 transition-colors cursor-pointer"
-                        onClick={() => setSelectedDay(isMobile ? cell.key : (selectedDay === cell.key ? null : cell.key))}
+                        className="rounded-lg py-1 px-0.5 min-h-[48px] flex flex-col items-center justify-start gap-0.5 transition-colors"
                         style={{
                           background: isSelected ? "hsl(var(--primary) / 0.15)" : "transparent",
                           border: isSelected ? "1px solid hsl(var(--primary) / 0.3)" : "1px solid transparent",
