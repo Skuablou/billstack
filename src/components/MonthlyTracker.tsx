@@ -70,8 +70,13 @@ export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerPro
   const totalAmount = salary - totalSubscriptions - monthSpent;
 
   const changeMonth = (dir: number) => {
-    setCurrentDate(new Date(year, month + dir, 1));
-    setSelectedDay(null);
+    const newDate = new Date(year, month + dir, 1);
+    setCurrentDate(newDate);
+    if (isMobile) {
+      setSelectedDay(dateKey(newDate.getFullYear(), newDate.getMonth(), 1));
+    } else {
+      setSelectedDay(null);
+    }
   };
 
   const toggleDay = (dow: number) => {
