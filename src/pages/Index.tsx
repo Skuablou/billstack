@@ -50,7 +50,7 @@ export default function Index() {
     checkPremiumActivation().then((result) => {
       setIsPremium(result);
       if (!result && user) {
-        // Check if user has logged expenses on 5+ distinct days → force premium
+        // Check if user has logged expenses on 10+ distinct days → force premium
         supabase
           .from("monthly_tracker_expenses")
           .select("date")
@@ -58,7 +58,7 @@ export default function Index() {
           .then(({ data: expenses }) => {
             if (!expenses) return;
             const distinctDays = new Set(expenses.map((e: any) => e.date)).size;
-            if (distinctDays >= 5) {
+            if (distinctDays >= 10) {
               setForcedPremium(true);
               setPremiumOpen(true);
             }
@@ -66,6 +66,9 @@ export default function Index() {
       }
     });
   }, [user]);
+
+  const maxFree = getMaxFreeSubscriptions();
+  const freeLeft = Math.max(0, maxFree - subscriptions.length);
 
   // Calculate total monthly savings from all active (non-complete) goals
   const savingsMonthly = activeGoals.reduce((sum, goal) => {
