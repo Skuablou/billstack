@@ -22,7 +22,6 @@ import {
   Subscription,
   getMonthlyTotal,
   getYearlyTotal,
-  getMaxFreeSubscriptions,
 } from "@/lib/subscriptions";
 import { isPremiumUser, checkPremiumActivation } from "@/lib/premium";
 import { supabase } from "@/integrations/supabase/client";
