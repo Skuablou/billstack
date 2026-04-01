@@ -371,7 +371,7 @@ export default function Index() {
 
             {activeSection === 3 && (
               <motion.div key="calendar" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }}>
-                <MonthlyTracker subscriptions={subscriptions} isPremium={isPremium} trackedDays={trackedDays} onPremiumRequired={() => setPremiumOpen(true)} onTrackedDaysChange={setTrackedDays} />
+                <MonthlyTracker subscriptions={subscriptions} isPremium={isPremium} trackedDays={trackedDays} onPremiumRequired={() => { setPremiumMessage("You've been tracking for 10 days! 🎉"); setPremiumOpen(true); }} onTrackedDaysChange={setTrackedDays} />
               </motion.div>
             )}
           </AnimatePresence>
