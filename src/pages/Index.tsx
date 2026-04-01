@@ -308,7 +308,7 @@ export default function Index() {
                   </div>
                   <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(160 50% 14%), hsl(160 40% 10%))", borderColor: "hsl(160 70% 45% / 0.3)" }}>
                     <div className="flex items-center gap-2 text-foreground font-semibold text-xs mb-1.5">
-                      <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-3 h-3" style={{ color: "hsl(160 70% 45%)" }} /></div>Spendings
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-3.5 h-3.5" style={{ color: "hsl(160 70% 45%)" }} /></div>Spendings
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{subscriptions.length}</p>
                   </div>
