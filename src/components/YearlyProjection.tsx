@@ -16,7 +16,7 @@ export default function YearlyProjection({ subscriptions }: Props) {
   return (
     <div
       className="rounded-xl border p-5 space-y-4"
-      style={{ background: "linear-gradient(135deg, hsl(220 50% 14%), hsl(230 40% 10%))", borderColor: "hsl(210 70% 50% / 0.3)", boxShadow: "0 0 30px -10px hsl(210 70% 50% / 0.1)" }}
+      style={{ background: "linear-gradient(135deg, hsl(220 65% 22%), hsl(230 50% 16%))", borderColor: "hsl(210 80% 55% / 0.5)", boxShadow: "0 0 30px -10px hsl(210 80% 55% / 0.2)" }}
     >
       <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
         <DollarSign className="w-4 h-4" style={{ color: "hsl(210 70% 55%)" }} />
