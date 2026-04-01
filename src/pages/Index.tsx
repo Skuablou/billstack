@@ -182,9 +182,10 @@ export default function Index() {
               </button>
 
               {isSupported && (
-                <button onClick={() => { isSubscribed ? unsubscribe() : subscribe(subscriptions); setMenuOpen(false); }} disabled={pushLoading} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-foreground hover:bg-muted/50 transition-colors">
+                <button onClick={() => { if (!isPremium) { setPremiumOpen(true); setMenuOpen(false); return; } isSubscribed ? unsubscribe() : subscribe(subscriptions); setMenuOpen(false); }} disabled={pushLoading} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-foreground hover:bg-muted/50 transition-colors">
                   {isSubscribed ? <Bell className="w-5 h-5 text-primary" /> : <BellOff className="w-5 h-5 text-muted-foreground" />}
                   {isSubscribed ? "Disable reminders" : "Enable reminders"}
+                  {!isPremium && <Crown className="w-4 h-4 ml-auto" style={{ color: "hsl(36 100% 50%)" }} />}
                 </button>
               )}
 
