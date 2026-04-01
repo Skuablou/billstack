@@ -22,7 +22,6 @@ import {
   Subscription,
   getMonthlyTotal,
   getYearlyTotal,
-  getMaxFreeSubscriptions,
 } from "@/lib/subscriptions";
 import { isPremiumUser, checkPremiumActivation } from "@/lib/premium";
 import { supabase } from "@/integrations/supabase/client";
@@ -89,8 +88,6 @@ export default function Index() {
 
   const monthlyTotal = getMonthlyTotal(subscriptions);
   const yearlyTotal = getYearlyTotal(subscriptions);
-  const maxFree = getMaxFreeSubscriptions();
-  const freeLeft = Math.max(0, maxFree - subscriptions.length);
 
   const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
 
@@ -122,7 +119,7 @@ export default function Index() {
           <div className="hidden md:flex items-center gap-3 shrink-0">
             <Button variant="outline" size="icon" className="rounded-full border-border text-muted-foreground hover:text-foreground font-semibold text-sm" onClick={toggleCurrency} title={`Switch to ${currency === "€" ? "$" : "€"}`}>{currency}</Button>
             {isSupported && (
-              <Button variant="outline" size="icon" className="rounded-full border-border text-muted-foreground hover:text-foreground" onClick={() => isSubscribed ? unsubscribe() : subscribe(subscriptions)} disabled={pushLoading} title={isSubscribed ? "Disable reminders" : "Enable bill reminders"}>
+              <Button variant="outline" size="icon" className="rounded-full border-border text-muted-foreground hover:text-foreground" onClick={() => { if (!isPremium) { setPremiumOpen(true); return; } isSubscribed ? unsubscribe() : subscribe(subscriptions); }} disabled={pushLoading} title={isSubscribed ? "Disable reminders" : "Enable bill reminders"}>
                 {isSubscribed ? <Bell className="w-4 h-4 text-primary" /> : <BellOff className="w-4 h-4" />}
               </Button>
             )}
@@ -182,9 +179,10 @@ export default function Index() {
               </button>
 
               {isSupported && (
-                <button onClick={() => { isSubscribed ? unsubscribe() : subscribe(subscriptions); setMenuOpen(false); }} disabled={pushLoading} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-foreground hover:bg-muted/50 transition-colors">
+                <button onClick={() => { if (!isPremium) { setPremiumOpen(true); setMenuOpen(false); return; } isSubscribed ? unsubscribe() : subscribe(subscriptions); setMenuOpen(false); }} disabled={pushLoading} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-foreground hover:bg-muted/50 transition-colors">
                   {isSubscribed ? <Bell className="w-5 h-5 text-primary" /> : <BellOff className="w-5 h-5 text-muted-foreground" />}
                   {isSubscribed ? "Disable reminders" : "Enable reminders"}
+                  {!isPremium && <Crown className="w-4 h-4 ml-auto" style={{ color: "hsl(36 100% 50%)" }} />}
                 </button>
               )}
 
@@ -247,46 +245,30 @@ export default function Index() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
-                    {!isPremium && (
-                      <p className="text-muted-foreground text-xs mt-0.5">
-                        {freeLeft > 0 ? `${subscriptions.length}/${maxFree} free spendings used` : `Free limit reached (${maxFree}/${maxFree})`}{" · "}
-                        <button onClick={() => setPremiumOpen(true)} className="underline hover:text-foreground transition-colors" style={{ color: "hsl(36 100% 50%)" }}>Upgrade for unlimited</button>
-                      </p>
-                    )}
                   </div>
-                  <Button onClick={() => { if (!isPremium && subscriptions.length >= maxFree) { setPremiumOpen(true); } else { setDialogOpen(true); } }} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
+                  <Button onClick={() => setDialogOpen(true)} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
                 </div>
                 <div className="space-y-2">
                   {subscriptions.length === 0 ? (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-xl bg-card border border-border p-12 text-center"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p></motion.div>
                   ) : subscriptions.map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
                 </div>
-                {isPremium && <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />}
+                <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
               </div>
               <div className="space-y-6">
                 <UpcomingPayments subscriptions={subscriptions} onUpdate={updateSubscription} />
                 <MonthlyTracker subscriptions={subscriptions} />
+                <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
                 {isPremium ? (
-                  <><BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} /><SurvivalCalculator subscriptions={subscriptions} /><SavingsGoalForm onAdd={addGoal} /></>
+                  <SurvivalCalculator subscriptions={subscriptions} />
                 ) : (
-                  <>
-                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
-                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
-                      <p className="text-muted-foreground text-sm">Unlock the Budget Calculator with Premium.</p>
-                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
-                    </div>
-                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(0 30% 14%), hsl(0 20% 10%))", borderColor: "hsl(0 60% 50% / 0.25)" }}>
-                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Survival Calculator</h3>
-                      <p className="text-muted-foreground text-sm">Find out how long you'd survive without income.</p>
-                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
-                    </div>
-                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
-                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goal</h3>
-                      <p className="text-muted-foreground text-sm">Set savings goals and track progress with Premium.</p>
-                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
-                    </div>
-                  </>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(0 30% 14%), hsl(0 20% 10%))", borderColor: "hsl(0 60% 50% / 0.25)" }}>
+                    <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Survival Calculator</h3>
+                    <p className="text-muted-foreground text-sm">Find out how long you'd survive without income.</p>
+                    <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
+                  </div>
                 )}
+                <SavingsGoalForm onAdd={addGoal} />
               </div>
             </div>
           </>
@@ -325,14 +307,8 @@ export default function Index() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
-                      {!isPremium && (
-                        <p className="text-muted-foreground text-xs mt-0.5">
-                          {freeLeft > 0 ? `${subscriptions.length}/${maxFree} free spendings used` : `Free limit reached (${maxFree}/${maxFree})`}{" · "}
-                          <button onClick={() => setPremiumOpen(true)} className="underline hover:text-foreground transition-colors" style={{ color: "hsl(36 100% 50%)" }}>Upgrade for unlimited</button>
-                        </p>
-                      )}
                     </div>
-                    <Button onClick={() => { if (!isPremium && subscriptions.length >= maxFree) { setPremiumOpen(true); } else { setDialogOpen(true); } }} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
+                    <Button onClick={() => setDialogOpen(true)} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
                   </div>
                   <div className="space-y-2">
                     {subscriptions.length === 0 ? (
@@ -351,32 +327,18 @@ export default function Index() {
 
             {activeSection === 2 && (
               <motion.div key="calculators" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }} className="space-y-6">
+                <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
+                <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
                 {isPremium ? (
-                  <>
-                    <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
-                    <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
-                    <SurvivalCalculator subscriptions={subscriptions} />
-                    <SavingsGoalForm onAdd={addGoal} />
-                  </>
+                  <SurvivalCalculator subscriptions={subscriptions} />
                 ) : (
-                  <>
-                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
-                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
-                      <p className="text-muted-foreground text-sm">Unlock the Budget Calculator with Premium.</p>
-                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
-                    </div>
-                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(0 30% 14%), hsl(0 20% 10%))", borderColor: "hsl(0 60% 50% / 0.25)" }}>
-                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Survival Calculator</h3>
-                      <p className="text-muted-foreground text-sm">Find out how long you'd survive without income.</p>
-                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
-                    </div>
-                    <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
-                      <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goal</h3>
-                      <p className="text-muted-foreground text-sm">Set savings goals and track progress with Premium.</p>
-                      <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
-                    </div>
-                  </>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(0 30% 14%), hsl(0 20% 10%))", borderColor: "hsl(0 60% 50% / 0.25)" }}>
+                    <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Survival Calculator</h3>
+                    <p className="text-muted-foreground text-sm">Find out how long you'd survive without income.</p>
+                    <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
+                  </div>
                 )}
+                <SavingsGoalForm onAdd={addGoal} />
               </motion.div>
             )}
 
