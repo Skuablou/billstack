@@ -255,7 +255,7 @@ export default function Index() {
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-xl bg-card border border-border p-12 text-center"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p></motion.div>
                   ) : subscriptions.map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
                 </div>
-                {isPremium && <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />}
+                <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
               </div>
               <div className="space-y-6">
                 <UpcomingPayments subscriptions={subscriptions} onUpdate={updateSubscription} />
