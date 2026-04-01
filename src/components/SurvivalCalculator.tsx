@@ -72,9 +72,9 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
     <div
       className="rounded-xl border p-5 space-y-4 relative overflow-hidden"
       style={{
-        background: "linear-gradient(135deg, hsl(0 30% 14%), hsl(0 20% 10%))",
-        borderColor: "hsl(0 60% 50% / 0.25)",
-        boxShadow: "0 0 30px -10px hsl(0 60% 50% / 0.1)",
+        background: "linear-gradient(135deg, hsl(0 45% 22%), hsl(0 30% 15%))",
+        borderColor: "hsl(0 70% 55% / 0.4)",
+        boxShadow: "0 0 30px -10px hsl(0 70% 55% / 0.2)",
       }}
     >
       <h3 className="font-display font-semibold text-foreground flex items-center gap-2">

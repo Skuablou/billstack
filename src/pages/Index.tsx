@@ -217,25 +217,25 @@ export default function Index() {
         {!isMobile ? (
           <>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(36 60% 18%), hsl(36 40% 12%))", borderColor: "hsl(36 80% 50% / 0.4)", boxShadow: "0 0 30px -10px hsl(36 80% 50% / 0.2)" }}>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(36 70% 26%), hsl(36 50% 18%))", borderColor: "hsl(36 90% 55% / 0.5)", boxShadow: "0 0 30px -10px hsl(36 90% 55% / 0.3)" }}>
                 <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-2">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}><CalendarClock className="w-4 h-4" style={{ color: "hsl(36 80% 50%)" }} /></div>Daily
                 </div>
                 <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal / 30)}</p>
               </motion.div>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(270 60% 18%), hsl(270 40% 12%))", borderColor: "hsl(270 80% 60% / 0.4)", boxShadow: "0 0 30px -10px hsl(270 80% 60% / 0.2)" }}>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(270 70% 26%), hsl(270 50% 18%))", borderColor: "hsl(270 90% 65% / 0.5)", boxShadow: "0 0 30px -10px hsl(270 90% 65% / 0.3)" }}>
                 <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-2">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-4 h-4" style={{ color: "hsl(270 80% 60%)" }} /></div>Monthly
                 </div>
                 <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
               </motion.div>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(210 50% 14%), hsl(220 40% 10%))", borderColor: "hsl(210 70% 50% / 0.3)", boxShadow: "0 0 30px -10px hsl(210 70% 50% / 0.15)" }}>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(210 65% 22%), hsl(220 50% 16%))", borderColor: "hsl(210 80% 55% / 0.5)", boxShadow: "0 0 30px -10px hsl(210 80% 55% / 0.25)" }}>
                 <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-2">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(210 70% 50% / 0.25)" }}><TrendingUp className="w-4 h-4" style={{ color: "hsl(210 70% 55%)" }} /></div>Yearly
                 </div>
                 <p className="text-3xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
               </motion.div>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(160 50% 14%), hsl(160 40% 10%))", borderColor: "hsl(160 70% 45% / 0.3)", boxShadow: "0 0 30px -10px hsl(160 70% 45% / 0.15)" }}>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(160 65% 22%), hsl(160 50% 16%))", borderColor: "hsl(160 80% 50% / 0.5)", boxShadow: "0 0 30px -10px hsl(160 80% 50% / 0.25)" }}>
                 <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-2">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-4 h-4" style={{ color: "hsl(160 70% 45%)" }} /></div>Spendings
                 </div>
@@ -299,25 +299,25 @@ export default function Index() {
             {activeSection === 0 && (
               <motion.div key="spendings" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }}>
                 <div className="grid grid-cols-2 gap-4 mb-8">
-                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(36 60% 18%), hsl(36 40% 12%))", borderColor: "hsl(36 80% 50% / 0.4)" }}>
+                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(36 70% 26%), hsl(36 50% 18%))", borderColor: "hsl(36 90% 55% / 0.5)" }}>
                     <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
                       <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}><CalendarClock className="w-3.5 h-3.5" style={{ color: "hsl(36 80% 50%)" }} /></div>Daily
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(monthlyTotal / 30)}</p>
                   </div>
-                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(270 60% 18%), hsl(270 40% 12%))", borderColor: "hsl(270 80% 60% / 0.4)" }}>
+                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(270 70% 26%), hsl(270 50% 18%))", borderColor: "hsl(270 90% 65% / 0.5)" }}>
                     <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
                       <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-3.5 h-3.5" style={{ color: "hsl(270 80% 60%)" }} /></div>Monthly
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
                   </div>
-                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(210 50% 14%), hsl(220 40% 10%))", borderColor: "hsl(210 70% 50% / 0.3)" }}>
+                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(210 65% 22%), hsl(220 50% 16%))", borderColor: "hsl(210 80% 55% / 0.5)" }}>
                     <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
                       <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(210 70% 50% / 0.25)" }}><TrendingUp className="w-3.5 h-3.5" style={{ color: "hsl(210 70% 55%)" }} /></div>Yearly
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
                   </div>
-                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(160 50% 14%), hsl(160 40% 10%))", borderColor: "hsl(160 70% 45% / 0.3)" }}>
+                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(160 65% 22%), hsl(160 50% 16%))", borderColor: "hsl(160 80% 50% / 0.5)" }}>
                     <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
                       <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-3.5 h-3.5" style={{ color: "hsl(160 70% 45%)" }} /></div>Spendings
                     </div>
