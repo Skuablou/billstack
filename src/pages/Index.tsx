@@ -299,7 +299,7 @@ export default function Index() {
             {activeSection === 0 && (
               <motion.div key="spendings" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }}>
                 <div className="grid grid-cols-2 gap-4 mb-8">
-                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(36 60% 18%), hsl(36 40% 12%))", borderColor: "hsl(36 80% 50% / 0.4)" }}>
+                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(36 70% 26%), hsl(36 50% 18%))", borderColor: "hsl(36 90% 55% / 0.5)" }}>
                     <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
                       <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}><CalendarClock className="w-3.5 h-3.5" style={{ color: "hsl(36 80% 50%)" }} /></div>Daily
                     </div>
