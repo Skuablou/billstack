@@ -23,7 +23,7 @@ export default function PremiumDialog({ open, onOpenChange, forced }: Props) {
         </div>
 
         <h2 className="font-display font-bold text-foreground text-xl">
-          {forced ? "You've been tracking for 5 days 🎉" : "Unlock Premium"}
+          {forced ? "You've been tracking for 10 days 🎉" : "Unlock Premium"}
         </h2>
         {forced && (
           <p className="text-muted-foreground text-sm">Continue with another free 7 days</p>

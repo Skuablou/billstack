@@ -33,7 +33,7 @@ const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 export default function Index() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [premiumOpen, setPremiumOpen] = useState(false);
-  const [forcedPremium, setForcedPremium] = useState(false);
+  
   const [isPremium, setIsPremium] = useState(isPremiumUser());
   const [planExpanded, setPlanExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
@@ -59,7 +59,6 @@ export default function Index() {
             if (!expenses) return;
             const distinctDays = new Set(expenses.map((e: any) => e.date)).size;
             if (distinctDays >= 10) {
-              setForcedPremium(true);
               setPremiumOpen(true);
             }
           });
@@ -402,7 +401,7 @@ export default function Index() {
       )}
 
       <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
-      <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} forced={forcedPremium} />
+      <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} />
       
     </div>
   );
