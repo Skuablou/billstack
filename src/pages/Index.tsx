@@ -257,7 +257,7 @@ export default function Index() {
               </div>
               <div className="space-y-6">
                 <UpcomingPayments subscriptions={subscriptions} onUpdate={updateSubscription} />
-                <MonthlyTracker subscriptions={subscriptions} isPremium={isPremium} trackedDays={trackedDays} onPremiumRequired={() => setPremiumOpen(true)} onTrackedDaysChange={setTrackedDays} />
+                <MonthlyTracker subscriptions={subscriptions} isPremium={isPremium} trackedDays={trackedDays} onPremiumRequired={() => { setPremiumMessage("You've been tracking for 10 days! 🎉"); setPremiumOpen(true); }} onTrackedDaysChange={setTrackedDays} />
                 {isPremium ? (
                   <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
                 ) : (
