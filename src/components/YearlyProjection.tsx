@@ -9,6 +9,8 @@ interface Props {
 
 export default function YearlyProjection({ subscriptions }: Props) {
   const { currency } = useCurrency();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const yearlyTotal = getYearlyTotal(subscriptions);
   const monthlyAvg = getMonthlyTotal(subscriptions);
   const dailyAvg = monthlyAvg / 30;
