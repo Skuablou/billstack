@@ -207,7 +207,7 @@ export default function Index() {
           <>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(36 60% 18%), hsl(36 40% 12%))", borderColor: "hsl(36 80% 50% / 0.4)", boxShadow: "0 0 30px -10px hsl(36 80% 50% / 0.2)" }}>
-                <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
+                <div className="flex items-center gap-2 text-foreground font-semibold text-sm mb-2">
                   <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}><CalendarClock className="w-3.5 h-3.5" style={{ color: "hsl(36 80% 50%)" }} /></div>Daily
                 </div>
                 <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal / 30)}</p>
