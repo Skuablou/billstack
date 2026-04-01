@@ -78,9 +78,9 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       animate={{ opacity: 1, y: 0 }}
       className="rounded-xl border p-5 space-y-3"
       style={{
-        background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))",
-        borderColor: "hsl(270 60% 50% / 0.25)",
-        boxShadow: "0 0 30px -10px hsl(270 60% 50% / 0.1)",
+        background: "linear-gradient(135deg, hsl(270 55% 24%), hsl(260 40% 16%))",
+        borderColor: "hsl(270 70% 55% / 0.4)",
+        boxShadow: "0 0 30px -10px hsl(270 70% 55% / 0.2)",
       }}
     >
       <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
