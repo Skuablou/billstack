@@ -96,9 +96,9 @@ export default function Index() {
     },
     monthly: {
       background: isLight
-        ? "linear-gradient(135deg, hsl(270 70% 90%), hsl(270 60% 84%))"
-        : "linear-gradient(135deg, hsl(270 70% 26%), hsl(270 50% 18%))",
-      borderColor: isLight ? "hsl(270 60% 60%)" : "hsl(270 70% 45%)",
+        ? "linear-gradient(135deg, hsl(295 65% 90%), hsl(295 55% 84%))"
+        : "linear-gradient(135deg, hsl(295 65% 26%), hsl(295 40% 18%))",
+      borderColor: isLight ? "hsl(295 55% 55%)" : "hsl(295 65% 45%)",
       borderWidth: "2px",
       boxShadow: isLight ? "0 4px 20px -6px hsl(270 70% 65% / 0.3)" : "0 0 30px -10px hsl(270 90% 65% / 0.3)",
     },
@@ -112,9 +112,9 @@ export default function Index() {
     },
     spendings: {
       background: isLight
-        ? "linear-gradient(135deg, hsl(160 60% 88%), hsl(160 50% 82%))"
-        : "linear-gradient(135deg, hsl(160 65% 22%), hsl(160 50% 16%))",
-      borderColor: isLight ? "hsl(160 50% 50%)" : "hsl(160 60% 35%)",
+        ? "linear-gradient(135deg, hsl(145 60% 88%), hsl(145 50% 82%))"
+        : "linear-gradient(135deg, hsl(145 65% 22%), hsl(145 50% 16%))",
+      borderColor: isLight ? "hsl(145 55% 45%)" : "hsl(145 60% 35%)",
       borderWidth: "2px",
       boxShadow: isLight ? "0 4px 20px -6px hsl(160 60% 55% / 0.3)" : "0 0 30px -10px hsl(160 80% 50% / 0.25)",
     },
@@ -132,7 +132,7 @@ export default function Index() {
         <div className="flex items-center justify-between">
           <div className="min-w-0 shrink">
             <h1 className="text-3xl md:text-5xl font-display font-bold">
-              <span style={{ background: "linear-gradient(135deg, hsl(145 70% 45%), hsl(160 80% 40%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Bill</span><span style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
+              <span style={{ background: "linear-gradient(135deg, hsl(145 70% 45%), hsl(145 80% 40%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Bill</span><span style={{ background: "linear-gradient(135deg, hsl(295 75% 58%), hsl(320 70% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
             </h1>
             <p className="text-muted-foreground text-sm mt-1 hidden md:block">Keep track of all your monthly bills</p>
           </div>
@@ -261,7 +261,7 @@ export default function Index() {
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="rounded-xl border p-5" style={cardStyles.monthly}>
                 <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-2">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-4 h-4" style={{ color: "hsl(270 80% 60%)" }} /></div>Monthly
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-4 h-4" style={{ color: "hsl(295 75% 58%)" }} /></div>Monthly
                 </div>
                 <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
               </motion.div>
@@ -273,7 +273,7 @@ export default function Index() {
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="rounded-xl border p-5" style={cardStyles.spendings}>
                 <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-2">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-4 h-4" style={{ color: "hsl(160 70% 45%)" }} /></div>Spendings
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-4 h-4" style={{ color: "hsl(145 70% 45%)" }} /></div>Spendings
                 </div>
                 <p className="text-3xl font-display font-bold text-foreground">{subscriptions.length}</p>
               </motion.div>
@@ -295,7 +295,7 @@ export default function Index() {
                 {isPremium ? (
                   <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
                 ) : (
-                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 30% 14%), hsl(270 20% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(295 25% 14%), hsl(295 15% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
                     <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goals</h3>
                     <p className="text-muted-foreground text-sm">Set savings goals and track your progress.</p>
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
@@ -308,7 +308,7 @@ export default function Index() {
                 {isPremium ? (
                   <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
                 ) : (
-                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(295 35% 14%), hsl(295 25% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
                     <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
                     <p className="text-muted-foreground text-sm">Calculate your monthly budget and see what's left.</p>
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
@@ -343,7 +343,7 @@ export default function Index() {
                   </div>
                   <div className="rounded-xl border p-4" style={cardStyles.monthly}>
                     <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-3.5 h-3.5" style={{ color: "hsl(270 80% 60%)" }} /></div>Monthly
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-3.5 h-3.5" style={{ color: "hsl(295 75% 58%)" }} /></div>Monthly
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
                   </div>
@@ -355,7 +355,7 @@ export default function Index() {
                   </div>
                   <div className="rounded-xl border p-4" style={cardStyles.spendings}>
                     <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-3.5 h-3.5" style={{ color: "hsl(160 70% 45%)" }} /></div>Spendings
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-3.5 h-3.5" style={{ color: "hsl(145 70% 45%)" }} /></div>Spendings
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{subscriptions.length}</p>
                   </div>
@@ -394,7 +394,7 @@ export default function Index() {
                 {isPremium ? (
                   <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
                 ) : (
-                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 30% 14%), hsl(270 20% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(295 25% 14%), hsl(295 15% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
                     <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goals</h3>
                     <p className="text-muted-foreground text-sm">Set savings goals and track your progress.</p>
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
@@ -403,7 +403,7 @@ export default function Index() {
                 {isPremium ? (
                   <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
                 ) : (
-                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(295 35% 14%), hsl(295 25% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
                     <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
                     <p className="text-muted-foreground text-sm">Calculate your monthly budget and see what's left.</p>
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
