@@ -49,6 +49,19 @@ export default function Index() {
   useEffect(() => {
     checkPremiumActivation().then((result) => {
       setIsPremium(result);
+      if (!result) {
+        const key = "billstack-first-use";
+        const stored = localStorage.getItem(key);
+        if (!stored) {
+          localStorage.setItem(key, new Date().toISOString());
+        } else {
+          const daysSince = (Date.now() - new Date(stored).getTime()) / (1000 * 60 * 60 * 24);
+          if (daysSince >= 5) {
+            setForcedPremium(true);
+            setPremiumOpen(true);
+          }
+        }
+      }
     });
 
     // Check if user has logged expenses on 5+ distinct days (one-time promo)
