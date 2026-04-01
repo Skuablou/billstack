@@ -122,7 +122,7 @@ export default function Index() {
           <div className="hidden md:flex items-center gap-3 shrink-0">
             <Button variant="outline" size="icon" className="rounded-full border-border text-muted-foreground hover:text-foreground font-semibold text-sm" onClick={toggleCurrency} title={`Switch to ${currency === "€" ? "$" : "€"}`}>{currency}</Button>
             {isSupported && (
-              <Button variant="outline" size="icon" className="rounded-full border-border text-muted-foreground hover:text-foreground" onClick={() => isSubscribed ? unsubscribe() : subscribe(subscriptions)} disabled={pushLoading} title={isSubscribed ? "Disable reminders" : "Enable bill reminders"}>
+              <Button variant="outline" size="icon" className="rounded-full border-border text-muted-foreground hover:text-foreground" onClick={() => { if (!isPremium) { setPremiumOpen(true); return; } isSubscribed ? unsubscribe() : subscribe(subscriptions); }} disabled={pushLoading} title={isSubscribed ? "Disable reminders" : "Enable bill reminders"}>
                 {isSubscribed ? <Bell className="w-4 h-4 text-primary" /> : <BellOff className="w-4 h-4" />}
               </Button>
             )}
