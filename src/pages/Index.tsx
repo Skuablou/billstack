@@ -166,6 +166,11 @@ export default function Index() {
                 <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground" onClick={() => setMenuOpen(false)}><X className="w-5 h-5" /></Button>
               </div>
 
+              <button onClick={() => { toggleTheme(); setMenuOpen(false); }} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-foreground hover:bg-muted/50 transition-colors">
+                {theme === "dark" ? <Sun className="w-5 h-5 text-muted-foreground" /> : <Moon className="w-5 h-5 text-muted-foreground" />}
+                {theme === "dark" ? "Light Mode" : "Dark Mode"}
+              </button>
+
               <button onClick={() => { toggleCurrency(); setMenuOpen(false); }} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-foreground hover:bg-muted/50 transition-colors">
                 <span className="w-8 h-8 rounded-full border border-border flex items-center justify-center font-semibold text-sm">{currency}</span>
                 Switch to {currency === "€" ? "$" : "€"}
