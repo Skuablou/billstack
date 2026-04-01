@@ -25,6 +25,9 @@ export default function PremiumDialog({ open, onOpenChange, forced }: Props) {
         <h2 className="font-display font-bold text-foreground text-xl">
           {forced ? "You've been tracking for 5 days 🎉" : "Unlock Premium"}
         </h2>
+        {forced && (
+          <p className="text-muted-foreground text-sm">Continue with another free 7 days</p>
+        )}
         <p className="text-muted-foreground text-sm">
           {forced
             ? `Unlock unlimited tracking, Survival Calculator and notifications for ${price}/mo. Your data stays safe.`
@@ -63,10 +66,6 @@ export default function PremiumDialog({ open, onOpenChange, forced }: Props) {
             {forced ? `Upgrade now → ${price}/month` : `Upgrade now → ${price}/month`}
           </a>
         </Button>
-
-        {forced && (
-          <p className="text-muted-foreground text-xs mt-1">Continue with another free 7 days</p>
-        )}
 
         {!forced && (
           <button
