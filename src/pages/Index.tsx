@@ -132,6 +132,10 @@ export default function Index() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-card border-border w-56">
                 <div className="px-3 py-2 border-b border-border"><p className="text-sm text-foreground font-medium truncate">{user?.email ?? "User"}</p></div>
+                <DropdownMenuItem onClick={toggleTheme} className="cursor-pointer gap-2">
+                  {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                  {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={logout} className="text-destructive focus:text-destructive cursor-pointer gap-2"><LogOut className="w-4 h-4" />Log out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
