@@ -59,7 +59,6 @@ export default function Index() {
             if (!expenses) return;
             const distinctDays = new Set(expenses.map((e: any) => e.date)).size;
             if (distinctDays >= 10) {
-              setForcedPremium(true);
               setPremiumOpen(true);
             }
           });
