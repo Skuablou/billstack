@@ -84,17 +84,17 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">
-      {/* Background gradient effects */}
-      <div className="fixed top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-[180px] pointer-events-none" style={{ background: "hsl(270 80% 40% / 0.08)" }} />
-      <div className="fixed bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-[160px] pointer-events-none" style={{ background: "hsl(36 100% 50% / 0.05)" }} />
-      <div className="fixed top-1/2 right-0 w-[400px] h-[400px] rounded-full blur-[140px] pointer-events-none" style={{ background: "hsl(210 70% 50% / 0.06)" }} />
+      {/* Background gradient effects - subtle */}
+      <div className="fixed top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-[180px] pointer-events-none" style={{ background: "hsl(220 10% 30% / 0.06)" }} />
+      <div className="fixed bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-[160px] pointer-events-none" style={{ background: "hsl(220 10% 40% / 0.04)" }} />
+      <div className="fixed top-1/2 right-0 w-[400px] h-[400px] rounded-full blur-[140px] pointer-events-none" style={{ background: "hsl(220 10% 35% / 0.05)" }} />
 
       {/* Header */}
       <header className="max-w-5xl mx-auto px-6 pt-6 md:pt-10 pb-2 relative z-10">
         <div className="flex items-center justify-between">
           <div className="min-w-0 shrink">
             <h1 className="text-3xl md:text-5xl font-display font-bold">
-              <span style={{ background: "linear-gradient(135deg, hsl(145 70% 45%), hsl(160 80% 40%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Bill</span><span style={{ background: "linear-gradient(135deg, hsl(252 78% 48%), hsl(320 70% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
+              <span className="text-foreground">Bill</span><span className="text-muted-foreground">Stack</span>
             </h1>
             <p className="text-muted-foreground text-sm mt-1 hidden md:block">Keep track of all your monthly bills</p>
           </div>
@@ -115,14 +115,14 @@ export default function Index() {
               </Button>
             )}
             {isPremium ? (
-              <button onClick={() => setPlanExpanded(!planExpanded)} className="rounded-full flex items-center gap-1.5 font-semibold border-0 text-black overflow-hidden transition-all duration-300 ease-in-out cursor-pointer" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))", width: planExpanded ? "auto" : "32px", height: "32px", padding: planExpanded ? "0 16px" : "0", minWidth: "32px" }}>
-                <Crown className="w-4 h-4 shrink-0" style={{ marginLeft: planExpanded ? "0" : "8px" }} />
+              <button onClick={() => setPlanExpanded(!planExpanded)} className="rounded-full flex items-center gap-1.5 font-semibold border border-border bg-card text-foreground overflow-hidden transition-all duration-300 ease-in-out cursor-pointer hover:bg-muted" style={{ width: planExpanded ? "auto" : "32px", height: "32px", padding: planExpanded ? "0 16px" : "0", minWidth: "32px" }}>
+                <Crown className="w-4 h-4 shrink-0 text-muted-foreground" style={{ marginLeft: planExpanded ? "0" : "8px" }} />
                 <motion.span initial={false} animate={{ opacity: planExpanded ? 1 : 0, width: planExpanded ? "auto" : 0 }} transition={{ duration: 0.2 }} className="whitespace-nowrap text-sm overflow-hidden">
-                  <a href="https://billing.stripe.com/p/login/28EbJ3gB28dT2ZL9PxgA800" target="_blank" rel="noopener noreferrer" className="text-black no-underline" onClick={(e) => e.stopPropagation()}>Manage Plan</a>
+                  <a href="https://billing.stripe.com/p/login/28EbJ3gB28dT2ZL9PxgA800" target="_blank" rel="noopener noreferrer" className="text-foreground no-underline" onClick={(e) => e.stopPropagation()}>Manage Plan</a>
                 </motion.span>
               </button>
             ) : (
-              <Button size="sm" className="rounded-full gap-1.5 px-5 py-2 text-black font-semibold border-0 text-sm" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-4 h-4" /> Premium</Button>
+              <Button size="sm" className="rounded-full gap-1.5 px-5 py-2 font-semibold border border-border bg-card text-foreground hover:bg-muted text-sm" onClick={() => setPremiumOpen(true)}><Crown className="w-4 h-4 text-muted-foreground" /> Premium</Button>
             )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
