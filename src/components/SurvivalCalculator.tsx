@@ -76,7 +76,8 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
       className="rounded-xl border p-5 space-y-4 relative overflow-hidden"
       style={{
         background: isLight ? "linear-gradient(135deg, hsl(0 60% 92%), hsl(0 45% 86%))" : "linear-gradient(135deg, hsl(0 45% 22%), hsl(0 30% 15%))",
-        borderColor: isLight ? "hsl(0 55% 78%)" : "hsl(0 70% 55% / 0.4)",
+        borderColor: isLight ? "hsl(0 50% 55%)" : "hsl(0 55% 38%)",
+        borderWidth: "2px",
         boxShadow: isLight ? "0 4px 20px -6px hsl(0 55% 60% / 0.3)" : "0 0 30px -10px hsl(0 70% 55% / 0.2)",
       }}
     >
