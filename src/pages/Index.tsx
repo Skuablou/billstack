@@ -401,7 +401,7 @@ export default function Index() {
       )}
 
       <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
-      <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} forced={forcedPremium} />
+      <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} />
       
     </div>
   );
