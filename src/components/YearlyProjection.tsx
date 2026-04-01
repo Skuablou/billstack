@@ -1,6 +1,7 @@
 import { DollarSign } from "lucide-react";
 import { Subscription, getYearlyTotal, getMonthlyTotal } from "@/lib/subscriptions";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { useTheme } from "@/lib/ThemeContext";
 
 interface Props {
   subscriptions: Subscription[];
