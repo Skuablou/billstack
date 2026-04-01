@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Subscription, getMonthlyAmount } from "@/lib/subscriptions";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { useTheme } from "@/lib/ThemeContext";
 import { motion } from "framer-motion";
 
 interface Props {
