@@ -290,7 +290,7 @@ export default function Index() {
                 <div className="grid grid-cols-2 gap-4 mb-8">
                   <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(36 60% 18%), hsl(36 40% 12%))", borderColor: "hsl(36 80% 50% / 0.4)" }}>
                     <div className="flex items-center gap-2 text-foreground font-semibold text-xs mb-1.5">
-                      <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}><CalendarClock className="w-3 h-3" style={{ color: "hsl(36 80% 50%)" }} /></div>Daily
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}><CalendarClock className="w-3.5 h-3.5" style={{ color: "hsl(36 80% 50%)" }} /></div>Daily
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(monthlyTotal / 30)}</p>
                   </div>
