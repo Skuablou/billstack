@@ -247,14 +247,8 @@ export default function Index() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
-                    {!isPremium && (
-                      <p className="text-muted-foreground text-xs mt-0.5">
-                        {freeLeft > 0 ? `${subscriptions.length}/${maxFree} free spendings used` : `Free limit reached (${maxFree}/${maxFree})`}{" · "}
-                        <button onClick={() => setPremiumOpen(true)} className="underline hover:text-foreground transition-colors" style={{ color: "hsl(36 100% 50%)" }}>Upgrade for unlimited</button>
-                      </p>
-                    )}
                   </div>
-                  <Button onClick={() => { if (!isPremium && subscriptions.length >= maxFree) { setPremiumOpen(true); } else { setDialogOpen(true); } }} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
+                  <Button onClick={() => setDialogOpen(true)} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
                 </div>
                 <div className="space-y-2">
                   {subscriptions.length === 0 ? (
