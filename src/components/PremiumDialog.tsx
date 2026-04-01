@@ -64,6 +64,13 @@ export default function PremiumDialog({ open, onOpenChange, forced }: Props) {
           </a>
         </Button>
 
+        {forced && (
+          <p className="text-muted-foreground text-xs mt-1">Continue with another free 7 days</p>
+        )}
+
+        {!forced && (
+        </Button>
+
         {!forced && (
           <button
             onClick={() => onOpenChange(false)}
