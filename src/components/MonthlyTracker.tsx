@@ -17,9 +17,13 @@ function dateKey(y: number, m: number, d: number) {
 
 interface MonthlyTrackerProps {
   subscriptions?: Subscription[];
+  isPremium?: boolean;
+  trackedDays?: number;
+  onPremiumRequired?: () => void;
+  onTrackedDaysChange?: (days: number) => void;
 }
 
-export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerProps) {
+export default function MonthlyTracker({ subscriptions = [], isPremium = false, trackedDays = 0, onPremiumRequired, onTrackedDaysChange }: MonthlyTrackerProps) {
   const isMobile = useIsMobile();
   const { currency } = useCurrency();
   const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
@@ -145,7 +149,21 @@ export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerPro
     if (!selectedDay) return;
     const amt = parseFloat(entryInput);
     if (isNaN(amt) || amt <= 0) return;
+    // Check if adding this expense would hit the 10-day limit for free users
+    if (!isPremium && trackedDays >= 10) {
+      onPremiumRequired?.();
+      return;
+    }
+    // Check if this is a new day (not yet tracked)
+    const isNewDay = !(data[selectedDay] && data[selectedDay].length > 0);
+    if (!isPremium && isNewDay && trackedDays >= 9) {
+      // This would be the 10th day - allow it but after saving, trigger premium next time
+    }
     await addExpense(selectedDay, amt);
+    // Update tracked days count if this was a new day
+    if (isNewDay) {
+      onTrackedDaysChange?.(trackedDays + 1);
+    }
     setEntryInput("");
   };
 

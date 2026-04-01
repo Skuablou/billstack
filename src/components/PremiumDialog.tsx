@@ -8,9 +8,10 @@ const STRIPE_LINK = "https://buy.stripe.com/cNi8wR3Ogcu96bX5zhgA801";
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  message?: string;
 }
 
-export default function PremiumDialog({ open, onOpenChange }: Props) {
+export default function PremiumDialog({ open, onOpenChange, message }: Props) {
   const { currency } = useCurrency();
   const price = currency === "€" ? "2.99€" : "$2.99";
 
@@ -21,9 +22,11 @@ export default function PremiumDialog({ open, onOpenChange }: Props) {
           <Crown className="w-7 h-7" style={{ color: "hsl(36 100% 50%)" }} />
         </div>
 
-        <h2 className="font-display font-bold text-foreground text-xl">Unlock Premium</h2>
+        <h2 className="font-display font-bold text-foreground text-xl">
+          {message || "Unlock Premium"}
+        </h2>
         <p className="text-muted-foreground text-sm">
-          Start your 7-day free trial — upgrade for unlimited subscriptions.
+          Start your 7-day free trial — upgrade for unlimited access.
         </p>
 
         <div className="rounded-xl border p-5 mt-4 text-left space-y-3" style={{ borderColor: "hsl(36 100% 50% / 0.4)", backgroundColor: "hsl(36 100% 50% / 0.05)" }}>

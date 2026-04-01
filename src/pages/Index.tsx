@@ -35,6 +35,7 @@ export default function Index() {
   const [premiumOpen, setPremiumOpen] = useState(false);
   
   const [isPremium, setIsPremium] = useState(isPremiumUser());
+  const [trackedDays, setTrackedDays] = useState(0);
   const [planExpanded, setPlanExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -58,6 +59,7 @@ export default function Index() {
           .then(({ data: expenses }) => {
             if (!expenses) return;
             const distinctDays = new Set(expenses.map((e: any) => e.date)).size;
+            setTrackedDays(distinctDays);
             if (distinctDays >= 10) {
               setPremiumOpen(true);
             }
@@ -256,7 +258,7 @@ export default function Index() {
               </div>
               <div className="space-y-6">
                 <UpcomingPayments subscriptions={subscriptions} onUpdate={updateSubscription} />
-                <MonthlyTracker subscriptions={subscriptions} />
+                <MonthlyTracker subscriptions={subscriptions} isPremium={isPremium} trackedDays={trackedDays} onPremiumRequired={() => setPremiumOpen(true)} onTrackedDaysChange={setTrackedDays} />
                 {isPremium ? (
                   <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
                 ) : (
@@ -370,7 +372,7 @@ export default function Index() {
 
             {activeSection === 3 && (
               <motion.div key="calendar" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }}>
-                <MonthlyTracker subscriptions={subscriptions} />
+                <MonthlyTracker subscriptions={subscriptions} isPremium={isPremium} trackedDays={trackedDays} onPremiumRequired={() => setPremiumOpen(true)} onTrackedDaysChange={setTrackedDays} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -401,7 +403,7 @@ export default function Index() {
       )}
 
       <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
-      <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} />
+      <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} message={trackedDays >= 10 ? "You've been tracking for 10 days! 🎉" : undefined} />
       
     </div>
   );
