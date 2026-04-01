@@ -33,6 +33,7 @@ const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 export default function Index() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [premiumOpen, setPremiumOpen] = useState(false);
+  const [premiumMessage, setPremiumMessage] = useState<string | undefined>(undefined);
   
   const [isPremium, setIsPremium] = useState(isPremiumUser());
   const [trackedDays, setTrackedDays] = useState(0);
