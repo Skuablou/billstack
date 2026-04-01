@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { Subscription, getMonthlyTotal } from "@/lib/subscriptions";
+import { useTheme } from "@/lib/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Props {
