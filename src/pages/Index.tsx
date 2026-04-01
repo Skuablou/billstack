@@ -101,7 +101,7 @@ export default function Index() {
 
           {/* Mobile: 3-dot menu button - inline with title */}
           <div className="flex md:hidden items-center shrink-0">
-            <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground hover:text-foreground" onClick={() => setMenuOpen(true)}>
+            <Button variant="ghost" size="icon" className="rounded-full bg-card border border-border text-muted-foreground hover:text-foreground" onClick={() => setMenuOpen(true)}>
               <MoreVertical className="w-5 h-5" />
             </Button>
           </div>
