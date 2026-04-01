@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { useTheme } from "@/lib/ThemeContext";
 import { motion } from "framer-motion";
 import { format, differenceInDays, differenceInWeeks, differenceInMonths } from "date-fns";
 import { cn } from "@/lib/utils";

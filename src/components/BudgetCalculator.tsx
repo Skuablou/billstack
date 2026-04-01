@@ -46,9 +46,9 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
     <div
       className="rounded-xl border p-5 space-y-4 relative overflow-hidden"
       style={{
-        background: "linear-gradient(135deg, hsl(270 55% 24%), hsl(260 40% 16%))",
-        borderColor: "hsl(270 70% 55% / 0.4)",
-        boxShadow: "0 0 30px -10px hsl(270 70% 55% / 0.2)",
+        background: isLight ? "linear-gradient(135deg, hsl(270 60% 92%), hsl(260 50% 86%))" : "linear-gradient(135deg, hsl(270 55% 24%), hsl(260 40% 16%))",
+        borderColor: isLight ? "hsl(270 60% 78%)" : "hsl(270 70% 55% / 0.4)",
+        boxShadow: isLight ? "0 4px 20px -6px hsl(270 60% 65% / 0.3)" : "0 0 30px -10px hsl(270 70% 55% / 0.2)",
       }}
     >
       <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
