@@ -33,7 +33,6 @@ const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 export default function Index() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [premiumOpen, setPremiumOpen] = useState(false);
-  const [forcedPremium, setForcedPremium] = useState(false);
   const [isPremium, setIsPremium] = useState(isPremiumUser());
   const [planExpanded, setPlanExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
@@ -49,19 +48,6 @@ export default function Index() {
   useEffect(() => {
     checkPremiumActivation().then((result) => {
       setIsPremium(result);
-      if (!result) {
-        const key = "billstack-first-use";
-        const stored = localStorage.getItem(key);
-        if (!stored) {
-          localStorage.setItem(key, new Date().toISOString());
-        } else {
-          const daysSince = (Date.now() - new Date(stored).getTime()) / (1000 * 60 * 60 * 24);
-          if (daysSince >= 5) {
-            setForcedPremium(true);
-            setPremiumOpen(true);
-          }
-        }
-      }
     });
 
     // Check if user has logged expenses on 5+ distinct days (one-time promo)
@@ -413,7 +399,7 @@ export default function Index() {
       )}
 
       <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
-      <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} forced={forcedPremium} />
+      <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} />
       <FiveDayPromoDialog open={fiveDayPromo} onOpenChange={setFiveDayPromo} />
     </div>
   );
