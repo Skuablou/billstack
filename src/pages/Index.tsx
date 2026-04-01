@@ -258,7 +258,15 @@ export default function Index() {
               <div className="space-y-6">
                 <UpcomingPayments subscriptions={subscriptions} onUpdate={updateSubscription} />
                 <MonthlyTracker subscriptions={subscriptions} />
-                <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
+                {isPremium ? (
+                  <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
+                ) : (
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 40% 14%), hsl(260 30% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                    <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
+                    <p className="text-muted-foreground text-sm">Calculate your monthly budget and see what's left.</p>
+                    <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
+                  </div>
+                )}
                 {isPremium ? (
                   <SurvivalCalculator subscriptions={subscriptions} />
                 ) : (
@@ -268,7 +276,9 @@ export default function Index() {
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
                   </div>
                 )}
-                <SavingsGoalForm onAdd={addGoal} />
+                {isPremium ? (
+                  <SavingsGoalForm onAdd={addGoal} />
+                ) : null}
               </div>
             </div>
           </>
