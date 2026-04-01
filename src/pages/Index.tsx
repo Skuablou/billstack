@@ -35,6 +35,7 @@ export default function Index() {
   const [premiumOpen, setPremiumOpen] = useState(false);
   
   const [isPremium, setIsPremium] = useState(isPremiumUser());
+  const [trackedDays, setTrackedDays] = useState(0);
   const [planExpanded, setPlanExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
