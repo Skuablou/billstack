@@ -48,6 +48,7 @@ export default function Index() {
   const { currency, toggle: toggleCurrency } = useCurrency();
   const { user, logout } = useAuth();
   const { isSupported, isSubscribed, isLoading: pushLoading, subscribe, unsubscribe } = usePushNotifications();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     checkPremiumActivation().then((result) => {
