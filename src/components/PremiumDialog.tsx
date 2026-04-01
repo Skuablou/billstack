@@ -8,6 +8,7 @@ const STRIPE_LINK = "https://buy.stripe.com/cNi8wR3Ogcu96bX5zhgA801";
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  message?: string;
 }
 
 export default function PremiumDialog({ open, onOpenChange }: Props) {
