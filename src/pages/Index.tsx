@@ -25,6 +25,8 @@ import {
   getMaxFreeSubscriptions,
 } from "@/lib/subscriptions";
 import { isPremiumUser, checkPremiumActivation } from "@/lib/premium";
+import { supabase } from "@/integrations/supabase/client";
+import FiveDayPromoDialog from "@/components/FiveDayPromoDialog";
 
 const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 
@@ -36,6 +38,7 @@ export default function Index() {
   const [planExpanded, setPlanExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [fiveDayPromo, setFiveDayPromo] = useState(false);
   const isMobile = useIsMobile();
   const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
   const { activeGoals, addGoal, markGoalPaid, removeGoal } = useSavingsGoals();
