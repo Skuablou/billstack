@@ -1,4 +1,4 @@
-import { AlertCircle, Bell, Calendar } from "lucide-react";
+import { AlertCircle, Bell, BellOff, Calendar, Check } from "lucide-react";
 import { Subscription, getUpcomingPayments } from "@/lib/subscriptions";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
