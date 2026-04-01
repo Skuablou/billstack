@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { Subscription, getMonthlyTotal } from "@/lib/subscriptions";
+import { useTheme } from "@/lib/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Props {
@@ -13,6 +14,8 @@ interface Props {
 
 export default function SurvivalCalculator({ subscriptions }: Props) {
   const { currency } = useCurrency();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const [bank, setBank] = useState("");
   const [salary, setSalary] = useState("");
   const [variable, setVariable] = useState("");
@@ -72,9 +75,9 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
     <div
       className="rounded-xl border p-5 space-y-4 relative overflow-hidden"
       style={{
-        background: "linear-gradient(135deg, hsl(0 45% 22%), hsl(0 30% 15%))",
-        borderColor: "hsl(0 70% 55% / 0.4)",
-        boxShadow: "0 0 30px -10px hsl(0 70% 55% / 0.2)",
+        background: isLight ? "linear-gradient(135deg, hsl(0 60% 92%), hsl(0 45% 86%))" : "linear-gradient(135deg, hsl(0 45% 22%), hsl(0 30% 15%))",
+        borderColor: isLight ? "hsl(0 55% 78%)" : "hsl(0 70% 55% / 0.4)",
+        boxShadow: isLight ? "0 4px 20px -6px hsl(0 55% 60% / 0.3)" : "0 0 30px -10px hsl(0 70% 55% / 0.2)",
       }}
     >
       <h3 className="font-display font-semibold text-foreground flex items-center gap-2">

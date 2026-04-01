@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { useTheme } from "@/lib/ThemeContext";
 import { motion } from "framer-motion";
 import { format, differenceInDays, differenceInWeeks, differenceInMonths } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -57,6 +58,8 @@ interface FormProps {
 }
 
 export function SavingsGoalForm({ onAdd }: FormProps) {
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const [goalName, setGoalName] = useState("");
   const [goalTotal, setGoalTotal] = useState("");
   const [goalDate, setGoalDate] = useState<Date>();
@@ -78,9 +81,9 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       animate={{ opacity: 1, y: 0 }}
       className="rounded-xl border p-5 space-y-3"
       style={{
-        background: "linear-gradient(135deg, hsl(270 55% 24%), hsl(260 40% 16%))",
-        borderColor: "hsl(270 70% 55% / 0.4)",
-        boxShadow: "0 0 30px -10px hsl(270 70% 55% / 0.2)",
+        background: isLight ? "linear-gradient(135deg, hsl(270 60% 92%), hsl(260 50% 86%))" : "linear-gradient(135deg, hsl(270 55% 24%), hsl(260 40% 16%))",
+        borderColor: isLight ? "hsl(270 60% 78%)" : "hsl(270 70% 55% / 0.4)",
+        boxShadow: isLight ? "0 4px 20px -6px hsl(270 60% 65% / 0.3)" : "0 0 30px -10px hsl(270 70% 55% / 0.2)",
       }}
     >
       <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
@@ -159,6 +162,8 @@ interface DisplayProps {
 
 export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps) {
   const { currency } = useCurrency();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
 
   if (goals.length === 0) return null;
@@ -182,11 +187,11 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
             animate={{ opacity: 1, y: 0 }}
             className="rounded-xl border p-5 space-y-4"
             style={{
-              background: "linear-gradient(135deg, hsl(270 55% 24%), hsl(260 40% 16%))",
-              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : "hsl(270 70% 55% / 0.4)",
+              background: isLight ? "linear-gradient(135deg, hsl(270 60% 92%), hsl(260 50% 86%))" : "linear-gradient(135deg, hsl(270 55% 24%), hsl(260 40% 16%))",
+              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : (isLight ? "hsl(270 60% 78%)" : "hsl(270 70% 55% / 0.4)"),
               boxShadow: isComplete
                 ? "0 0 30px -10px hsl(36 100% 50% / 0.3)"
-                : "0 0 30px -10px hsl(270 60% 50% / 0.1)",
+                : isLight ? "0 4px 20px -6px hsl(270 60% 65% / 0.3)" : "0 0 30px -10px hsl(270 60% 50% / 0.1)",
             }}
           >
             <div className="flex items-center justify-between">
