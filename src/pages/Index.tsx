@@ -337,6 +337,12 @@ export default function Index() {
             )}
 
             {activeSection === 2 && (
+              <motion.div key="calendar" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }}>
+                <MonthlyTracker subscriptions={subscriptions} isPremium={isPremium} trackedDays={trackedDays} onPremiumRequired={() => { setPremiumMessage("You've been tracking for 10 days! 🎉"); setPremiumOpen(true); }} onTrackedDaysChange={setTrackedDays} />
+              </motion.div>
+            )}
+
+            {activeSection === 3 && (
               <motion.div key="calculators" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }} className="space-y-6">
                 {isPremium ? (
                   <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
@@ -366,12 +372,6 @@ export default function Index() {
                   </div>
                 )}
                 {isPremium && <SavingsGoalForm onAdd={addGoal} />}
-              </motion.div>
-            )}
-
-            {activeSection === 3 && (
-              <motion.div key="calendar" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }}>
-                <MonthlyTracker subscriptions={subscriptions} isPremium={isPremium} trackedDays={trackedDays} onPremiumRequired={() => { setPremiumMessage("You've been tracking for 10 days! 🎉"); setPremiumOpen(true); }} onTrackedDaysChange={setTrackedDays} />
               </motion.div>
             )}
           </AnimatePresence>
