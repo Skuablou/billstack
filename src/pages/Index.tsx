@@ -343,7 +343,7 @@ export default function Index() {
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
                   </div>
-                  <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(210 65% 22%), hsl(220 50% 16%))", borderColor: "hsl(210 80% 55% / 0.5)" }}>
+                  <div className="rounded-xl border p-4" style={cardStyles.yearly}>
                     <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
                       <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(210 70% 50% / 0.25)" }}><TrendingUp className="w-3.5 h-3.5" style={{ color: "hsl(210 70% 55%)" }} /></div>Yearly
                     </div>
