@@ -14,6 +14,8 @@ interface Props {
 
 export default function BudgetCalculator({ subscriptions, savingsMonthly }: Props) {
   const { currency } = useCurrency();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const [income, setIncome] = useState("");
   const [variableSpendings, setVariableSpendings] = useState("");
   const incomeNum = parseFloat(income) || 0;
