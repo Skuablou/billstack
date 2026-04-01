@@ -58,6 +58,8 @@ interface FormProps {
 }
 
 export function SavingsGoalForm({ onAdd }: FormProps) {
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const [goalName, setGoalName] = useState("");
   const [goalTotal, setGoalTotal] = useState("");
   const [goalDate, setGoalDate] = useState<Date>();
