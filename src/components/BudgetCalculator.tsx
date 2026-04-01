@@ -46,8 +46,8 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
     <div
       className="rounded-xl border p-5 space-y-4 relative overflow-hidden"
       style={{
-        background: isLight ? "linear-gradient(135deg, hsl(270 60% 92%), hsl(260 50% 86%))" : "linear-gradient(135deg, hsl(270 55% 24%), hsl(260 40% 16%))",
-        borderColor: isLight ? "hsl(270 55% 58%)" : "hsl(270 60% 40%)",
+        background: isLight ? "linear-gradient(135deg, hsl(295 55% 92%), hsl(295 45% 86%))" : "linear-gradient(135deg, hsl(295 50% 24%), hsl(295 35% 16%))",
+        borderColor: isLight ? "hsl(295 50% 55%)" : "hsl(295 55% 40%)",
         borderWidth: "2px",
         boxShadow: isLight ? "0 4px 20px -6px hsl(270 60% 65% / 0.3)" : "0 0 30px -10px hsl(270 70% 55% / 0.2)",
       }}
@@ -97,14 +97,14 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
           {savingsMonthly > 0 && (
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Savings goals</span>
-              <span className="font-medium" style={{ color: "hsl(270 80% 65%)" }}>{fmt(savingsMonthly)}</span>
+              <span className="font-medium" style={{ color: "hsl(295 75% 63%)" }}>{fmt(savingsMonthly)}</span>
             </div>
           )}
           <div className="flex justify-between text-sm border-t border-border/30 pt-2">
             <span className="text-muted-foreground">Left over</span>
             <span
               className="font-display font-bold"
-              style={{ color: leftOver >= 0 ? "hsl(140 60% 45%)" : "hsl(0 72% 55%)" }}
+              style={{ color: leftOver >= 0 ? "hsl(145 70% 45%)" : "hsl(0 72% 55%)" }}
             >
               {fmt(leftOver)}
             </span>
@@ -129,8 +129,8 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
           )}
 
           {!overspend && leftOver >= 0 && (
-            <div className="rounded-lg p-3" style={{ backgroundColor: "hsl(140 60% 45% / 0.08)", borderLeft: "3px solid hsl(140 60% 45%)" }}>
-              <p className="text-xs font-medium" style={{ color: "hsl(140 60% 45%)" }}>
+            <div className="rounded-lg p-3" style={{ backgroundColor: "hsl(140 60% 45% / 0.08)", borderLeft: "3px solid hsl(145 70% 45%)" }}>
+              <p className="text-xs font-medium" style={{ color: "hsl(145 70% 45%)" }}>
                 ✓ You're within budget! {fmt(leftOver)} left over.
               </p>
             </div>

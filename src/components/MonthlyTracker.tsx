@@ -205,9 +205,9 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
                 onKeyDown={e => e.key === "Enter" && confirmSalary()}
                 placeholder="e.g. 2500"
                 className="flex-1 h-8 bg-transparent border-0 text-sm font-medium focus-visible:ring-0 p-0"
-                style={{ color: "hsl(160 70% 45%)" }}
+                style={{ color: "hsl(145 70% 45%)" }}
               />
-              <Button size="icon" className="h-8 w-8 shrink-0 rounded-lg" style={{ background: "hsl(160 70% 45%)" }} onClick={confirmSalary}>
+              <Button size="icon" className="h-8 w-8 shrink-0 rounded-lg" style={{ background: "hsl(145 70% 45%)" }} onClick={confirmSalary}>
                 <Check className="w-4 h-4 text-white" />
               </Button>
             </div>
@@ -236,7 +236,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
                       value={salary || ""}
                       onChange={e => setSalary(parseFloat(e.target.value) || 0)}
                       className="w-24 h-8 text-sm text-right bg-muted/50 border-border"
-                      style={{ color: "hsl(160 70% 45%)" }}
+                      style={{ color: "hsl(145 70% 45%)" }}
                     />
                   </div>
                 )}
@@ -247,7 +247,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
                         onClick={() => toggleDay(i)}
                         className="w-9 h-7 rounded-lg text-xs font-medium transition-colors"
                         style={{
-                          background: activeDays[i] ? "hsl(160 70% 45%)" : "hsl(var(--muted))",
+                          background: activeDays[i] ? "hsl(145 70% 45%)" : "hsl(var(--muted))",
                           color: activeDays[i] ? "white" : "hsl(var(--muted-foreground))",
                           border: activeDays[i] ? "none" : "1px solid hsl(var(--border))",
                         }}
@@ -274,7 +274,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
       <div className="grid grid-cols-4 gap-2">
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
           <p className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1">Salary</p>
-          <p className="text-base font-display font-bold" style={{ color: salary > 0 ? "hsl(160 70% 45%)" : "hsl(var(--foreground))" }}>
+          <p className="text-base font-display font-bold" style={{ color: salary > 0 ? "hsl(145 70% 45%)" : "hsl(var(--foreground))" }}>
             {salary > 0 ? `${salary.toFixed(0)}${currency}` : `—${currency}`}
           </p>
         </div>
@@ -292,7 +292,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
         </div>
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
           <p className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1">Total</p>
-          <p className="text-base font-display font-bold" style={{ color: salary > 0 ? (totalAmount >= 0 ? "hsl(160 70% 45%)" : "hsl(15 70% 50%)") : "hsl(var(--foreground))" }}>
+          <p className="text-base font-display font-bold" style={{ color: salary > 0 ? (totalAmount >= 0 ? "hsl(145 70% 45%)" : "hsl(15 70% 50%)") : "hsl(var(--foreground))" }}>
             {salary > 0 ? `${Math.abs(totalAmount).toFixed(0)}${currency}` : `—${currency}`}
           </p>
         </div>
@@ -335,7 +335,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
                         </span>
                         {cell.earned > 0 ? (
                           <span className="text-[10px] font-medium" style={{
-                            color: cell.spent === 0 ? "hsl(var(--muted-foreground))" : left >= 0 ? "hsl(160 70% 45%)" : "hsl(15 70% 50%)"
+                            color: cell.spent === 0 ? "hsl(var(--muted-foreground))" : left >= 0 ? "hsl(145 70% 45%)" : "hsl(15 70% 50%)"
                           }}>
                             {left >= 0 ? "+" : "-"}{fmtShort(left)}
                           </span>
@@ -371,7 +371,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
             <div className="grid grid-cols-3 gap-2">
               <div className="rounded-lg p-2.5 text-center" style={{ background: "hsl(var(--muted))" }}>
                 <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-0.5">Earned</p>
-                <p className="text-sm font-bold" style={{ color: "hsl(160 70% 45%)" }}>
+                <p className="text-sm font-bold" style={{ color: "hsl(145 70% 45%)" }}>
                   {selectedData.dayHrs > 0 ? fmt(selectedData.earned) : (selectedData.dayHrs === 0 ? "Day off" : `—${currency}`)}
                 </p>
               </div>
@@ -383,7 +383,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
                 <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-0.5">Left</p>
                 <p className="text-sm font-bold" style={{
                   color: selectedData.earned > 0
-                    ? (selectedData.left >= 0 ? "hsl(160 70% 45%)" : "hsl(15 70% 50%)")
+                    ? (selectedData.left >= 0 ? "hsl(145 70% 45%)" : "hsl(15 70% 50%)")
                     : (selectedData.spent > 0 ? "hsl(15 70% 50%)" : "hsl(var(--muted-foreground))")
                 }}>
                   {selectedData.earned > 0

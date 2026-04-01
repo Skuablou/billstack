@@ -22,7 +22,7 @@ const REMINDER_OPTIONS = [
 function getDaysColor(days: number): string {
   if (days <= 4) return "hsl(0 72% 55%)";
   if (days <= 7) return "hsl(45 90% 55%)";
-  return "hsl(140 60% 45%)";
+  return "hsl(145 70% 45%)";
 }
 
 function getDaysLabel(days: number): string {

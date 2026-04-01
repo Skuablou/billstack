@@ -35,7 +35,7 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
   const getStatus = (m: number) => {
     if (m <= 3) return { cls: "danger", badge: "🔴 Critical", color: "hsl(0 72% 55%)", text: "One bad day away from serious trouble. Time to cut costs now." };
     if (m <= 6) return { cls: "warning", badge: "🟡 Tight", color: "hsl(40 90% 50%)", text: "Some buffer, but not enough room for more mistakes or surprises." };
-    return { cls: "safe", badge: "🟢 Solid", color: "hsl(160 70% 45%)", text: "Good runway. You have time to find your footing if things go wrong." };
+    return { cls: "safe", badge: "🟢 Solid", color: "hsl(145 70% 45%)", text: "Good runway. You have time to find your footing if things go wrong." };
   };
 
   const calculate = () => {

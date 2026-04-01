@@ -81,8 +81,8 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       animate={{ opacity: 1, y: 0 }}
       className="rounded-xl border p-5 space-y-3"
       style={{
-        background: isLight ? "linear-gradient(135deg, hsl(270 60% 92%), hsl(260 50% 86%))" : "linear-gradient(135deg, hsl(270 55% 24%), hsl(260 40% 16%))",
-        borderColor: isLight ? "hsl(270 55% 58%)" : "hsl(270 60% 40%)",
+        background: isLight ? "linear-gradient(135deg, hsl(295 55% 92%), hsl(295 45% 86%))" : "linear-gradient(135deg, hsl(295 50% 24%), hsl(295 35% 16%))",
+        borderColor: isLight ? "hsl(295 50% 55%)" : "hsl(295 55% 40%)",
         borderWidth: "2px",
         boxShadow: isLight ? "0 4px 20px -6px hsl(270 60% 65% / 0.3)" : "0 0 30px -10px hsl(270 70% 55% / 0.2)",
       }}
@@ -141,7 +141,7 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       </Popover>
       <Button
         className="w-full rounded-lg gap-1.5 text-sm font-semibold h-10"
-        style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))" }}
+        style={{ background: "linear-gradient(135deg, hsl(295 75% 58%), hsl(320 70% 55%))" }}
         disabled={!goalName.trim() || !goalTotal || !goalDate}
         onClick={handleStartSaving}
       >
@@ -188,8 +188,8 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
             animate={{ opacity: 1, y: 0 }}
             className="rounded-xl border p-5 space-y-4"
             style={{
-              background: isLight ? "linear-gradient(135deg, hsl(270 60% 92%), hsl(260 50% 86%))" : "linear-gradient(135deg, hsl(270 55% 24%), hsl(260 40% 16%))",
-              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : (isLight ? "hsl(270 55% 58%)" : "hsl(270 60% 40%)"),
+              background: isLight ? "linear-gradient(135deg, hsl(295 55% 92%), hsl(295 45% 86%))" : "linear-gradient(135deg, hsl(295 50% 24%), hsl(295 35% 16%))",
+              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : (isLight ? "hsl(295 50% 55%)" : "hsl(295 55% 40%)"),
               borderWidth: "2px",
               boxShadow: isComplete
                 ? "0 0 30px -10px hsl(36 100% 50% / 0.3)"
@@ -218,11 +218,11 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(270 40% 20% / 0.6)" }}>
                 <p className="text-xs text-muted-foreground">Per {getIntervalLabel(goal.interval)}</p>
-                <p className="text-sm font-bold" style={{ color: "hsl(270 80% 65%)" }}>{fmt(perPeriod)}</p>
+                <p className="text-sm font-bold" style={{ color: "hsl(295 75% 63%)" }}>{fmt(perPeriod)}</p>
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(270 40% 20% / 0.6)" }}>
                 <p className="text-xs text-muted-foreground">Saved</p>
-                <p className="text-sm font-bold" style={{ color: "hsl(140 60% 45%)" }}>{fmt(savedSoFar)}</p>
+                <p className="text-sm font-bold" style={{ color: "hsl(145 70% 45%)" }}>{fmt(savedSoFar)}</p>
               </div>
             </div>
 
@@ -238,7 +238,7 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
                       className="w-5 h-5 rounded-sm transition-colors"
                       style={{
                         backgroundColor: isPaid
-                          ? "hsl(140 60% 45%)"
+                          ? "hsl(145 70% 45%)"
                           : isLast
                             ? "hsl(36 100% 50%)"
                             : "hsl(230 14% 18%)",
@@ -262,7 +262,7 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
               <Button
                 onClick={() => onMarkPaid(i)}
                 className="w-full rounded-lg gap-2 text-sm font-semibold h-10"
-                style={{ background: "linear-gradient(135deg, hsl(140 60% 40%), hsl(160 70% 35%))" }}
+                style={{ background: "linear-gradient(135deg, hsl(145 70% 40%), hsl(145 70% 35%))" }}
               >
                 <Check className="w-4 h-4" />
                 Mark as Paid ({getIntervalLabel(goal.interval)})
