@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CurrencyProvider } from "@/lib/CurrencyContext";
+import { ThemeProvider } from "@/lib/ThemeContext";
 import { useAuth, AuthProvider } from "@/lib/AuthContext";
 import Index from "./pages/Index.tsx";
 import Auth from "./pages/Auth.tsx";
@@ -21,6 +22,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
+      <ThemeProvider>
       <CurrencyProvider>
         <TooltipProvider>
           <Toaster />
@@ -34,6 +36,7 @@ const App = () => (
           </BrowserRouter>
         </TooltipProvider>
       </CurrencyProvider>
+      </ThemeProvider>
     </AuthProvider>
   </QueryClientProvider>
 );
