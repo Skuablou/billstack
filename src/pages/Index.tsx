@@ -33,6 +33,7 @@ const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 export default function Index() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [premiumOpen, setPremiumOpen] = useState(false);
+  const [premiumMessage, setPremiumMessage] = useState<string | undefined>(undefined);
   
   const [isPremium, setIsPremium] = useState(isPremiumUser());
   const [trackedDays, setTrackedDays] = useState(0);
@@ -60,9 +61,7 @@ export default function Index() {
             if (!expenses) return;
             const distinctDays = new Set(expenses.map((e: any) => e.date)).size;
             setTrackedDays(distinctDays);
-            if (distinctDays >= 10) {
-              setPremiumOpen(true);
-            }
+            // Just track count, don't auto-open
           });
       }
     });
@@ -258,7 +257,7 @@ export default function Index() {
               </div>
               <div className="space-y-6">
                 <UpcomingPayments subscriptions={subscriptions} onUpdate={updateSubscription} />
-                <MonthlyTracker subscriptions={subscriptions} isPremium={isPremium} trackedDays={trackedDays} onPremiumRequired={() => setPremiumOpen(true)} onTrackedDaysChange={setTrackedDays} />
+                <MonthlyTracker subscriptions={subscriptions} isPremium={isPremium} trackedDays={trackedDays} onPremiumRequired={() => { setPremiumMessage("You've been tracking for 10 days! 🎉"); setPremiumOpen(true); }} onTrackedDaysChange={setTrackedDays} />
                 {isPremium ? (
                   <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
                 ) : (
@@ -403,7 +402,7 @@ export default function Index() {
       )}
 
       <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
-      <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} message={trackedDays >= 10 ? "You've been tracking for 10 days! 🎉" : undefined} />
+      <PremiumDialog open={premiumOpen} onOpenChange={(open) => { setPremiumOpen(open); if (!open) setPremiumMessage(undefined); }} message={premiumMessage} />
       
     </div>
   );
