@@ -25,6 +25,8 @@ import {
   getMaxFreeSubscriptions,
 } from "@/lib/subscriptions";
 import { isPremiumUser, checkPremiumActivation } from "@/lib/premium";
+import { supabase } from "@/integrations/supabase/client";
+import FiveDayPromoDialog from "@/components/FiveDayPromoDialog";
 
 const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 
@@ -36,6 +38,7 @@ export default function Index() {
   const [planExpanded, setPlanExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [fiveDayPromo, setFiveDayPromo] = useState(false);
   const isMobile = useIsMobile();
   const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
   const { activeGoals, addGoal, markGoalPaid, removeGoal } = useSavingsGoals();
@@ -60,7 +63,22 @@ export default function Index() {
         }
       }
     });
-  }, []);
+
+    // Check if user has logged expenses on 5+ distinct days (one-time promo)
+    if (user && localStorage.getItem("billstack-5day-promo-shown") !== "true") {
+      supabase
+        .from("monthly_tracker_expenses")
+        .select("date")
+        .eq("user_id", user.id)
+        .then(({ data: expenses }) => {
+          if (!expenses) return;
+          const distinctDays = new Set(expenses.map((e: any) => e.date)).size;
+          if (distinctDays >= 5 && !isPremiumUser()) {
+            setFiveDayPromo(true);
+          }
+        });
+    }
+  }, [user]);
 
   // Calculate total monthly savings from all active (non-complete) goals
   const savingsMonthly = activeGoals.reduce((sum, goal) => {
@@ -396,6 +414,7 @@ export default function Index() {
 
       <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
       <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} forced={forcedPremium} />
+      <FiveDayPromoDialog open={fiveDayPromo} onOpenChange={setFiveDayPromo} />
     </div>
   );
 }
