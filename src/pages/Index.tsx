@@ -402,7 +402,7 @@ export default function Index() {
       )}
 
       <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
-      <PremiumDialog open={premiumOpen} onOpenChange={setPremiumOpen} message={trackedDays >= 10 ? "You've been tracking for 10 days! 🎉" : undefined} />
+      <PremiumDialog open={premiumOpen} onOpenChange={(open) => { setPremiumOpen(open); if (!open) setPremiumMessage(undefined); }} message={premiumMessage} />
       
     </div>
   );
