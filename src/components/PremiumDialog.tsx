@@ -8,10 +8,9 @@ const STRIPE_LINK = "https://buy.stripe.com/cNi8wR3Ogcu96bX5zhgA801";
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  forced?: boolean;
 }
 
-export default function PremiumDialog({ open, onOpenChange, forced }: Props) {
+export default function PremiumDialog({ open, onOpenChange }: Props) {
   const { currency } = useCurrency();
   const price = currency === "€" ? "2.99€" : "$2.99";
 
