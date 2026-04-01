@@ -236,15 +236,24 @@ export default function Index() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
+                    {!isPremium && <p className="text-muted-foreground text-xs">{freeLeft > 0 ? `${subscriptions.length}/${maxFree} free spendings used` : "Free limit reached"}</p>}
                   </div>
-                  <Button onClick={() => setDialogOpen(true)} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
+                  <Button onClick={() => { if (!isPremium && freeLeft <= 0) { setPremiumOpen(true); return; } setDialogOpen(true); }} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
                 </div>
                 <div className="space-y-2">
                   {subscriptions.length === 0 ? (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-xl bg-card border border-border p-12 text-center"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p></motion.div>
                   ) : subscriptions.map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
                 </div>
-                <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
+                {isPremium ? (
+                  <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
+                ) : (
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(270 30% 14%), hsl(270 20% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                    <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goals</h3>
+                    <p className="text-muted-foreground text-sm">Set savings goals and track your progress.</p>
+                    <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
+                  </div>
+                )}
               </div>
               <div className="space-y-6">
                 <UpcomingPayments subscriptions={subscriptions} onUpdate={updateSubscription} />
