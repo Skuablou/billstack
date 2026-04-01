@@ -48,35 +48,22 @@ export default function Index() {
   useEffect(() => {
     checkPremiumActivation().then((result) => {
       setIsPremium(result);
-      if (!result) {
-        const key = "billstack-first-use";
-        const stored = localStorage.getItem(key);
-        if (!stored) {
-          localStorage.setItem(key, new Date().toISOString());
-        } else {
-          const daysSince = (Date.now() - new Date(stored).getTime()) / (1000 * 60 * 60 * 24);
-          if (daysSince >= 5) {
-            setForcedPremium(true);
-            setPremiumOpen(true);
-          }
-        }
+      if (!result && user) {
+        // Check if user has logged expenses on 5+ distinct days → force premium
+        supabase
+          .from("monthly_tracker_expenses")
+          .select("date")
+          .eq("user_id", user.id)
+          .then(({ data: expenses }) => {
+            if (!expenses) return;
+            const distinctDays = new Set(expenses.map((e: any) => e.date)).size;
+            if (distinctDays >= 5) {
+              setForcedPremium(true);
+              setPremiumOpen(true);
+            }
+          });
       }
     });
-
-    // Check if user has logged expenses on 5+ distinct days (one-time promo)
-    if (user && localStorage.getItem("billstack-5day-promo-shown") !== "true") {
-      supabase
-        .from("monthly_tracker_expenses")
-        .select("date")
-        .eq("user_id", user.id)
-        .then(({ data: expenses }) => {
-          if (!expenses) return;
-          const distinctDays = new Set(expenses.map((e: any) => e.date)).size;
-          if (distinctDays >= 5 && !isPremiumUser()) {
-            setFiveDayPromo(true);
-          }
-        });
-    }
   }, [user]);
 
   // Calculate total monthly savings from all active (non-complete) goals
