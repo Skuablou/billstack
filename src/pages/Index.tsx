@@ -61,9 +61,7 @@ export default function Index() {
             if (!expenses) return;
             const distinctDays = new Set(expenses.map((e: any) => e.date)).size;
             setTrackedDays(distinctDays);
-            if (distinctDays >= 10) {
-              setPremiumOpen(true);
-            }
+            // Just track count, don't auto-open
           });
       }
     });
