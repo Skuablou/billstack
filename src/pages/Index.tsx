@@ -88,8 +88,6 @@ export default function Index() {
 
   const monthlyTotal = getMonthlyTotal(subscriptions);
   const yearlyTotal = getYearlyTotal(subscriptions);
-  const maxFree = getMaxFreeSubscriptions();
-  const freeLeft = Math.max(0, maxFree - subscriptions.length);
 
   const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
 
