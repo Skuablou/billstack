@@ -219,7 +219,7 @@ export default function Index() {
                 <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(210 50% 14%), hsl(220 40% 10%))", borderColor: "hsl(210 70% 50% / 0.3)", boxShadow: "0 0 30px -10px hsl(210 70% 50% / 0.15)" }}>
-                <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
+                <div className="flex items-center gap-2 text-foreground font-semibold text-sm mb-2">
                   <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(210 70% 50% / 0.25)" }}><TrendingUp className="w-3.5 h-3.5" style={{ color: "hsl(210 70% 55%)" }} /></div>Yearly
                 </div>
                 <p className="text-3xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
