@@ -235,7 +235,7 @@ export default function Index() {
                 </div>
                 <p className="text-3xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
               </motion.div>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(160 50% 14%), hsl(160 40% 10%))", borderColor: "hsl(160 70% 45% / 0.3)", boxShadow: "0 0 30px -10px hsl(160 70% 45% / 0.15)" }}>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(160 65% 22%), hsl(160 50% 16%))", borderColor: "hsl(160 80% 50% / 0.5)", boxShadow: "0 0 30px -10px hsl(160 80% 50% / 0.25)" }}>
                 <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-2">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-4 h-4" style={{ color: "hsl(160 70% 45%)" }} /></div>Spendings
                 </div>
