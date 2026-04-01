@@ -25,7 +25,7 @@ import {
 } from "@/lib/subscriptions";
 import { isPremiumUser, checkPremiumActivation } from "@/lib/premium";
 import { supabase } from "@/integrations/supabase/client";
-import FiveDayPromoDialog from "@/components/FiveDayPromoDialog";
+
 
 const STRIPE_LINK = "https://buy.stripe.com/28EbJ3gB28dT2ZL9PxgA800";
 
