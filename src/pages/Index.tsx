@@ -301,7 +301,7 @@ export default function Index() {
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
                   </div>
                   <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(210 50% 14%), hsl(220 40% 10%))", borderColor: "hsl(210 70% 50% / 0.3)" }}>
-                    <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1.5">
+                    <div className="flex items-center gap-2 text-foreground font-semibold text-xs mb-1.5">
                       <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(210 70% 50% / 0.25)" }}><TrendingUp className="w-3 h-3" style={{ color: "hsl(210 70% 55%)" }} /></div>Yearly
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
