@@ -83,6 +83,38 @@ export default function Index() {
   const yearlyTotal = getYearlyTotal(subscriptions);
 
   const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
+  const isLight = theme === "light";
+
+  const cardStyles = {
+    daily: {
+      background: isLight
+        ? "linear-gradient(135deg, hsl(36 80% 88%), hsl(36 70% 82%))"
+        : "linear-gradient(135deg, hsl(36 70% 26%), hsl(36 50% 18%))",
+      borderColor: isLight ? "hsl(36 80% 70%)" : "hsl(36 90% 55% / 0.5)",
+      boxShadow: isLight ? "0 4px 20px -6px hsl(36 80% 60% / 0.3)" : "0 0 30px -10px hsl(36 90% 55% / 0.3)",
+    },
+    monthly: {
+      background: isLight
+        ? "linear-gradient(135deg, hsl(270 70% 90%), hsl(270 60% 84%))"
+        : "linear-gradient(135deg, hsl(270 70% 26%), hsl(270 50% 18%))",
+      borderColor: isLight ? "hsl(270 70% 75%)" : "hsl(270 90% 65% / 0.5)",
+      boxShadow: isLight ? "0 4px 20px -6px hsl(270 70% 65% / 0.3)" : "0 0 30px -10px hsl(270 90% 65% / 0.3)",
+    },
+    yearly: {
+      background: isLight
+        ? "linear-gradient(135deg, hsl(210 70% 90%), hsl(220 60% 84%))"
+        : "linear-gradient(135deg, hsl(210 65% 22%), hsl(220 50% 16%))",
+      borderColor: isLight ? "hsl(210 70% 75%)" : "hsl(210 80% 55% / 0.5)",
+      boxShadow: isLight ? "0 4px 20px -6px hsl(210 70% 60% / 0.3)" : "0 0 30px -10px hsl(210 80% 55% / 0.25)",
+    },
+    spendings: {
+      background: isLight
+        ? "linear-gradient(135deg, hsl(160 60% 88%), hsl(160 50% 82%))"
+        : "linear-gradient(135deg, hsl(160 65% 22%), hsl(160 50% 16%))",
+      borderColor: isLight ? "hsl(160 60% 70%)" : "hsl(160 80% 50% / 0.5)",
+      boxShadow: isLight ? "0 4px 20px -6px hsl(160 60% 55% / 0.3)" : "0 0 30px -10px hsl(160 80% 50% / 0.25)",
+    },
+  };
 
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">
