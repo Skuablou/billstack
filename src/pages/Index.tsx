@@ -255,7 +255,7 @@ export default function Index() {
                 </div>
                 <p className="text-3xl font-display font-bold text-foreground">{fmt(monthlyTotal / 30)}</p>
               </motion.div>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="rounded-xl border p-5" style={{ background: "linear-gradient(135deg, hsl(270 70% 26%), hsl(270 50% 18%))", borderColor: "hsl(270 90% 65% / 0.5)", boxShadow: "0 0 30px -10px hsl(270 90% 65% / 0.3)" }}>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="rounded-xl border p-5" style={cardStyles.monthly}>
                 <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-2">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-4 h-4" style={{ color: "hsl(270 80% 60%)" }} /></div>Monthly
                 </div>
