@@ -93,7 +93,7 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
           {savingsMonthly > 0 && (
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Savings goals</span>
-              <span className="font-medium" style={{ color: "hsl(270 80% 65%)" }}>{fmt(savingsMonthly)}</span>
+              <span className="font-medium" style={{ color: "hsl(252 78% 55%)" }}>{fmt(savingsMonthly)}</span>
             </div>
           )}
           <div className="flex justify-between text-sm border-t border-border/30 pt-2">

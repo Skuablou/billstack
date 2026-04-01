@@ -137,7 +137,7 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       </Popover>
       <Button
         className="w-full rounded-lg gap-1.5 text-sm font-semibold h-10"
-        style={{ background: "linear-gradient(135deg, hsl(270 80% 60%), hsl(320 70% 55%))" }}
+        style={{ background: "linear-gradient(135deg, hsl(252 78% 48%), hsl(320 70% 55%))" }}
         disabled={!goalName.trim() || !goalTotal || !goalDate}
         onClick={handleStartSaving}
       >
@@ -211,7 +211,7 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(270 40% 20% / 0.6)" }}>
                 <p className="text-xs text-muted-foreground">Per {getIntervalLabel(goal.interval)}</p>
-                <p className="text-sm font-bold" style={{ color: "hsl(270 80% 65%)" }}>{fmt(perPeriod)}</p>
+                <p className="text-sm font-bold" style={{ color: "hsl(252 78% 55%)" }}>{fmt(perPeriod)}</p>
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(270 40% 20% / 0.6)" }}>
                 <p className="text-xs text-muted-foreground">Saved</p>
