@@ -296,7 +296,7 @@ export default function Index() {
                   </div>
                   <div className="rounded-xl border p-4" style={{ background: "linear-gradient(135deg, hsl(270 60% 18%), hsl(270 40% 12%))", borderColor: "hsl(270 80% 60% / 0.4)" }}>
                     <div className="flex items-center gap-2 text-foreground font-semibold text-xs mb-1.5">
-                      <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-3 h-3" style={{ color: "hsl(270 80% 60%)" }} /></div>Monthly
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-3.5 h-3.5" style={{ color: "hsl(270 80% 60%)" }} /></div>Monthly
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
                   </div>
