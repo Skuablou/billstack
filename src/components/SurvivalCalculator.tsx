@@ -14,6 +14,8 @@ interface Props {
 
 export default function SurvivalCalculator({ subscriptions }: Props) {
   const { currency } = useCurrency();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const [bank, setBank] = useState("");
   const [salary, setSalary] = useState("");
   const [variable, setVariable] = useState("");
