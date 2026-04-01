@@ -17,9 +17,13 @@ function dateKey(y: number, m: number, d: number) {
 
 interface MonthlyTrackerProps {
   subscriptions?: Subscription[];
+  isPremium?: boolean;
+  trackedDays?: number;
+  onPremiumRequired?: () => void;
+  onTrackedDaysChange?: (days: number) => void;
 }
 
-export default function MonthlyTracker({ subscriptions = [] }: MonthlyTrackerProps) {
+export default function MonthlyTracker({ subscriptions = [], isPremium = false, trackedDays = 0, onPremiumRequired, onTrackedDaysChange }: MonthlyTrackerProps) {
   const isMobile = useIsMobile();
   const { currency } = useCurrency();
   const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
