@@ -78,7 +78,11 @@ export default function UpcomingPayments({ subscriptions, onUpdate }: Props) {
                 </div>
                 {/* Reminder */}
                 <div className="flex items-center gap-1.5 pl-14">
-                  <Bell className="w-3.5 h-3.5 text-muted-foreground" />
+                  {String(sub.reminderDays ?? 1) === "0" ? (
+                    <BellOff className="w-3.5 h-3.5 text-muted-foreground" />
+                  ) : (
+                    <Bell className="w-3.5 h-3.5 text-muted-foreground" />
+                  )}
                   <Select
                     value={String(sub.reminderDays ?? 1)}
                     onValueChange={(v) => onUpdate?.(sub.id, { reminderDays: parseInt(v) })}
