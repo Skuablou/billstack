@@ -48,7 +48,7 @@ export const CATEGORY_ICONS: Record<string, string> = {
 };
 
 const STORAGE_KEY = "billstack-subscriptions";
-const MAX_FREE_SUBSCRIPTIONS = 4;
+const MAX_FREE_SUBSCRIPTIONS = 5;
 
 export function getMaxFreeSubscriptions() {
   return MAX_FREE_SUBSCRIPTIONS;
