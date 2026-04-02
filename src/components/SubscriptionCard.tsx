@@ -3,6 +3,22 @@ import { Trash2, RefreshCw, Calendar } from "lucide-react";
 import { Subscription, getMonthlyAmount } from "@/lib/subscriptions";
 import { useCurrency } from "@/lib/CurrencyContext";
 
+import catHousing from "@/assets/cat-housing.png";
+import catCar from "@/assets/cat-car.png";
+import catInsurance from "@/assets/cat-insurance.png";
+import catDebt from "@/assets/cat-debt.png";
+import catUtilities from "@/assets/cat-utilities.png";
+import catStreaming from "@/assets/cat-streaming.png";
+
+const CATEGORY_IMAGES: Record<string, string> = {
+  "Housing": catHousing,
+  "Car & Transport": catCar,
+  "Insurance": catInsurance,
+  "Debt Payments": catDebt,
+  "Utilities & Phone": catUtilities,
+  "Streaming & Subscriptions": catStreaming,
+};
+
 interface Props {
   subscription: Subscription;
   index: number;
@@ -12,6 +28,7 @@ interface Props {
 
 export default function SubscriptionCard({ subscription: s, index, onDelete }: Props) {
   const { currency } = useCurrency();
+  const categoryImage = CATEGORY_IMAGES[s.category];
   const initial = s.name.charAt(0).toLowerCase();
   const monthly = getMonthlyAmount(s);
 
