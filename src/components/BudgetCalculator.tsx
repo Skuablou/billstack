@@ -52,8 +52,8 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
         boxShadow: isLight ? "0 4px 20px -6px hsl(270 60% 65% / 0.3)" : "0 0 30px -10px hsl(270 70% 55% / 0.2)",
       }}
     >
-      <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
-        <Calculator className="w-4 h-4 text-primary" />
+      <h3 className="font-display font-semibold flex items-center gap-2 text-white">
+        <Calculator className="w-4 h-4 text-white" />
         Budget Calculator
       </h3>
 
