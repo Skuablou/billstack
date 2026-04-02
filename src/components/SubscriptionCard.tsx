@@ -3,6 +3,22 @@ import { Trash2, RefreshCw, Calendar } from "lucide-react";
 import { Subscription, getMonthlyAmount } from "@/lib/subscriptions";
 import { useCurrency } from "@/lib/CurrencyContext";
 
+import catHousing from "@/assets/cat-housing.png";
+import catCar from "@/assets/cat-car.png";
+import catInsurance from "@/assets/cat-insurance.png";
+import catDebt from "@/assets/cat-debt.png";
+import catUtilities from "@/assets/cat-utilities.png";
+import catStreaming from "@/assets/cat-streaming.png";
+
+const CATEGORY_IMAGES: Record<string, string> = {
+  "Housing": catHousing,
+  "Car & Transport": catCar,
+  "Insurance": catInsurance,
+  "Debt Payments": catDebt,
+  "Utilities & Phone": catUtilities,
+  "Streaming & Subscriptions": catStreaming,
+};
+
 interface Props {
   subscription: Subscription;
   index: number;
@@ -12,6 +28,7 @@ interface Props {
 
 export default function SubscriptionCard({ subscription: s, index, onDelete }: Props) {
   const { currency } = useCurrency();
+  const categoryImage = CATEGORY_IMAGES[s.category];
   const initial = s.name.charAt(0).toLowerCase();
   const monthly = getMonthlyAmount(s);
 
@@ -25,10 +42,14 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
       <div className="flex items-center gap-3">
         {/* Icon */}
         <div
-          className="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center text-base font-bold text-white shrink-0"
+          className="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center text-base font-bold text-white shrink-0 overflow-hidden"
           style={{ backgroundColor: s.color }}
         >
-          {initial}
+          {categoryImage ? (
+            <img src={categoryImage} alt={s.category} className="w-7 h-7 md:w-8 md:h-8 object-contain" />
+          ) : (
+            initial
+          )}
         </div>
 
         {/* Name + Monthly */}
