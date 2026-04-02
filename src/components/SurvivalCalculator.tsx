@@ -82,7 +82,7 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
       }}
     >
       <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
-        <ShieldAlert className="w-4 h-4" style={{ color: "hsl(0 72% 55%)" }} />
+        <ShieldAlert className="w-4 h-4" style={{ color: "#9E0000" }} />
         Survival Calculator
       </h3>
       <p className="text-muted-foreground text-xs leading-relaxed">
