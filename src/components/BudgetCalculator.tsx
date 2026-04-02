@@ -87,21 +87,21 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
           className="space-y-3 pt-2 border-t border-border/50"
         >
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Fixed bills</span>
-            <span className="text-foreground font-medium">{fmt(totalFixed)}</span>
+            <span className="text-white/70">Fixed bills</span>
+            <span className="text-white font-medium">{fmt(totalFixed)}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Variable spendings</span>
-            <span className="text-foreground font-medium">{fmt(variableNum)}</span>
+            <span className="text-white/70">Variable spendings</span>
+            <span className="text-white font-medium">{fmt(variableNum)}</span>
           </div>
           {savingsMonthly > 0 && (
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Savings goals</span>
+              <span className="text-white/70">Savings goals</span>
               <span className="font-medium" style={{ color: "hsl(295 75% 63%)" }}>{fmt(savingsMonthly)}</span>
             </div>
           )}
-          <div className="flex justify-between text-sm border-t border-border/30 pt-2">
-            <span className="text-muted-foreground">Left over</span>
+          <div className="flex justify-between text-sm border-t border-white/20 pt-2">
+            <span className="text-white/70">Left over</span>
             <span
               className="font-display font-bold"
               style={{ color: leftOver >= 0 ? "hsl(145 70% 45%)" : "hsl(0 72% 55%)" }}
