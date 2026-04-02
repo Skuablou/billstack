@@ -142,29 +142,29 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
 
             {/* Breakdown */}
             <div className="space-y-1.5">
-              <div className="flex justify-between text-xs p-2.5 rounded-lg bg-muted/30">
-                <span className="text-muted-foreground">Bank savings</span>
-                <span className="text-foreground font-medium">{fmt(bankNum)}</span>
+              <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
+                <span className="text-white/70">Bank savings</span>
+                <span className="text-white font-medium">{fmt(bankNum)}</span>
               </div>
-              <div className="flex justify-between text-xs p-2.5 rounded-lg bg-muted/30">
-                <span className="text-muted-foreground">Fixed costs / mo</span>
+              <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
+                <span className="text-white/70">Fixed costs / mo</span>
                 <span style={{ color: "hsl(0 72% 55%)" }} className="font-medium">−{fmt(fixedCosts)}</span>
               </div>
-              <div className="flex justify-between text-xs p-2.5 rounded-lg bg-muted/30">
-                <span className="text-muted-foreground">Variable spending / mo</span>
+              <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
+                <span className="text-white/70">Variable spending / mo</span>
                 <span style={{ color: "hsl(0 72% 55%)" }} className="font-medium">−{fmt(variableNum)}</span>
               </div>
-              <div className="flex justify-between text-xs p-2.5 rounded-lg bg-muted/30">
-                <span className="text-muted-foreground">Total monthly burn</span>
+              <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
+                <span className="text-white/70">Total monthly burn</span>
                 <span style={{ color: "hsl(0 72% 55%)" }} className="font-medium">−{fmt(monthlyBurn)}</span>
               </div>
-              <div className="flex justify-between text-xs p-2.5 rounded-lg bg-muted/30">
-                <span className="text-muted-foreground">{fmt(bankNum)} ÷ {fmt(monthlyBurn)}</span>
-                <span className="text-foreground font-bold">= {months > 99 ? "99+" : months} months</span>
+              <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
+                <span className="text-white/70">{fmt(bankNum)} ÷ {fmt(monthlyBurn)}</span>
+                <span className="text-white font-bold">= {months > 99 ? "99+" : months} months</span>
               </div>
               {salaryNum > 0 && (
-                <div className="flex justify-between text-xs p-2.5 rounded-lg bg-muted/30">
-                  <span className="text-muted-foreground">Income lost</span>
+                <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
+                  <span className="text-white/70">Income lost</span>
                   <span style={{ color: "hsl(0 72% 55%)" }} className="font-medium">−{fmt(salaryNum)}/mo</span>
                 </div>
               )}
