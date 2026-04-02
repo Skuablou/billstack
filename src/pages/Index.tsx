@@ -290,7 +290,7 @@ export default function Index() {
                 <div className="space-y-2">
                   {subscriptions.length === 0 ? (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-xl bg-card border border-border p-12 text-center"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p></motion.div>
-                  ) : subscriptions.map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
+                  ) : [...subscriptions].sort((a, b) => b.amount - a.amount).map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
                 </div>
                 {isPremium ? (
                   <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
@@ -371,7 +371,7 @@ export default function Index() {
                   <div className="space-y-2">
                     {subscriptions.length === 0 ? (
                       <div className="rounded-xl bg-card border border-border p-12 text-center"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p></div>
-                    ) : subscriptions.map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
+                    ) : [...subscriptions].sort((a, b) => b.amount - a.amount).map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
                   </div>
                 </div>
               </motion.div>
