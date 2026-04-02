@@ -58,19 +58,19 @@ export default function UpcomingPayments({ subscriptions, onUpdate }: Props) {
               >
                 <div className="flex items-center gap-3">
                   <div
-                    className="w-11 h-11 rounded-xl flex items-center justify-center text-base font-bold text-white shrink-0"
+                    className="w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold text-white shrink-0"
                     style={{ backgroundColor: sub.color }}
                   >
                     {initial}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-foreground font-semibold text-base truncate">{sub.name}</p>
+                    <p className="text-foreground font-semibold text-lg truncate">{sub.name}</p>
                     <p className="text-xs text-muted-foreground flex items-center gap-1">
                       <Calendar className="w-3 h-3" /> {sub.billingDate} {monthName}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-foreground font-bold text-base">{sub.amount.toFixed(2)}{currency}</p>
+                    <p className="text-foreground font-bold text-lg">{sub.amount.toFixed(2)}{currency}</p>
                     <p className="text-xs font-medium" style={{ color: daysColor }}>
                       {getDaysLabel(sub.daysUntil)}
                     </p>

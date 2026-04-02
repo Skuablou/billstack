@@ -42,11 +42,11 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
       <div className="flex items-center gap-3">
         {/* Icon */}
         <div
-          className="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center text-base font-bold text-white shrink-0 overflow-hidden"
+          className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center text-lg font-bold text-white shrink-0 overflow-hidden"
           style={{ backgroundColor: s.color }}
         >
           {categoryImage ? (
-            <img src={categoryImage} alt={s.category} className="w-7 h-7 md:w-8 md:h-8 object-contain" />
+            <img src={categoryImage} alt={s.category} className="w-8 h-8 md:w-9 md:h-9 object-contain" />
           ) : (
             initial
           )}
@@ -54,7 +54,7 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
 
         {/* Name + Monthly */}
         <div className="flex-1 min-w-0">
-          <p className="text-foreground font-semibold truncate text-base md:text-lg">{s.name}</p>
+          <p className="text-foreground font-semibold truncate text-lg md:text-xl">{s.name}</p>
           <div className="flex items-center gap-3 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
               <RefreshCw className="w-3 h-3" /> {s.billingCycle}
@@ -66,7 +66,7 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
         </div>
 
         {/* Amount */}
-        <p className="text-foreground font-display font-bold text-base md:text-lg shrink-0">
+        <p className="text-foreground font-display font-bold text-lg md:text-xl shrink-0">
           {monthly.toFixed(2)}{currency}
         </p>
 
