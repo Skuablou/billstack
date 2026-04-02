@@ -59,7 +59,7 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
 
       <div className="space-y-3">
         <div className="space-y-1.5">
-          <Label className="text-muted-foreground text-xs">Monthly income</Label>
+          <Label className="text-white/70 text-xs">Monthly income</Label>
           <Input
             type="number"
             placeholder="e.g. 3000"
