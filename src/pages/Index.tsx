@@ -438,7 +438,8 @@ export default function Index() {
               <button
                 key={item.label}
                 onClick={() => setActiveSection(i)}
-                className={`flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-colors ${activeSection === i ? "text-primary" : "text-muted-foreground"}`}
+                className={`flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-colors ${activeSection === i ? "" : "text-muted-foreground"}`}
+                style={activeSection === i ? { color: "#8100FF" } : undefined}
               >
                 <item.icon className="w-5 h-5" />
                 <span className="text-[10px] font-medium">{item.label}</span>
