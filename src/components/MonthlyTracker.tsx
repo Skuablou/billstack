@@ -273,26 +273,26 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
       {/* Summary metrics */}
       <div className="grid grid-cols-4 gap-2">
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
-          <p className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1">Salary</p>
-          <p className="text-base font-display font-bold" style={{ color: salary > 0 ? "hsl(145 70% 45%)" : "hsl(var(--foreground))" }}>
+          <p className="text-[10px] uppercase tracking-wider text-foreground font-medium mb-1">Salary</p>
+          <p className="text-lg font-display font-bold" style={{ color: salary > 0 ? "hsl(145 70% 45%)" : "hsl(var(--foreground))" }}>
             {salary > 0 ? `${salary.toFixed(0)}${currency}` : `—${currency}`}
           </p>
         </div>
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
-          <p className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1">Subs</p>
-          <p className="text-base font-display font-bold" style={{ color: "hsl(35 90% 50%)" }}>
+          <p className="text-[10px] uppercase tracking-wider text-foreground font-medium mb-1">Subs</p>
+          <p className="text-lg font-display font-bold" style={{ color: "hsl(35 90% 50%)" }}>
             {totalSubscriptions > 0 ? `${totalSubscriptions.toFixed(0)}${currency}` : `0${currency}`}
           </p>
         </div>
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
-          <p className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1">Spent</p>
-          <p className="text-base font-display font-bold" style={{ color: "hsl(15 70% 50%)" }}>
+          <p className="text-[10px] uppercase tracking-wider text-foreground font-medium mb-1">Spent</p>
+          <p className="text-lg font-display font-bold" style={{ color: "hsl(15 70% 50%)" }}>
             {monthSpent.toFixed(0)}{currency}
           </p>
         </div>
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
-          <p className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1">Total</p>
-          <p className="text-base font-display font-bold" style={{ color: salary > 0 ? (totalAmount >= 0 ? "hsl(145 70% 45%)" : "hsl(15 70% 50%)") : "hsl(var(--foreground))" }}>
+          <p className="text-[10px] uppercase tracking-wider text-foreground font-medium mb-1">Total</p>
+          <p className="text-lg font-display font-bold" style={{ color: salary > 0 ? (totalAmount >= 0 ? "hsl(145 70% 45%)" : "hsl(15 70% 50%)") : "hsl(var(--foreground))" }}>
             {salary > 0 ? `${Math.abs(totalAmount).toFixed(0)}${currency}` : `—${currency}`}
           </p>
         </div>
