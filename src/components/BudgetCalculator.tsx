@@ -122,7 +122,7 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
                   <span className="text-white/70">-{fmt(sub.monthly)}/mo</span>
                 </div>
               ))}
-              <p className="text-xs text-muted-foreground pt-1">
+              <p className="text-xs text-white/70 pt-1">
                 Saves you {fmt(cumulative)}/month
               </p>
             </div>
