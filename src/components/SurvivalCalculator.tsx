@@ -130,7 +130,7 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
                 {displayMonths > 99 ? "99+" : displayMonths}
               </span>
               <div className="flex flex-col gap-1">
-                <span className="text-xs text-muted-foreground">months of runway</span>
+                <span className="text-xs text-white/70">months of runway</span>
                 <span
                   className="text-[10px] font-medium px-2 py-0.5 rounded-full w-fit"
                   style={{ background: `${status.color}33`, color: status.color }}
