@@ -42,10 +42,14 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
       <div className="flex items-center gap-3">
         {/* Icon */}
         <div
-          className="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center text-base font-bold text-white shrink-0"
+          className="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center text-base font-bold text-white shrink-0 overflow-hidden"
           style={{ backgroundColor: s.color }}
         >
-          {initial}
+          {categoryImage ? (
+            <img src={categoryImage} alt={s.category} className="w-7 h-7 md:w-8 md:h-8 object-contain" />
+          ) : (
+            initial
+          )}
         </div>
 
         {/* Name + Monthly */}
