@@ -118,8 +118,8 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
               </p>
               {toQuit.map((sub) => (
                 <div key={sub.id} className="flex justify-between text-xs">
-                  <span className="text-foreground">{sub.name}</span>
-                  <span className="text-muted-foreground">-{fmt(sub.monthly)}/mo</span>
+                  <span className="text-white">{sub.name}</span>
+                  <span className="text-white/70">-{fmt(sub.monthly)}/mo</span>
                 </div>
               ))}
               <p className="text-xs text-muted-foreground pt-1">
