@@ -132,7 +132,7 @@ export default function Index() {
         <div className="flex items-center justify-between">
           <div className="min-w-0 shrink">
             <h1 className="text-3xl md:text-5xl font-display font-bold">
-              <span style={{ background: "linear-gradient(135deg, hsl(145 70% 45%), hsl(145 80% 40%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Bill</span><span style={{ background: "linear-gradient(135deg, hsl(295 75% 58%), hsl(320 70% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
+              <span style={{ background: "linear-gradient(135deg, hsl(145 70% 45%), hsl(145 80% 40%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Bill</span><span style={{ background: "linear-gradient(135deg, #8100FF, #6A00CC)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
             </h1>
             <p className="text-muted-foreground text-sm mt-1 hidden md:block">Keep track of all your monthly bills</p>
           </div>
@@ -285,7 +285,7 @@ export default function Index() {
                     <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
                     {!isPremium && <p className="text-muted-foreground text-xs">{freeLeft > 0 ? `${subscriptions.length}/${maxFree} free spendings used` : "Free limit reached"}</p>}
                   </div>
-                  <Button onClick={() => { if (!isPremium && freeLeft <= 0) { setPremiumOpen(true); return; } setDialogOpen(true); }} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
+                  <Button onClick={() => { if (!isPremium && freeLeft <= 0) { setPremiumOpen(true); return; } setDialogOpen(true); }} size="sm" className="rounded-full text-primary-foreground hover:opacity-90 gap-1.5 px-4" style={{ backgroundColor: "#8100FF" }}><Plus className="w-4 h-4" /> Add</Button>
                 </div>
                 <div className="space-y-2">
                   {subscriptions.length === 0 ? (
@@ -366,7 +366,7 @@ export default function Index() {
                       <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
                       {!isPremium && <p className="text-muted-foreground text-xs">{freeLeft > 0 ? `${subscriptions.length}/${maxFree} free spendings used` : "Free limit reached"}</p>}
                     </div>
-                    <Button onClick={() => { if (!isPremium && freeLeft <= 0) { setPremiumOpen(true); return; } setDialogOpen(true); }} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
+                    <Button onClick={() => { if (!isPremium && freeLeft <= 0) { setPremiumOpen(true); return; } setDialogOpen(true); }} size="sm" className="rounded-full text-primary-foreground hover:opacity-90 gap-1.5 px-4" style={{ backgroundColor: "#8100FF" }}><Plus className="w-4 h-4" /> Add</Button>
                   </div>
                   <div className="space-y-2">
                     {subscriptions.length === 0 ? (
@@ -438,7 +438,8 @@ export default function Index() {
               <button
                 key={item.label}
                 onClick={() => setActiveSection(i)}
-                className={`flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-colors ${activeSection === i ? "text-primary" : "text-muted-foreground"}`}
+                className={`flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-colors ${activeSection === i ? "" : "text-muted-foreground"}`}
+                style={activeSection === i ? { color: "#8100FF" } : undefined}
               >
                 <item.icon className="w-5 h-5" />
                 <span className="text-[10px] font-medium">{item.label}</span>
