@@ -71,6 +71,10 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
 
   const status = getStatus(months);
 
+  const textMain = isLight ? "text-black" : "text-white";
+  const textMuted = isLight ? "text-black/60" : "text-white/70";
+  const textFaint = isLight ? "text-black/40" : "text-white/50";
+
   return (
     <div
       className="rounded-xl border p-5 space-y-4 relative overflow-hidden"
@@ -81,11 +85,11 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
         boxShadow: isLight ? "0 4px 20px -6px hsl(0 55% 60% / 0.3)" : "0 0 30px -10px hsl(0 70% 55% / 0.2)",
       }}
     >
-      <h3 className="font-display font-semibold text-white flex items-center gap-2">
+      <h3 className={`font-display font-semibold ${textMain} flex items-center gap-2`}>
         <ShieldAlert className="w-4 h-4" style={{ color: "#9E0000" }} />
         Survival Calculator
       </h3>
-      <p className="text-white/70 text-xs leading-relaxed">
+      <p className={`${textMuted} text-xs leading-relaxed`}>
         How long would you last if you lost your job tomorrow?
       </p>
 
@@ -93,18 +97,18 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
         {!showResult ? (
           <motion.div key="form" initial={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-3">
             <div className="space-y-1.5">
-              <Label className="text-white/70 text-xs">Money in the bank</Label>
+              <Label className={`${textMuted} text-xs`}>Money in the bank</Label>
               <Input type="number" placeholder="e.g. 20000" value={bank} onChange={(e) => setBank(e.target.value)} className="bg-muted/50 border-border text-foreground h-9 text-sm" />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-white/70 text-xs">Monthly salary</Label>
+              <Label className={`${textMuted} text-xs`}>Monthly salary</Label>
               <Input type="number" placeholder="e.g. 2500" value={salary} onChange={(e) => setSalary(e.target.value)} className="bg-muted/50 border-border text-foreground h-9 text-sm" />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-white/70 text-xs">Variable monthly spendings on average (e.g. groceries, gas)</Label>
+              <Label className={`${textMuted} text-xs`}>Variable monthly spendings on average (e.g. groceries, gas)</Label>
               <Input type="number" placeholder="e.g. 500" value={variable} onChange={(e) => setVariable(e.target.value)} className="bg-muted/50 border-border text-foreground h-9 text-sm" />
             </div>
-            <p className="text-white/50 text-[10px]">
+            <p className={`${textFaint} text-[10px]`}>
               Fixed costs ({fmt(fixedCosts)}/mo) are pulled from your spendings automatically.
             </p>
             <Button
@@ -117,20 +121,18 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
           </motion.div>
         ) : (
           <motion.div key="result" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
-            {/* Fired header */}
             <div className="rounded-lg p-4 text-center" style={{ background: "hsl(0 72% 50%)" }}>
               <div className="text-3xl mb-1">📋</div>
-              <p className="font-display font-bold text-xl tracking-wider text-white">YOU'RE FIRED.</p>
-              <p className="text-xs text-white/70">No salary. No safety net. Just your savings.</p>
+              <p className={`font-display font-bold text-xl tracking-wider ${textMain}`}>YOU'RE FIRED.</p>
+              <p className={`text-xs ${textMuted}`}>No salary. No safety net. Just your savings.</p>
             </div>
 
-            {/* Runway */}
             <div className="flex items-baseline justify-center gap-3">
               <span className="font-display text-6xl font-bold" style={{ color: status.color }}>
                 {displayMonths > 99 ? "99+" : displayMonths}
               </span>
               <div className="flex flex-col gap-1">
-                <span className="text-xs text-white/70">months of runway</span>
+                <span className={`text-xs ${textMuted}`}>months of runway</span>
                 <span
                   className="text-[10px] font-medium px-2 py-0.5 rounded-full w-fit"
                   style={{ background: `${status.color}33`, color: status.color }}
@@ -140,37 +142,35 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
               </div>
             </div>
 
-            {/* Breakdown */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
-                <span className="text-white/70">Bank savings</span>
-                <span className="text-white font-medium">{fmt(bankNum)}</span>
+                <span className={textMuted}>Bank savings</span>
+                <span className={`${textMain} font-medium`}>{fmt(bankNum)}</span>
               </div>
               <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
-                <span className="text-white/70">Fixed costs / mo</span>
+                <span className={textMuted}>Fixed costs / mo</span>
                 <span style={{ color: "hsl(0 72% 55%)" }} className="font-medium">−{fmt(fixedCosts)}</span>
               </div>
               <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
-                <span className="text-white/70">Variable spending / mo</span>
+                <span className={textMuted}>Variable spending / mo</span>
                 <span style={{ color: "hsl(0 72% 55%)" }} className="font-medium">−{fmt(variableNum)}</span>
               </div>
               <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
-                <span className="text-white/70">Total monthly burn</span>
+                <span className={textMuted}>Total monthly burn</span>
                 <span style={{ color: "hsl(0 72% 55%)" }} className="font-medium">−{fmt(monthlyBurn)}</span>
               </div>
               <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
-                <span className="text-white/70">{fmt(bankNum)} ÷ {fmt(monthlyBurn)}</span>
-                <span className="text-white font-bold">= {months > 99 ? "99+" : months} months</span>
+                <span className={textMuted}>{fmt(bankNum)} ÷ {fmt(monthlyBurn)}</span>
+                <span className={`${textMain} font-bold`}>= {months > 99 ? "99+" : months} months</span>
               </div>
               {salaryNum > 0 && (
                 <div className="flex justify-between text-xs p-2.5 rounded-lg bg-black/20">
-                  <span className="text-white/70">Income lost</span>
+                  <span className={textMuted}>Income lost</span>
                   <span style={{ color: "hsl(0 72% 55%)" }} className="font-medium">−{fmt(salaryNum)}/mo</span>
                 </div>
               )}
             </div>
 
-            {/* Verdict */}
             <div
               className="rounded-lg p-3 text-center text-xs leading-relaxed"
               style={{ background: `${status.color}15`, border: `0.5px solid ${status.color}33`, color: status.color }}
