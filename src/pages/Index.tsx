@@ -336,26 +336,26 @@ export default function Index() {
               <motion.div key="spendings" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.2 }}>
                 <div className="grid grid-cols-2 gap-4 mb-8">
                   <div className="rounded-xl border p-4" style={cardStyles.daily}>
-                    <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}><CalendarClock className="w-3.5 h-3.5" style={{ color: "hsl(36 80% 50%)" }} /></div>Daily
+                    <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-1.5">
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(36 80% 50% / 0.25)" }}><CalendarClock className="w-4 h-4" style={{ color: "hsl(36 80% 50%)" }} /></div>Daily
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(monthlyTotal / 30)}</p>
                   </div>
                   <div className="rounded-xl border p-4" style={cardStyles.monthly}>
-                    <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-3.5 h-3.5" style={{ color: "hsl(295 75% 58%)" }} /></div>Monthly
+                    <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-1.5">
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(270 80% 60% / 0.25)" }}><CreditCard className="w-4 h-4" style={{ color: "hsl(295 75% 58%)" }} /></div>Monthly
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(monthlyTotal)}</p>
                   </div>
                   <div className="rounded-xl border p-4" style={cardStyles.yearly}>
-                    <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(210 70% 50% / 0.25)" }}><TrendingUp className="w-3.5 h-3.5" style={{ color: "hsl(210 70% 55%)" }} /></div>Yearly
+                    <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-1.5">
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(210 70% 50% / 0.25)" }}><TrendingUp className="w-4 h-4" style={{ color: "hsl(210 70% 55%)" }} /></div>Yearly
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{fmt(yearlyTotal)}</p>
                   </div>
                   <div className="rounded-xl border p-4" style={cardStyles.spendings}>
-                    <div className="flex items-center gap-2 text-foreground font-bold text-xs mb-1.5">
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-3.5 h-3.5" style={{ color: "hsl(145 70% 45%)" }} /></div>Spendings
+                    <div className="flex items-center gap-2 text-foreground font-bold text-sm mb-1.5">
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "hsl(160 70% 45% / 0.25)" }}><RefreshCw className="w-4 h-4" style={{ color: "hsl(145 70% 45%)" }} /></div>Spendings
                     </div>
                     <p className="text-2xl font-display font-bold text-foreground">{subscriptions.length}</p>
                   </div>

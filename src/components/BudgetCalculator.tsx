@@ -52,14 +52,14 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
         boxShadow: isLight ? "0 4px 20px -6px hsl(270 60% 65% / 0.3)" : "0 0 30px -10px hsl(270 70% 55% / 0.2)",
       }}
     >
-      <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
-        <Calculator className="w-4 h-4 text-primary" />
+      <h3 className="font-display font-semibold flex items-center gap-2 text-white">
+        <Calculator className="w-4 h-4 text-white" />
         Budget Calculator
       </h3>
 
       <div className="space-y-3">
         <div className="space-y-1.5">
-          <Label className="text-muted-foreground text-xs">Monthly income</Label>
+          <Label className="text-white/70 text-xs">Monthly income</Label>
           <Input
             type="number"
             placeholder="e.g. 3000"
@@ -69,7 +69,7 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
           />
         </div>
         <div className="space-y-1.5">
-          <Label className="text-muted-foreground text-xs">Variable monthly spendings on average (e.g. groceries, gas)</Label>
+          <Label className="text-white/70 text-xs">Variable monthly spendings on average (e.g. groceries, gas)</Label>
           <Input
             type="number"
             placeholder="e.g. 500"
@@ -87,21 +87,21 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
           className="space-y-3 pt-2 border-t border-border/50"
         >
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Fixed bills</span>
-            <span className="text-foreground font-medium">{fmt(totalFixed)}</span>
+            <span className="text-white/70">Fixed bills</span>
+            <span className="text-white font-medium">{fmt(totalFixed)}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Variable spendings</span>
-            <span className="text-foreground font-medium">{fmt(variableNum)}</span>
+            <span className="text-white/70">Variable spendings</span>
+            <span className="text-white font-medium">{fmt(variableNum)}</span>
           </div>
           {savingsMonthly > 0 && (
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Savings goals</span>
+              <span className="text-white/70">Savings goals</span>
               <span className="font-medium" style={{ color: "hsl(295 75% 63%)" }}>{fmt(savingsMonthly)}</span>
             </div>
           )}
-          <div className="flex justify-between text-sm border-t border-border/30 pt-2">
-            <span className="text-muted-foreground">Left over</span>
+          <div className="flex justify-between text-sm border-t border-white/20 pt-2">
+            <span className="text-white/70">Left over</span>
             <span
               className="font-display font-bold"
               style={{ color: leftOver >= 0 ? "hsl(145 70% 45%)" : "hsl(0 72% 55%)" }}
@@ -118,11 +118,11 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
               </p>
               {toQuit.map((sub) => (
                 <div key={sub.id} className="flex justify-between text-xs">
-                  <span className="text-foreground">{sub.name}</span>
-                  <span className="text-muted-foreground">-{fmt(sub.monthly)}/mo</span>
+                  <span className="text-white">{sub.name}</span>
+                  <span className="text-white/70">-{fmt(sub.monthly)}/mo</span>
                 </div>
               ))}
-              <p className="text-xs text-muted-foreground pt-1">
+              <p className="text-xs text-white/70 pt-1">
                 Saves you {fmt(cumulative)}/month
               </p>
             </div>
