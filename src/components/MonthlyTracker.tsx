@@ -370,18 +370,18 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
 
             <div className="grid grid-cols-3 gap-2">
               <div className="rounded-lg p-2.5 text-center" style={{ background: "hsl(var(--muted))" }}>
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-0.5">Earned</p>
-                <p className="text-sm font-bold" style={{ color: "hsl(145 70% 45%)" }}>
+                <p className="text-[11px] uppercase tracking-wider text-foreground font-medium mb-0.5">Earned</p>
+                <p className="text-base font-bold" style={{ color: "hsl(145 70% 45%)" }}>
                   {selectedData.dayHrs > 0 ? fmt(selectedData.earned) : (selectedData.dayHrs === 0 ? "Day off" : `—${currency}`)}
                 </p>
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ background: "hsl(var(--muted))" }}>
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-0.5">Spent</p>
-                <p className="text-sm font-bold" style={{ color: "hsl(15 70% 50%)" }}>{fmt(selectedData.spent)}</p>
+                <p className="text-[11px] uppercase tracking-wider text-foreground font-medium mb-0.5">Spent</p>
+                <p className="text-base font-bold" style={{ color: "hsl(15 70% 50%)" }}>{fmt(selectedData.spent)}</p>
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ background: "hsl(var(--muted))" }}>
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-0.5">Left</p>
-                <p className="text-sm font-bold" style={{
+                <p className="text-[11px] uppercase tracking-wider text-foreground font-medium mb-0.5">Left</p>
+                <p className="text-base font-bold" style={{
                   color: selectedData.earned > 0
                     ? (selectedData.left >= 0 ? "hsl(145 70% 45%)" : "hsl(15 70% 50%)")
                     : (selectedData.spent > 0 ? "hsl(15 70% 50%)" : "hsl(var(--muted-foreground))")
