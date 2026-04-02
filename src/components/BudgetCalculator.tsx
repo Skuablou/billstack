@@ -43,7 +43,7 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
   const fmt = (n: number) => `${n.toFixed(2)}${currency}`;
 
   const textMain = isLight ? "text-black" : "text-white";
-  const textMuted = isLight ? "text-black/60" : "text-white/70";
+  const textMuted = isLight ? "text-black" : "text-white/70";
 
   return (
     <div
