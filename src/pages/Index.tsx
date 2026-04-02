@@ -285,7 +285,7 @@ export default function Index() {
                     <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
                     {!isPremium && <p className="text-muted-foreground text-xs">{freeLeft > 0 ? `${subscriptions.length}/${maxFree} free spendings used` : "Free limit reached"}</p>}
                   </div>
-                  <Button onClick={() => { if (!isPremium && freeLeft <= 0) { setPremiumOpen(true); return; } setDialogOpen(true); }} size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 px-4"><Plus className="w-4 h-4" /> Add</Button>
+                  <Button onClick={() => { if (!isPremium && freeLeft <= 0) { setPremiumOpen(true); return; } setDialogOpen(true); }} size="sm" className="rounded-full text-primary-foreground hover:opacity-90 gap-1.5 px-4" style={{ backgroundColor: "#8100FF" }}><Plus className="w-4 h-4" /> Add</Button>
                 </div>
                 <div className="space-y-2">
                   {subscriptions.length === 0 ? (
