@@ -93,18 +93,18 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
         {!showResult ? (
           <motion.div key="form" initial={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-3">
             <div className="space-y-1.5">
-              <Label className="text-muted-foreground text-xs">Money in the bank</Label>
+              <Label className="text-white/70 text-xs">Money in the bank</Label>
               <Input type="number" placeholder="e.g. 20000" value={bank} onChange={(e) => setBank(e.target.value)} className="bg-muted/50 border-border text-foreground h-9 text-sm" />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-muted-foreground text-xs">Monthly salary</Label>
+              <Label className="text-white/70 text-xs">Monthly salary</Label>
               <Input type="number" placeholder="e.g. 2500" value={salary} onChange={(e) => setSalary(e.target.value)} className="bg-muted/50 border-border text-foreground h-9 text-sm" />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-muted-foreground text-xs">Variable monthly spendings on average (e.g. groceries, gas)</Label>
+              <Label className="text-white/70 text-xs">Variable monthly spendings on average (e.g. groceries, gas)</Label>
               <Input type="number" placeholder="e.g. 500" value={variable} onChange={(e) => setVariable(e.target.value)} className="bg-muted/50 border-border text-foreground h-9 text-sm" />
             </div>
-            <p className="text-muted-foreground text-[10px]">
+            <p className="text-white/50 text-[10px]">
               Fixed costs ({fmt(fixedCosts)}/mo) are pulled from your spendings automatically.
             </p>
             <Button
