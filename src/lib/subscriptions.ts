@@ -14,36 +14,30 @@ export interface Subscription {
 export const CATEGORIES = [
   "Housing",
   "Car & Transport",
-  "Health Insurance",
+  "Insurance",
   "Debt Payments",
   "Utilities & Phone",
-  "Education",
   "Streaming & Subscriptions",
-  "Fitness & Wellness",
   "Other",
 ] as const;
 
 export const CATEGORY_COLORS: Record<string, string> = {
   "Housing": "hsl(220 70% 50%)",
   "Car & Transport": "hsl(35 90% 50%)",
-  "Health Insurance": "hsl(0 72% 50%)",
+  "Insurance": "hsl(0 72% 50%)",
   "Debt Payments": "hsl(340 70% 50%)",
   "Utilities & Phone": "hsl(200 70% 45%)",
-  "Education": "hsl(270 60% 55%)",
   "Streaming & Subscriptions": "hsl(330 70% 55%)",
-  "Fitness & Wellness": "hsl(45 90% 55%)",
   "Other": "hsl(215 12% 50%)",
 };
 
 export const CATEGORY_ICONS: Record<string, string> = {
   "Housing": "🏠",
   "Car & Transport": "🚗",
-  "Health Insurance": "🏥",
+  "Insurance": "🛡️",
   "Debt Payments": "💳",
   "Utilities & Phone": "📱",
-  "Education": "🎓",
   "Streaming & Subscriptions": "🎬",
-  "Fitness & Wellness": "💪",
   "Other": "📦",
 };
 
