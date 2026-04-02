@@ -81,11 +81,11 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
         boxShadow: isLight ? "0 4px 20px -6px hsl(0 55% 60% / 0.3)" : "0 0 30px -10px hsl(0 70% 55% / 0.2)",
       }}
     >
-      <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
+      <h3 className="font-display font-semibold text-white flex items-center gap-2">
         <ShieldAlert className="w-4 h-4" style={{ color: "#9E0000" }} />
         Survival Calculator
       </h3>
-      <p className="text-muted-foreground text-xs leading-relaxed">
+      <p className="text-white/70 text-xs leading-relaxed">
         How long would you last if you lost your job tomorrow?
       </p>
 
