@@ -147,7 +147,7 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       </Popover>
       <Button
         className="w-full rounded-lg gap-1.5 text-sm font-semibold h-10"
-        style={{ background: "linear-gradient(135deg, hsl(295 75% 58%), hsl(320 70% 55%))" }}
+        style={{ background: "linear-gradient(135deg, hsl(267 100% 50%), hsl(280 100% 55%))" }}
         disabled={!goalName.trim() || !goalTotal || !goalDate}
         onClick={handleStartSaving}
       >
