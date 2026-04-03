@@ -390,7 +390,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ background: "hsl(var(--muted))" }}>
                 <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-0.5">Spent</p>
-                <p className="text-lg font-bold text-foreground">{fmt(selectedData.spent)}</p>
+                <p className="text-base font-bold text-foreground">{fmt(selectedData.spent)}</p>
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ background: "hsl(var(--muted))" }}>
                 <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-0.5">Left</p>
