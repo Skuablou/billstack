@@ -69,7 +69,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="14.99"
-              className="bg-muted border-border text-foreground"
+              className="bg-muted border-border text-foreground focus-visible:ring-[hsl(295_55%_50%)] focus-visible:border-[hsl(295_55%_50%)]"
             />
           </div>
 
