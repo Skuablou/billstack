@@ -87,7 +87,7 @@ export default function UpcomingPayments({ subscriptions, onUpdate }: Props) {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-foreground font-semibold text-lg truncate">{sub.name}</p>
+                    <p className="text-foreground font-normal text-lg truncate">{sub.name}</p>
                     <p className="text-xs text-muted-foreground flex items-center gap-1">
                       <Calendar className="w-3 h-3" /> {sub.billingDate} {monthName}
                     </p>
