@@ -21,6 +21,8 @@ import { useSubscriptions } from "@/hooks/use-subscriptions";
 import { useSavingsGoals } from "@/hooks/use-savings-goals";
 import {
   Subscription,
+  CATEGORIES,
+  CATEGORY_ICONS,
   getMonthlyTotal,
   getYearlyTotal,
   getMaxFreeSubscriptions,
@@ -42,6 +44,7 @@ export default function Index() {
   const [planExpanded, setPlanExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [filterCategory, setFilterCategory] = useState<string>("All");
   
   const isMobile = useIsMobile();
   const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
@@ -286,10 +289,19 @@ export default function Index() {
                   </div>
                   <Button onClick={() => { if (!isPremium && freeLeft <= 0) { setPremiumOpen(true); return; } setDialogOpen(true); }} size="sm" className="rounded-full text-primary-foreground hover:opacity-90 gap-1.5 px-4" style={{ backgroundColor: "#8100FF" }}><Plus className="w-4 h-4" /> Add</Button>
                 </div>
+                {subscriptions.length > 0 && (
+                  <div className="flex gap-1.5 flex-wrap">
+                    {["All", ...CATEGORIES].map(cat => (
+                      <button key={cat} onClick={() => setFilterCategory(cat)} className="px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors" style={{ background: filterCategory === cat ? "#8100FF" : "hsl(var(--muted))", color: filterCategory === cat ? "white" : "hsl(var(--muted-foreground))", border: filterCategory === cat ? "none" : "1px solid hsl(var(--border))" }}>
+                        {cat !== "All" && CATEGORY_ICONS[cat] ? `${CATEGORY_ICONS[cat]} ` : ""}{cat}
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <div className="space-y-2">
                   {subscriptions.length === 0 ? (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-xl bg-card border border-border p-12 text-center"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p></motion.div>
-                  ) : [...subscriptions].sort((a, b) => b.amount - a.amount).map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
+                  ) : [...subscriptions].filter(s => filterCategory === "All" || s.category === filterCategory).sort((a, b) => b.amount - a.amount).map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
                 </div>
                 {isPremium ? (
                   <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
@@ -367,10 +379,19 @@ export default function Index() {
                     </div>
                     <Button onClick={() => { if (!isPremium && freeLeft <= 0) { setPremiumOpen(true); return; } setDialogOpen(true); }} size="sm" className="rounded-full text-primary-foreground hover:opacity-90 gap-1.5 px-4" style={{ backgroundColor: "#8100FF" }}><Plus className="w-4 h-4" /> Add</Button>
                   </div>
+                  {subscriptions.length > 0 && (
+                    <div className="flex gap-1.5 flex-wrap">
+                      {["All", ...CATEGORIES].map(cat => (
+                        <button key={cat} onClick={() => setFilterCategory(cat)} className="px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors" style={{ background: filterCategory === cat ? "#8100FF" : "hsl(var(--muted))", color: filterCategory === cat ? "white" : "hsl(var(--muted-foreground))", border: filterCategory === cat ? "none" : "1px solid hsl(var(--border))" }}>
+                          {cat !== "All" && CATEGORY_ICONS[cat] ? `${CATEGORY_ICONS[cat]} ` : ""}{cat}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                   <div className="space-y-2">
                     {subscriptions.length === 0 ? (
                       <div className="rounded-xl bg-card border border-border p-12 text-center"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p></div>
-                    ) : [...subscriptions].sort((a, b) => b.amount - a.amount).map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
+                    ) : [...subscriptions].filter(s => filterCategory === "All" || s.category === filterCategory).sort((a, b) => b.amount - a.amount).map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
                   </div>
                 </div>
               </motion.div>
