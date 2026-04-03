@@ -69,6 +69,18 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
 
   const hourlyRate = salary > 0 && monthlyHours > 0 ? salary / monthlyHours : 0;
 
+  // Count working days in month for distributing fixed costs
+  const workingDaysInMonth = useMemo(() => {
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    let count = 0;
+    for (let d = 1; d <= daysInMonth; d++) {
+      let dow = new Date(year, month, d).getDay();
+      dow = dow === 0 ? 6 : dow - 1;
+      if (getHoursForDow(dow) > 0) count++;
+    }
+    return count;
+  }, [year, month, getHoursForDow]);
+
   const monthSpent = useMemo(() => {
     const prefix = `${year}-${String(month + 1).padStart(2, "0")}`;
     let total = 0;
@@ -79,6 +91,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
   }, [data, year, month]);
 
   const totalSubscriptions = useMemo(() => getMonthlyTotal(subscriptions), [subscriptions]);
+  const dailyFixedCost = workingDaysInMonth > 0 ? totalSubscriptions / workingDaysInMonth : 0;
   const totalAmount = salary - totalSubscriptions - monthSpent;
 
   const changeMonth = (dir: number) => {
@@ -120,7 +133,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
           let dow = new Date(year, month, d).getDay();
           dow = dow === 0 ? 6 : dow - 1;
           const dayHrs = getHoursForDow(dow);
-          const dayEarned = hourlyRate * dayHrs;
+          const dayEarned = dayHrs > 0 ? (hourlyRate * dayHrs) - dailyFixedCost : 0;
           const entries = data[k] || [];
           const daySpent = entries.reduce((s, e) => s + e.amt, 0);
           row.push({ day: d, key: k, isToday: today.getFullYear() === year && today.getMonth() === month && today.getDate() === d, earned: dayEarned, spent: daySpent, dayHrs });
@@ -139,7 +152,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
     let dow = new Date(yi, mi, di).getDay();
     dow = dow === 0 ? 6 : dow - 1;
     const dayHrs = getHoursForDow(dow);
-    const earned = hourlyRate * dayHrs;
+    const earned = dayHrs > 0 ? (hourlyRate * dayHrs) - dailyFixedCost : 0;
     const entries = data[selectedDay] || [];
     const spent = entries.reduce((s, e) => s + e.amt, 0);
     return { date: `${di} ${MONTHS[mi]} ${yStr}`, earned, spent, left: earned - spent, entries, dayHrs };
@@ -273,26 +286,26 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
       {/* Summary metrics */}
       <div className="grid grid-cols-4 gap-2">
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
-          <p className="text-[10px] uppercase tracking-wider text-foreground font-medium mb-1">Salary</p>
-          <p className="text-lg font-display font-bold" style={{ color: salary > 0 ? "hsl(145 70% 45%)" : "hsl(var(--foreground))" }}>
+          <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-1">Salary</p>
+          <p className="text-xl font-display font-bold text-foreground">
             {salary > 0 ? `${salary.toFixed(0)}${currency}` : `—${currency}`}
           </p>
         </div>
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
-          <p className="text-[10px] uppercase tracking-wider text-foreground font-medium mb-1">Subs</p>
-          <p className="text-lg font-display font-bold" style={{ color: "hsl(35 90% 50%)" }}>
+          <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-1">Fixed Cost</p>
+          <p className="text-xl font-display font-bold text-foreground">
             {totalSubscriptions > 0 ? `${totalSubscriptions.toFixed(0)}${currency}` : `0${currency}`}
           </p>
         </div>
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
-          <p className="text-[10px] uppercase tracking-wider text-foreground font-medium mb-1">Spent</p>
-          <p className="text-lg font-display font-bold" style={{ color: "hsl(15 70% 50%)" }}>
+          <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-1">Spent</p>
+          <p className="text-xl font-display font-bold text-foreground">
             {monthSpent.toFixed(0)}{currency}
           </p>
         </div>
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
-          <p className="text-[10px] uppercase tracking-wider text-foreground font-medium mb-1">Total</p>
-          <p className="text-lg font-display font-bold" style={{ color: salary > 0 ? (totalAmount >= 0 ? "hsl(145 70% 45%)" : "hsl(15 70% 50%)") : "hsl(var(--foreground))" }}>
+          <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-1">Total</p>
+          <p className="text-xl font-display font-bold text-foreground">
             {salary > 0 ? `${Math.abs(totalAmount).toFixed(0)}${currency}` : `—${currency}`}
           </p>
         </div>
@@ -370,22 +383,18 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
 
             <div className="grid grid-cols-3 gap-2">
               <div className="rounded-lg p-2.5 text-center" style={{ background: "hsl(var(--muted))" }}>
-                <p className="text-[11px] uppercase tracking-wider text-foreground font-medium mb-0.5">Earned</p>
-                <p className="text-base font-bold" style={{ color: "hsl(145 70% 45%)" }}>
+                <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-0.5">Earned</p>
+                <p className="text-lg font-bold text-foreground">
                   {selectedData.dayHrs > 0 ? fmt(selectedData.earned) : (selectedData.dayHrs === 0 ? "Day off" : `—${currency}`)}
                 </p>
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ background: "hsl(var(--muted))" }}>
-                <p className="text-[11px] uppercase tracking-wider text-foreground font-medium mb-0.5">Spent</p>
-                <p className="text-base font-bold" style={{ color: "hsl(15 70% 50%)" }}>{fmt(selectedData.spent)}</p>
+                <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-0.5">Spent</p>
+                <p className="text-lg font-bold text-foreground">{fmt(selectedData.spent)}</p>
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ background: "hsl(var(--muted))" }}>
-                <p className="text-[11px] uppercase tracking-wider text-foreground font-medium mb-0.5">Left</p>
-                <p className="text-base font-bold" style={{
-                  color: selectedData.earned > 0
-                    ? (selectedData.left >= 0 ? "hsl(145 70% 45%)" : "hsl(15 70% 50%)")
-                    : (selectedData.spent > 0 ? "hsl(15 70% 50%)" : "hsl(var(--muted-foreground))")
-                }}>
+                <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-0.5">Left</p>
+                <p className="text-lg font-bold text-foreground">
                   {selectedData.earned > 0
                     ? `${selectedData.left >= 0 ? "" : "-"}${fmt(Math.abs(selectedData.left))}`
                     : (selectedData.spent > 0 ? `-${fmt(selectedData.spent)}` : `—${currency}`)}
