@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Target, CalendarIcon, Check } from "lucide-react";
+import targetIcon from "@/assets/3d-target.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -93,7 +94,7 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       }}
     >
       <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
-        <Target className="w-4 h-4 text-primary" />
+        <img src={targetIcon} alt="Savings Goal" className="w-6 h-6 object-contain" />
         Savings Goal
       </h3>
       <Input

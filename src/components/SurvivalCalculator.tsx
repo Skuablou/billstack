@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { ShieldAlert, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
+import warningIcon from "@/assets/warning.png";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -86,7 +87,7 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
       }}
     >
       <h3 className={`font-display font-semibold ${textMain} flex items-center gap-2`}>
-        <ShieldAlert className="w-4 h-4" style={{ color: "#9E0000" }} />
+        <img src={warningIcon} alt="Survival" className="w-6 h-6 object-contain" />
         Survival Calculator
       </h3>
       <p className={`${textMuted} text-xs leading-relaxed`}>

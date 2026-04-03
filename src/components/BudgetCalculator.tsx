@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Calculator, TrendingDown } from "lucide-react";
+import { TrendingDown } from "lucide-react";
+import calculatorIcon from "@/assets/3d-calculator.png";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Subscription, getMonthlyAmount } from "@/lib/subscriptions";
@@ -56,7 +57,7 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
       }}
     >
       <h3 className={`font-display font-semibold flex items-center gap-2 ${textMain}`}>
-        <Calculator className={`w-4 h-4 ${textMain}`} />
+        <img src={calculatorIcon} alt="Budget Calculator" className="w-6 h-6 object-contain" />
         Budget Calculator
       </h3>
 
