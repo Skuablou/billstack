@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Briefcase, ChevronDown, ChevronUp, Check, Pl
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useCurrency } from "@/lib/CurrencyContext";
-import { useMonthlyTracker, EXPENSE_CATEGORIES, ExpenseCategory } from "@/hooks/use-monthly-tracker";
+import { useMonthlyTracker } from "@/hooks/use-monthly-tracker";
 import { Subscription, getMonthlyTotal } from "@/lib/subscriptions";
 import { useStreak, getStreakLevel, getStreakMessage } from "@/hooks/use-streak";
 import StreakCard from "@/components/StreakCard";
