@@ -97,11 +97,11 @@ export default function Index() {
     },
     monthly: {
       background: isLight
-        ? "linear-gradient(135deg, hsl(295 65% 90%), hsl(295 55% 84%))"
-        : "linear-gradient(135deg, hsl(295 65% 26%), hsl(295 40% 18%))",
-      borderColor: isLight ? "hsl(295 55% 55%)" : "hsl(295 65% 45%)",
+        ? "linear-gradient(135deg, hsl(267 80% 92%), hsl(267 60% 86%))"
+        : "linear-gradient(135deg, hsl(267 80% 26%), hsl(267 50% 18%))",
+      borderColor: isLight ? "hsl(267 80% 55%)" : "hsl(267 80% 45%)",
       borderWidth: "2px",
-      boxShadow: isLight ? "0 4px 20px -6px hsl(270 70% 65% / 0.3)" : "0 0 30px -10px hsl(270 90% 65% / 0.3)",
+      boxShadow: isLight ? "0 4px 20px -6px hsl(267 90% 60% / 0.3)" : "0 0 30px -10px hsl(267 100% 55% / 0.3)",
     },
     yearly: {
       background: isLight
