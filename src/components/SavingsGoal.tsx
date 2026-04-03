@@ -218,13 +218,13 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
             </div>
 
             <div className="grid grid-cols-3 gap-3">
-              <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(270 40% 20% / 0.6)" }}>
+              <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(267 40% 20% / 0.6)" }}>
                 <p className="text-xs text-muted-foreground">Target</p>
                 <p className="text-sm font-bold text-foreground">{fmt(goal.totalAmount)}</p>
               </div>
-              <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(270 40% 20% / 0.6)" }}>
+              <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(267 40% 20% / 0.6)" }}>
                 <p className="text-xs text-muted-foreground">Per {getIntervalLabel(goal.interval)}</p>
-                <p className="text-sm font-bold" style={{ color: "hsl(295 75% 63%)" }}>{fmt(perPeriod)}</p>
+                <p className="text-sm font-bold" style={{ color: "hsl(267 100% 60%)" }}>{fmt(perPeriod)}</p>
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(270 40% 20% / 0.6)" }}>
                 <p className="text-xs text-muted-foreground">Saved</p>
