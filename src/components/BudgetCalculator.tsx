@@ -57,7 +57,7 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
       }}
     >
       <h3 className={`font-display font-semibold flex items-center gap-2 ${textMain}`}>
-        <Calculator className={`w-4 h-4 ${textMain}`} />
+        <img src={calculatorIcon} alt="Budget Calculator" className="w-6 h-6 object-contain" />
         Budget Calculator
       </h3>
 

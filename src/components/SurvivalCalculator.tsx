@@ -87,7 +87,7 @@ export default function SurvivalCalculator({ subscriptions }: Props) {
       }}
     >
       <h3 className={`font-display font-semibold ${textMain} flex items-center gap-2`}>
-        <ShieldAlert className="w-4 h-4" style={{ color: "#9E0000" }} />
+        <img src={warningIcon} alt="Survival" className="w-6 h-6 object-contain" />
         Survival Calculator
       </h3>
       <p className={`${textMuted} text-xs leading-relaxed`}>
