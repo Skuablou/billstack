@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CalendarIcon, Check } from "lucide-react";
+import { Target, CalendarIcon, Check } from "lucide-react";
 import targetIcon from "@/assets/3d-target.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
