@@ -77,7 +77,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
           <div className="space-y-1.5">
             <Label className="text-muted-foreground text-sm">Billing cycle</Label>
             <Select value={billingCycle} onValueChange={(v) => setBillingCycle(v as "Monthly" | "Yearly")}>
-              <SelectTrigger className="bg-muted border-border text-foreground focus:ring-[hsl(295_55%_50%)] focus:border-[hsl(295_55%_50%)]">
+              <SelectTrigger className="bg-muted border-border text-foreground focus:ring-[#8100FF] focus:border-[#8100FF]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-popover border-border">
