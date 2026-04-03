@@ -294,7 +294,7 @@ export default function Index() {
                 {isPremium ? (
                   <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
                 ) : (
-                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(295 25% 14%), hsl(295 15% 10%))", borderColor: "hsl(270 60% 50% / 0.25)" }}>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(267 25% 14%), hsl(267 15% 10%))", borderColor: "hsl(267 60% 50% / 0.25)" }}>
                     <h3 className="font-display font-semibold text-foreground flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goals</h3>
                     <p className="text-muted-foreground text-sm">Set savings goals and track your progress.</p>
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
