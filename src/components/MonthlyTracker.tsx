@@ -91,6 +91,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
   }, [data, year, month]);
 
   const totalSubscriptions = useMemo(() => getMonthlyTotal(subscriptions), [subscriptions]);
+  const dailyFixedCost = workingDaysInMonth > 0 ? totalSubscriptions / workingDaysInMonth : 0;
   const totalAmount = salary - totalSubscriptions - monthSpent;
 
   const changeMonth = (dir: number) => {
