@@ -19,10 +19,9 @@ export default function StreakCard({ current, best, totalDays, thisMonth }: Stre
 
   const badgeLabel = current >= 30 ? "Legendary!" : current >= 14 ? "Unstoppable!" : current >= 7 ? "On fire!" : current >= 3 ? "Keep it up!" : current >= 1 ? "Nice start!" : "Start tracking!";
 
-  // Week day circles
-  const DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-  const todayDow = new Date().getDay();
-  const todayIdx = todayDow === 0 ? 6 : todayDow - 1;
+  // Week progress: 7 days needed per level, show progress in current week-cycle
+  const daysInCurrentWeek = current % 7;
+  const completedToday = daysInCurrentWeek; // how many days done in this 7-day cycle
 
   return (
     <div className="space-y-3">
