@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import billstackLogo from "@/assets/billstack-logo.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff, CalendarClock, Wallet, Clock, Calculator, MoreVertical, X, CalendarDays, Sun, Moon } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
