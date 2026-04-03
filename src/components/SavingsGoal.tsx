@@ -87,10 +87,10 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       animate={{ opacity: 1, y: 0 }}
       className="rounded-xl border p-5 space-y-3"
       style={{
-        background: isLight ? "linear-gradient(135deg, hsl(295 55% 92%), hsl(295 45% 86%))" : "linear-gradient(135deg, hsl(295 50% 24%), hsl(295 35% 16%))",
-        borderColor: isLight ? "hsl(295 50% 55%)" : "hsl(295 55% 40%)",
+        background: isLight ? "linear-gradient(135deg, hsl(267 70% 92%), hsl(267 50% 86%))" : "linear-gradient(135deg, hsl(267 60% 24%), hsl(267 40% 16%))",
+        borderColor: isLight ? "hsl(267 70% 55%)" : "hsl(267 70% 40%)",
         borderWidth: "2px",
-        boxShadow: isLight ? "0 4px 20px -6px hsl(270 60% 65% / 0.3)" : "0 0 30px -10px hsl(270 70% 55% / 0.2)",
+        boxShadow: isLight ? "0 4px 20px -6px hsl(267 80% 60% / 0.3)" : "0 0 30px -10px hsl(267 90% 50% / 0.2)",
       }}
     >
       <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
@@ -147,7 +147,7 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       </Popover>
       <Button
         className="w-full rounded-lg gap-1.5 text-sm font-semibold h-10"
-        style={{ background: "linear-gradient(135deg, hsl(295 75% 58%), hsl(320 70% 55%))" }}
+        style={{ background: "linear-gradient(135deg, hsl(267 100% 50%), hsl(280 100% 55%))" }}
         disabled={!goalName.trim() || !goalTotal || !goalDate}
         onClick={handleStartSaving}
       >
@@ -194,12 +194,12 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
             animate={{ opacity: 1, y: 0 }}
             className="rounded-xl border p-5 space-y-4"
             style={{
-              background: isLight ? "linear-gradient(135deg, hsl(295 55% 92%), hsl(295 45% 86%))" : "linear-gradient(135deg, hsl(295 50% 24%), hsl(295 35% 16%))",
-              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : (isLight ? "hsl(295 50% 55%)" : "hsl(295 55% 40%)"),
+              background: isLight ? "linear-gradient(135deg, hsl(267 70% 92%), hsl(267 50% 86%))" : "linear-gradient(135deg, hsl(267 60% 24%), hsl(267 40% 16%))",
+              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : (isLight ? "hsl(267 70% 55%)" : "hsl(267 70% 40%)"),
               borderWidth: "2px",
               boxShadow: isComplete
                 ? "0 0 30px -10px hsl(36 100% 50% / 0.3)"
-                : isLight ? "0 4px 20px -6px hsl(270 60% 65% / 0.3)" : "0 0 30px -10px hsl(270 60% 50% / 0.1)",
+                : isLight ? "0 4px 20px -6px hsl(267 80% 60% / 0.3)" : "0 0 30px -10px hsl(267 80% 50% / 0.1)",
             }}
           >
             <div className="flex items-center justify-between">
@@ -218,15 +218,15 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
             </div>
 
             <div className="grid grid-cols-3 gap-3">
-              <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(270 40% 20% / 0.6)" }}>
+              <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(267 40% 20% / 0.6)" }}>
                 <p className="text-xs text-muted-foreground">Target</p>
                 <p className="text-sm font-bold text-foreground">{fmt(goal.totalAmount)}</p>
               </div>
-              <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(270 40% 20% / 0.6)" }}>
+              <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(267 40% 20% / 0.6)" }}>
                 <p className="text-xs text-muted-foreground">Per {getIntervalLabel(goal.interval)}</p>
-                <p className="text-sm font-bold" style={{ color: "hsl(295 75% 63%)" }}>{fmt(perPeriod)}</p>
+                <p className="text-sm font-bold" style={{ color: "hsl(267 100% 60%)" }}>{fmt(perPeriod)}</p>
               </div>
-              <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(270 40% 20% / 0.6)" }}>
+              <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(267 40% 20% / 0.6)" }}>
                 <p className="text-xs text-muted-foreground">Saved</p>
                 <p className="text-sm font-bold" style={{ color: "hsl(145 70% 45%)" }}>{fmt(savedSoFar)}</p>
               </div>

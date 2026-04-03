@@ -50,10 +50,10 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
     <div
       className="rounded-xl border p-5 space-y-4 relative overflow-hidden"
       style={{
-        background: isLight ? "linear-gradient(135deg, hsl(295 55% 92%), hsl(295 45% 86%))" : "linear-gradient(135deg, hsl(295 50% 24%), hsl(295 35% 16%))",
-        borderColor: isLight ? "hsl(295 50% 55%)" : "hsl(295 55% 40%)",
+        background: isLight ? "linear-gradient(135deg, hsl(267 70% 92%), hsl(267 50% 86%))" : "linear-gradient(135deg, hsl(267 60% 24%), hsl(267 40% 16%))",
+        borderColor: isLight ? "hsl(267 70% 55%)" : "hsl(267 70% 40%)",
         borderWidth: "2px",
-        boxShadow: isLight ? "0 4px 20px -6px hsl(270 60% 65% / 0.3)" : "0 0 30px -10px hsl(270 70% 55% / 0.2)",
+        boxShadow: isLight ? "0 4px 20px -6px hsl(267 80% 60% / 0.3)" : "0 0 30px -10px hsl(267 90% 50% / 0.2)",
       }}
     >
       <h3 className={`font-display font-semibold flex items-center gap-2 ${textMain}`}>
@@ -101,7 +101,7 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
           {savingsMonthly > 0 && (
             <div className="flex justify-between text-sm">
               <span className={textMuted}>Savings goals</span>
-              <span className="font-medium" style={{ color: "hsl(295 75% 63%)" }}>{fmt(savingsMonthly)}</span>
+              <span className="font-medium" style={{ color: "hsl(267 100% 60%)" }}>{fmt(savingsMonthly)}</span>
             </div>
           )}
           <div className={`flex justify-between text-sm border-t pt-2 ${isLight ? "border-black/20" : "border-white/20"}`}>

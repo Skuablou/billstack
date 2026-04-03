@@ -56,7 +56,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Netflix"
-              className="bg-muted border-border text-foreground focus-visible:ring-[hsl(295_55%_50%)] focus-visible:border-[hsl(295_55%_50%)]"
+              className="bg-muted border-border text-foreground focus-visible:ring-[#8100FF] focus-visible:border-[#8100FF]"
             />
           </div>
 
@@ -69,7 +69,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="14.99"
-              className="bg-muted border-border text-foreground focus-visible:ring-[hsl(295_55%_50%)] focus-visible:border-[hsl(295_55%_50%)]"
+              className="bg-muted border-border text-foreground focus-visible:ring-[#8100FF] focus-visible:border-[#8100FF]"
             />
           </div>
 
@@ -77,7 +77,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
           <div className="space-y-1.5">
             <Label className="text-muted-foreground text-sm">Billing cycle</Label>
             <Select value={billingCycle} onValueChange={(v) => setBillingCycle(v as "Monthly" | "Yearly")}>
-              <SelectTrigger className="bg-muted border-border text-foreground focus:ring-[hsl(295_55%_50%)] focus:border-[hsl(295_55%_50%)]">
+              <SelectTrigger className="bg-muted border-border text-foreground focus:ring-[#8100FF] focus:border-[#8100FF]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-popover border-border">
@@ -91,7 +91,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
           <div className="space-y-1.5">
             <Label className="text-muted-foreground text-sm">Billing day</Label>
             <Select value={billingDate} onValueChange={setBillingDate}>
-              <SelectTrigger className="bg-muted border-border text-foreground focus:ring-[hsl(295_55%_50%)] focus:border-[hsl(295_55%_50%)]">
+              <SelectTrigger className="bg-muted border-border text-foreground focus:ring-[#8100FF] focus:border-[#8100FF]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-popover border-border max-h-60">
@@ -143,7 +143,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
             <Button
               type="submit"
               className="flex-1 text-white hover:opacity-90"
-              style={{ backgroundColor: "hsl(295 55% 50%)" }}
+              style={{ backgroundColor: "#8100FF" }}
             >
               Add
             </Button>
