@@ -8,14 +8,14 @@ export interface StreakLevel {
 }
 
 export const STREAK_LEVELS: StreakLevel[] = [
-  { name: "Penny Sleeper", icon: "🥚", minDays: 0, tagline: "Noch schlummernd... wach auf!" },
-  { name: "The Awakened", icon: "🐣", minDays: 7, tagline: "Du bist aufgewacht! Weiter so." },
-  { name: "The Observer", icon: "🔍", minDays: 14, tagline: "Du beobachtest dein Geld genau!" },
-  { name: "The Grinder", icon: "⚡", minDays: 21, tagline: "3 Wochen am Grinden! Respekt." },
-  { name: "Sharp Mind", icon: "🎯", minDays: 28, tagline: "Messerscharfer Finanzblick!" },
-  { name: "The Relentless", icon: "🔥", minDays: 35, tagline: "Nicht aufzuhalten! Beast mode." },
-  { name: "Diamond Hands", icon: "💎", minDays: 42, tagline: "Diamantenhände. Unzerstörbar." },
-  { name: "Legendary Banker", icon: "👑", minDays: 49, tagline: "Wall Street will deine Nummer." },
+  { name: "Penny Sleeper", icon: "🥚", minDays: 0, tagline: "Still snoozing... time to wake up!" },
+  { name: "The Awakened", icon: "🐣", minDays: 7, tagline: "You woke up! Keep going." },
+  { name: "The Observer", icon: "🔍", minDays: 14, tagline: "Watching your money like a hawk!" },
+  { name: "The Grinder", icon: "⚡", minDays: 21, tagline: "3 weeks grinding! Respect." },
+  { name: "Sharp Mind", icon: "🎯", minDays: 28, tagline: "Razor-sharp financial vision!" },
+  { name: "The Relentless", icon: "🔥", minDays: 35, tagline: "Unstoppable! Beast mode activated." },
+  { name: "Diamond Hands", icon: "💎", minDays: 42, tagline: "Diamond hands. Unbreakable." },
+  { name: "Legendary Banker", icon: "👑", minDays: 49, tagline: "Wall Street wants your number." },
 ];
 
 export function getStreakLevel(streak: number): StreakLevel {
