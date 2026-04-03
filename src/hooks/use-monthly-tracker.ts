@@ -75,18 +75,18 @@ export function useMonthlyTracker() {
     if (loaded) saveSettings();
   }, [salary, activeDays, hours, saveSettings, loaded]);
 
-  const addExpense = useCallback(async (dateKey: string, amount: number) => {
+  const addExpense = useCallback(async (dateKey: string, amount: number, category: ExpenseCategory = "Other") => {
     if (!user) return;
     const { data: inserted } = await supabase
       .from("monthly_tracker_expenses")
-      .insert({ user_id: user.id, date: dateKey, amount })
+      .insert({ user_id: user.id, date: dateKey, amount, category } as any)
       .select()
       .single();
 
     if (inserted) {
       setData(prev => ({
         ...prev,
-        [dateKey]: [...(prev[dateKey] || []), { amt: Number(inserted.amount), id: inserted.id }],
+        [dateKey]: [...(prev[dateKey] || []), { amt: Number((inserted as any).amount), id: (inserted as any).id, category: (inserted as any).category || "Other" }],
       }));
     }
   }, [user]);
