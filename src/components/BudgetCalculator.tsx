@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Calculator, TrendingDown } from "lucide-react";
+import { TrendingDown } from "lucide-react";
+import calculatorIcon from "@/assets/3d-calculator.png";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Subscription, getMonthlyAmount } from "@/lib/subscriptions";
