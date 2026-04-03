@@ -21,6 +21,8 @@ import { useSubscriptions } from "@/hooks/use-subscriptions";
 import { useSavingsGoals } from "@/hooks/use-savings-goals";
 import {
   Subscription,
+  CATEGORIES,
+  CATEGORY_ICONS,
   getMonthlyTotal,
   getYearlyTotal,
   getMaxFreeSubscriptions,
