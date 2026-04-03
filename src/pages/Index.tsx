@@ -44,6 +44,7 @@ export default function Index() {
   const [planExpanded, setPlanExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [filterCategory, setFilterCategory] = useState<string>("All");
   
   const isMobile = useIsMobile();
   const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
