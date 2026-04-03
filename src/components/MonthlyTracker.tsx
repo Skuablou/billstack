@@ -152,7 +152,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
     let dow = new Date(yi, mi, di).getDay();
     dow = dow === 0 ? 6 : dow - 1;
     const dayHrs = getHoursForDow(dow);
-    const earned = hourlyRate * dayHrs;
+    const earned = dayHrs > 0 ? (hourlyRate * dayHrs) - dailyFixedCost : 0;
     const entries = data[selectedDay] || [];
     const spent = entries.reduce((s, e) => s + e.amt, 0);
     return { date: `${di} ${MONTHS[mi]} ${yStr}`, earned, spent, left: earned - spent, entries, dayHrs };
