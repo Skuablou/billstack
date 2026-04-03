@@ -433,82 +433,36 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
               </div>
             </div>
 
-            {/* Filter chips */}
-            {selectedData.entries.length > 0 && (
-              <div className="flex gap-1.5 flex-wrap">
-                {(["All", ...EXPENSE_CATEGORIES] as const).map(cat => (
-                  <button
-                    key={cat}
-                    onClick={() => setFilterCategory(cat)}
-                    className="px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors"
-                    style={{
-                      background: filterCategory === cat ? "#8100FF" : "hsl(var(--muted))",
-                      color: filterCategory === cat ? "white" : "hsl(var(--muted-foreground))",
-                      border: filterCategory === cat ? "none" : "1px solid hsl(var(--border))",
-                    }}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            )}
-
             {/* Entries list */}
             <div className="space-y-1.5 max-h-44 overflow-y-auto">
               {selectedData.entries.length === 0 ? (
                 <p className="text-sm text-muted-foreground text-center py-3">No expenses logged yet.</p>
               ) : (
-                selectedData.entries
-                  .map((e, i) => ({ ...e, originalIndex: i }))
-                  .filter(e => filterCategory === "All" || e.category === filterCategory)
-                  .map((e) => {
-                    const hrsWorked = hourlyRate > 0 ? (e.amt / hourlyRate).toFixed(1) : null;
-                    const catIcon = e.category === "Food" ? "🍔" : e.category === "Transport" ? "🚗" : e.category === "Shopping" ? "🛍️" : e.category === "Entertainment" ? "🎬" : e.category === "Health" ? "💊" : "📦";
-                    return (
-                      <div key={e.originalIndex} className="flex items-center justify-between rounded-lg p-2.5" style={{ background: "hsl(var(--muted))" }}>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm">{catIcon}</span>
-                          <span className="text-sm text-foreground">{hrsWorked ? `${hrsWorked}h of work` : e.category}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium" style={{ color: "hsl(15 70% 50%)" }}>-{fmt(e.amt)}</span>
-                          <button onClick={() => handleDeleteEntry(e.originalIndex)} className="text-muted-foreground hover:text-destructive transition-colors">
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
+                selectedData.entries.map((e, i) => {
+                  const hrsWorked = hourlyRate > 0 ? (e.amt / hourlyRate).toFixed(1) : null;
+                  return (
+                    <div key={i} className="flex items-center justify-between rounded-lg p-2.5" style={{ background: "hsl(var(--muted))" }}>
+                      <span className="text-sm text-foreground">{hrsWorked ? `${hrsWorked}h of work` : "Expense"}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium" style={{ color: "hsl(15 70% 50%)" }}>-{fmt(e.amt)}</span>
+                        <button onClick={() => handleDeleteEntry(i)} className="text-muted-foreground hover:text-destructive transition-colors">
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
                       </div>
-                    );
-                  })
+                    </div>
+                  );
+                })
               )}
             </div>
 
-            {/* Add expense - category selector + amount */}
-            <div className="flex gap-1.5 flex-wrap">
-              {EXPENSE_CATEGORIES.map(cat => {
-                const icon = cat === "Food" ? "🍔" : cat === "Transport" ? "🚗" : cat === "Shopping" ? "🛍️" : cat === "Entertainment" ? "🎬" : cat === "Health" ? "💊" : "📦";
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setEntryCategory(cat)}
-                    className="px-2 py-1 rounded-full text-[11px] font-medium transition-colors"
-                    style={{
-                      background: entryCategory === cat ? "#8100FF" : "hsl(var(--muted))",
-                      color: entryCategory === cat ? "white" : "hsl(var(--muted-foreground))",
-                      border: entryCategory === cat ? "none" : "1px solid hsl(var(--border))",
-                    }}
-                  >
-                    {icon} {cat}
-                  </button>
-                );
-              })}
-            </div>
+            {/* Add expense */}
             <div className="flex gap-2">
               <Input
                 type="number"
                 value={entryInput}
                 onChange={e => setEntryInput(e.target.value)}
                 onKeyDown={e => e.key === "Enter" && handleAddEntry()}
-                placeholder={`Amount ${currency}`}
+                placeholder={`Total spent today ${currency}`}
                 className="flex-1 h-10 bg-muted/50 border-border text-foreground"
               />
               <Button onClick={() => { if (navigator.vibrate) navigator.vibrate(50); handleAddEntry(); }} className="h-10 px-4 rounded-lg" style={{ background: "hsl(15 70% 50%)" }}>
