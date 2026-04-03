@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useMonthlyTracker } from "@/hooks/use-monthly-tracker";
 import { Subscription, getMonthlyTotal } from "@/lib/subscriptions";
+import { useStreak, getStreakLevel, getStreakMessage } from "@/hooks/use-streak";
+import StreakCard from "@/components/StreakCard";
+import { toast } from "sonner";
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DAY_LABELS = ["Mo","Tu","We","Th","Fr","Sa","Su"];
@@ -34,6 +37,8 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
     activeDays, setActiveDays, hours, setHours,
     data, addExpense, deleteExpense,
   } = useMonthlyTracker();
+
+  const streak = useStreak(data);
 
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const [scheduleOpen, setScheduleOpen] = useState(() => {
@@ -162,22 +167,36 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
     if (!selectedDay) return;
     const amt = parseFloat(entryInput);
     if (isNaN(amt) || amt <= 0) return;
-    // Check if adding this expense would hit the 10-day limit for free users
     if (!isPremium && trackedDays >= 10) {
       onPremiumRequired?.();
       return;
     }
-    // Check if this is a new day (not yet tracked)
     const isNewDay = !(data[selectedDay] && data[selectedDay].length > 0);
     if (!isPremium && isNewDay && trackedDays >= 9) {
-      // This would be the 10th day - allow it but after saving, trigger premium next time
+      // This would be the 10th day
     }
     await addExpense(selectedDay, amt);
-    // Update tracked days count if this was a new day
     if (isNewDay) {
       onTrackedDaysChange?.(trackedDays + 1);
     }
     setEntryInput("");
+
+    // Show streak toast after a tiny delay so state updates
+    setTimeout(() => {
+      const newStreak = { ...streak };
+      if (isNewDay) newStreak.current += 1;
+      const level = getStreakLevel(newStreak.current);
+      const msg = getStreakMessage(newStreak.current);
+      toast(msg, {
+        duration: 3000,
+        icon: level.icon,
+        style: {
+          background: "hsl(267 20% 12%)",
+          border: "1px solid hsl(267 100% 50% / 0.3)",
+          color: "white",
+        },
+      });
+    }, 100);
   };
 
   const handleDeleteEntry = async (index: number) => {
@@ -368,6 +387,14 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
           </tbody>
         </table>
       </div>
+
+      {/* Streak Card */}
+      <StreakCard
+        current={streak.current}
+        best={streak.best}
+        totalDays={streak.totalDays}
+        thisMonth={streak.thisMonth}
+      />
 
       {/* Day detail panel */}
       <AnimatePresence>
