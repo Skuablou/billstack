@@ -1,7 +1,23 @@
 import { AlertCircle, Bell, BellOff, Calendar, Check } from "lucide-react";
-import { Subscription, getUpcomingPayments } from "@/lib/subscriptions";
+import { Subscription, getUpcomingPayments, getMonthlyAmount } from "@/lib/subscriptions";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+import catHousing from "@/assets/cat-housing.png";
+import catCar from "@/assets/cat-car.png";
+import catInsurance from "@/assets/cat-insurance.png";
+import catDebt from "@/assets/cat-debt.png";
+import catUtilities from "@/assets/cat-utilities.png";
+import catStreaming from "@/assets/cat-streaming.png";
+
+const CATEGORY_IMAGES: Record<string, string> = {
+  "Housing": catHousing,
+  "Car & Transport": catCar,
+  "Insurance": catInsurance,
+  "Debt Payments": catDebt,
+  "Utilities & Phone": catUtilities,
+  "Streaming & Subscriptions": catStreaming,
+};
 
 interface Props {
   subscriptions: Subscription[];
@@ -33,7 +49,9 @@ function getDaysLabel(days: number): string {
 
 export default function UpcomingPayments({ subscriptions, onUpdate }: Props) {
   const { currency } = useCurrency();
-  const upcoming = getUpcomingPayments(subscriptions).slice(0, 5);
+  const upcoming = getUpcomingPayments(subscriptions)
+    .sort((a, b) => getMonthlyAmount(b) - getMonthlyAmount(a))
+    .slice(0, 5);
 
   return (
     <div className="space-y-3">
@@ -48,6 +66,7 @@ export default function UpcomingPayments({ subscriptions, onUpdate }: Props) {
           </div>
         ) : (
           upcoming.map((sub) => {
+            const categoryImage = CATEGORY_IMAGES[sub.category];
             const initial = sub.name.charAt(0).toLowerCase();
             const monthName = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'][sub.nextDate.getMonth()];
             const daysColor = getDaysColor(sub.daysUntil);
@@ -58,10 +77,14 @@ export default function UpcomingPayments({ subscriptions, onUpdate }: Props) {
               >
                 <div className="flex items-center gap-3">
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold text-white shrink-0"
+                    className="w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold text-white shrink-0 overflow-hidden"
                     style={{ backgroundColor: sub.color }}
                   >
-                    {initial}
+                    {categoryImage ? (
+                      <img src={categoryImage} alt={sub.category} className="w-8 h-8 object-contain" />
+                    ) : (
+                      initial
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-foreground font-semibold text-lg truncate">{sub.name}</p>
