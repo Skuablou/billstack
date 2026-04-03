@@ -2,10 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/AuthContext";
 
-export const EXPENSE_CATEGORIES = ["Food", "Transport", "Shopping", "Entertainment", "Health", "Other"] as const;
-export type ExpenseCategory = typeof EXPENSE_CATEGORIES[number];
-
-interface DayEntry { amt: number; id?: string; category: ExpenseCategory }
+interface DayEntry { amt: number; id?: string }
 type DataMap = Record<string, DayEntry[]>;
 
 export function useMonthlyTracker() {
