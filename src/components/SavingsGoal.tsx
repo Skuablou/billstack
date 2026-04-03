@@ -277,6 +277,9 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
           </motion.div>
         );
       })}
+      <p className="text-xs text-muted-foreground/70 italic">
+        💡 Remember to set this money aside — the app tracks it, but you have to move it.
+      </p>
     </div>
   );
 }
