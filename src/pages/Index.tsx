@@ -288,17 +288,33 @@ export default function Index() {
                     <h2 className="font-display font-semibold text-foreground text-lg">Your spendings</h2>
                     {!isPremium && <p className="text-muted-foreground text-xs">{freeLeft > 0 ? `${subscriptions.length}/${maxFree} free spendings used` : "Free limit reached"}</p>}
                   </div>
-                  <Button onClick={() => { if (!isPremium && freeLeft <= 0) { setPremiumOpen(true); return; } setDialogOpen(true); }} size="sm" className="rounded-full text-primary-foreground hover:opacity-90 gap-1.5 px-4" style={{ backgroundColor: "#8100FF" }}><Plus className="w-4 h-4" /> Add</Button>
-                </div>
-                {subscriptions.length > 0 && (
-                  <div className="flex gap-1.5 flex-wrap">
-                    {["All", ...CATEGORIES].map(cat => (
-                      <button key={cat} onClick={() => setFilterCategory(cat)} className="px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors" style={{ background: filterCategory === cat ? "#8100FF" : "hsl(var(--muted))", color: filterCategory === cat ? "white" : "hsl(var(--muted-foreground))", border: filterCategory === cat ? "none" : "1px solid hsl(var(--border))" }}>
-                        {cat !== "All" && CATEGORY_ICONS[cat] ? `${CATEGORY_ICONS[cat]} ` : ""}{cat}
-                      </button>
-                    ))}
+                  <div className="flex items-center gap-2">
+                    {subscriptions.length > 0 && (
+                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full relative" onClick={() => setFilterOpen(prev => !prev)} style={{ color: filterCategory !== "All" ? "#8100FF" : undefined }}>
+                        <Filter className="w-4 h-4" />
+                        {filterCategory !== "All" && <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full" style={{ background: "#8100FF" }} />}
+                      </Button>
+                    )}
+                    <Button onClick={() => { if (!isPremium && freeLeft <= 0) { setPremiumOpen(true); return; } setDialogOpen(true); }} size="sm" className="rounded-full text-primary-foreground hover:opacity-90 gap-1.5 px-4" style={{ backgroundColor: "#8100FF" }}><Plus className="w-4 h-4" /> Add</Button>
                   </div>
-                )}
+                </div>
+                <AnimatePresence>
+                  {filterOpen && subscriptions.length > 0 && (
+                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
+                      <div className="flex gap-1.5 flex-wrap rounded-xl border border-border p-3" style={{ background: "hsl(var(--card))" }}>
+                        <div className="flex items-center justify-between w-full mb-1">
+                          <span className="text-xs font-medium text-muted-foreground">Filter by category</span>
+                          <button onClick={() => setFilterOpen(false)} className="text-muted-foreground hover:text-foreground"><X className="w-3.5 h-3.5" /></button>
+                        </div>
+                        {["All", ...CATEGORIES].map(cat => (
+                          <button key={cat} onClick={() => setFilterCategory(cat)} className="px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors" style={{ background: filterCategory === cat ? "#8100FF" : "hsl(var(--muted))", color: filterCategory === cat ? "white" : "hsl(var(--muted-foreground))", border: filterCategory === cat ? "none" : "1px solid hsl(var(--border))" }}>
+                            {cat !== "All" && CATEGORY_ICONS[cat] ? `${CATEGORY_ICONS[cat]} ` : ""}{cat}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
                 <div className="space-y-2">
                   {subscriptions.length === 0 ? (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-xl bg-card border border-border p-12 text-center"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p></motion.div>
