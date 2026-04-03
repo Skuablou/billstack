@@ -93,7 +93,7 @@ export default function UpcomingPayments({ subscriptions, onUpdate }: Props) {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-foreground font-bold text-sm">{sub.amount.toFixed(2)}{currency}</p>
+                    <p className="text-foreground font-bold text-base">{sub.amount.toFixed(2)}{currency}</p>
                     <p className="text-xs font-medium" style={{ color: daysColor }}>
                       {getDaysLabel(sub.daysUntil)}
                     </p>
