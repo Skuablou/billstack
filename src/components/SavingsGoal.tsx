@@ -73,6 +73,11 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
     setGoalName("");
     setGoalTotal("");
     setGoalDate(undefined);
+    // Auto-scroll to savings plans display
+    setTimeout(() => {
+      const el = document.getElementById("savings-plans-display");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
   };
 
   return (
@@ -170,7 +175,7 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
   if (goals.length === 0) return null;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" id="savings-plans-display">
       <h2 className="font-display font-semibold text-foreground text-lg flex items-center gap-2">
         <Target className="w-5 h-5 text-primary" />
         Savings Plans
@@ -277,6 +282,9 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
           </motion.div>
         );
       })}
+      <p className="text-xs text-muted-foreground/70 italic">
+        💡 Remember to set this money aside — the app tracks it, but you have to move it.
+      </p>
     </div>
   );
 }
