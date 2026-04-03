@@ -1,0 +1,1 @@
+ALTER TABLE public.monthly_tracker_expenses ADD COLUMN category text NOT NULL DEFAULT 'Other';

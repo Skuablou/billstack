@@ -53,6 +53,7 @@ export type Database = {
       monthly_tracker_expenses: {
         Row: {
           amount: number
+          category: string
           created_at: string | null
           date: string
           id: string
@@ -60,6 +61,7 @@ export type Database = {
         }
         Insert: {
           amount: number
+          category?: string
           created_at?: string | null
           date: string
           id?: string
@@ -67,6 +69,7 @@ export type Database = {
         }
         Update: {
           amount?: number
+          category?: string
           created_at?: string | null
           date?: string
           id?: string
