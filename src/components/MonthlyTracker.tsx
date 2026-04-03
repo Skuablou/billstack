@@ -38,6 +38,8 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
     data, addExpense, deleteExpense,
   } = useMonthlyTracker();
 
+  const streak = useStreak(data);
+
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const [scheduleOpen, setScheduleOpen] = useState(() => {
     return localStorage.getItem("schedule-closed") !== "true";
