@@ -66,7 +66,7 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
         </div>
 
         {/* Amount */}
-        <p className="text-foreground font-display font-bold text-lg md:text-xl shrink-0">
+        <p className="text-foreground font-display font-bold text-sm md:text-base shrink-0">
           {monthly.toFixed(2)}{currency}
         </p>
 
