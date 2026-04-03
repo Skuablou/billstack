@@ -133,7 +133,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
           let dow = new Date(year, month, d).getDay();
           dow = dow === 0 ? 6 : dow - 1;
           const dayHrs = getHoursForDow(dow);
-          const dayEarned = hourlyRate * dayHrs;
+          const dayEarned = dayHrs > 0 ? (hourlyRate * dayHrs) - dailyFixedCost : 0;
           const entries = data[k] || [];
           const daySpent = entries.reduce((s, e) => s + e.amt, 0);
           row.push({ day: d, key: k, isToday: today.getFullYear() === year && today.getMonth() === month && today.getDate() === d, earned: dayEarned, spent: daySpent, dayHrs });
