@@ -73,6 +73,11 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
     setGoalName("");
     setGoalTotal("");
     setGoalDate(undefined);
+    // Auto-scroll to savings plans display
+    setTimeout(() => {
+      const el = document.getElementById("savings-plans-display");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
   };
 
   return (
