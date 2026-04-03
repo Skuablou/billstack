@@ -384,7 +384,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
             <div className="grid grid-cols-3 gap-2">
               <div className="rounded-lg p-2.5 text-center" style={{ background: "hsl(var(--muted))" }}>
                 <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-0.5">Earned</p>
-                <p className="text-base font-bold text-foreground">
+                <p className="text-base font-bold" style={{ color: "hsl(145 70% 45%)" }}>
                   {selectedData.dayHrs > 0 ? fmt(selectedData.earned) : (selectedData.dayHrs === 0 ? "Day off" : `—${currency}`)}
                 </p>
               </div>
