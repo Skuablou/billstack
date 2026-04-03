@@ -54,7 +54,7 @@ export default function SubscriptionCard({ subscription: s, index, onDelete }: P
 
         {/* Name + Monthly */}
         <div className="flex-1 min-w-0">
-          <p className="text-foreground font-semibold truncate text-lg md:text-xl">{s.name}</p>
+          <p className="text-foreground font-normal truncate text-lg md:text-xl">{s.name}</p>
           <div className="flex items-center gap-3 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
               <RefreshCw className="w-3 h-3" /> {s.billingCycle}
