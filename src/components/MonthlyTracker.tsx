@@ -175,7 +175,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
     if (!isPremium && isNewDay && trackedDays >= 9) {
       // This would be the 10th day
     }
-    await addExpense(selectedDay, amt, entryCategory);
+    await addExpense(selectedDay, amt);
     if (isNewDay) {
       onTrackedDaysChange?.(trackedDays + 1);
     }
