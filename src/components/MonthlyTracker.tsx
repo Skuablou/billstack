@@ -55,8 +55,6 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
     return dateKey(today.getFullYear(), today.getMonth(), today.getDate());
   });
   const [entryInput, setEntryInput] = useState("");
-  const [entryCategory, setEntryCategory] = useState<ExpenseCategory>("Food");
-  const [filterCategory, setFilterCategory] = useState<ExpenseCategory | "All">("All");
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
