@@ -194,12 +194,12 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
             animate={{ opacity: 1, y: 0 }}
             className="rounded-xl border p-5 space-y-4"
             style={{
-              background: isLight ? "linear-gradient(135deg, hsl(295 55% 92%), hsl(295 45% 86%))" : "linear-gradient(135deg, hsl(295 50% 24%), hsl(295 35% 16%))",
-              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : (isLight ? "hsl(295 50% 55%)" : "hsl(295 55% 40%)"),
+              background: isLight ? "linear-gradient(135deg, hsl(267 70% 92%), hsl(267 50% 86%))" : "linear-gradient(135deg, hsl(267 60% 24%), hsl(267 40% 16%))",
+              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : (isLight ? "hsl(267 70% 55%)" : "hsl(267 70% 40%)"),
               borderWidth: "2px",
               boxShadow: isComplete
                 ? "0 0 30px -10px hsl(36 100% 50% / 0.3)"
-                : isLight ? "0 4px 20px -6px hsl(270 60% 65% / 0.3)" : "0 0 30px -10px hsl(270 60% 50% / 0.1)",
+                : isLight ? "0 4px 20px -6px hsl(267 80% 60% / 0.3)" : "0 0 30px -10px hsl(267 80% 50% / 0.1)",
             }}
           >
             <div className="flex items-center justify-between">
