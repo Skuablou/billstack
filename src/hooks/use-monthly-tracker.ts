@@ -47,7 +47,7 @@ export function useMonthlyTracker() {
         expenses.forEach((e: any) => {
           const key = e.date;
           if (!map[key]) map[key] = [];
-          map[key].push({ amt: Number(e.amount), id: e.id });
+          map[key].push({ amt: Number(e.amount), id: e.id, category: e.category || "Other" });
         });
         setData(map);
       }
