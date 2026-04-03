@@ -19,10 +19,9 @@ export default function StreakCard({ current, best, totalDays, thisMonth }: Stre
 
   const badgeLabel = current >= 30 ? "Legendary!" : current >= 14 ? "Unstoppable!" : current >= 7 ? "On fire!" : current >= 3 ? "Keep it up!" : current >= 1 ? "Nice start!" : "Start tracking!";
 
-  // Week day circles
-  const DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-  const todayDow = new Date().getDay();
-  const todayIdx = todayDow === 0 ? 6 : todayDow - 1;
+  // Week progress: 7 days needed per level, show progress in current week-cycle
+  const daysInCurrentWeek = current % 7;
+  const completedToday = daysInCurrentWeek; // how many days done in this 7-day cycle
 
   return (
     <div className="space-y-3">
@@ -59,35 +58,32 @@ export default function StreakCard({ current, best, totalDays, thisMonth }: Stre
 
         {/* Day circles - show which days of this week had entries */}
         <div className="flex gap-1.5 justify-between mb-3">
-          {DAYS.map((d, i) => {
-            const isToday = i === todayIdx;
-            // Simple: days before today within streak are "done"
-            const daysBack = todayIdx - i;
-            const isDone = daysBack >= 0 && daysBack < current;
+          {[1, 2, 3, 4, 5, 6, 7].map((dayNum) => {
+            const isDone = dayNum <= completedToday;
+            const isNext = dayNum === completedToday + 1;
 
             return (
-              <div key={d} className="flex flex-col items-center gap-1 flex-1">
+              <div key={dayNum} className="flex flex-col items-center gap-1 flex-1">
                 <div
                   className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-all"
                   style={{
                     background: isDone
                       ? "#8100FF"
-                      : isToday
+                      : isNext
                         ? "hsl(267 100% 50% / 0.2)"
                         : "hsl(var(--muted))",
-                    border: isToday && !isDone
+                    border: isNext
                       ? "1.5px solid #8100FF"
                       : "1px solid transparent",
                     color: isDone
                       ? "white"
-                      : isToday
+                      : isNext
                         ? "#8100FF"
                         : "hsl(var(--muted-foreground))",
                   }}
                 >
-                  {isDone ? "✓" : d[0]}
+                  {isDone ? "✓" : dayNum}
                 </div>
-                <span className="text-[9px] text-muted-foreground">{d}</span>
               </div>
             );
           })}
