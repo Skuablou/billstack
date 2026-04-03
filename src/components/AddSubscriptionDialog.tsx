@@ -143,7 +143,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
             <Button
               type="submit"
               className="flex-1 text-white hover:opacity-90"
-              style={{ backgroundColor: "hsl(295 55% 50%)" }}
+              style={{ backgroundColor: "#8100FF" }}
             >
               Add
             </Button>
