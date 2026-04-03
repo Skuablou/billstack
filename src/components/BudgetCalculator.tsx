@@ -72,7 +72,7 @@ export default function BudgetCalculator({ subscriptions, savingsMonthly }: Prop
           />
         </div>
         <div className="space-y-1.5">
-          <Label className={`${textMuted} text-xs`}>Variable monthly spendings on average (e.g. groceries, gas)</Label>
+          <Label className={`${textMuted} text-xs`}>Avg. monthly spending outside of bills (groceries, gas, extras)</Label>
           <Input
             type="number"
             placeholder="e.g. 500"
