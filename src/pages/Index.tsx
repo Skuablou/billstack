@@ -130,10 +130,8 @@ export default function Index() {
       {/* Header */}
       <header className="max-w-5xl mx-auto px-6 pt-6 md:pt-10 pb-2 relative z-10">
         <div className="flex items-center justify-between">
-          <div className="min-w-0 shrink">
-            <h1 className="text-3xl md:text-5xl font-display font-bold">
-              <span style={{ background: "linear-gradient(135deg, hsl(145 70% 45%), hsl(145 80% 40%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", color: "transparent" }}>Bill</span><span style={{ background: "linear-gradient(135deg, #8100FF, #6A00CC)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", color: "transparent" }}>Stack</span>
-            </h1>
+          <div className="min-w-0 shrink flex items-center gap-3">
+            <img src={billstackLogo} alt="BillStack" className="h-10 md:h-14 w-auto" />
             <p className="text-muted-foreground text-sm mt-1 hidden md:block">Keep track of all your monthly bills</p>
           </div>
 
