@@ -56,7 +56,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Netflix"
-              className="bg-muted border-border text-foreground"
+              className="bg-muted border-border text-foreground focus-visible:ring-[hsl(295_55%_50%)] focus-visible:border-[hsl(295_55%_50%)]"
             />
           </div>
 
