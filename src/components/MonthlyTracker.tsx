@@ -305,7 +305,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
         </div>
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
           <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-1">Total</p>
-          <p className="text-xl font-display font-bold text-foreground">
+          <p className="text-lg font-display font-bold text-foreground">
             {salary > 0 ? `${Math.abs(totalAmount).toFixed(0)}${currency}` : `—${currency}`}
           </p>
         </div>
