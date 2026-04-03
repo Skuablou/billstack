@@ -394,7 +394,11 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ background: "hsl(var(--muted))" }}>
                 <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-0.5">Left</p>
-                <p className="text-base font-bold text-foreground">
+                <p className="text-base font-bold" style={{
+                  color: selectedData.earned > 0
+                    ? (selectedData.left >= 0 ? "hsl(145 70% 45%)" : "hsl(15 70% 50%)")
+                    : (selectedData.spent > 0 ? "hsl(15 70% 50%)" : "hsl(var(--muted-foreground))")
+                }}>
                   {selectedData.earned > 0
                     ? `${selectedData.left >= 0 ? "" : "-"}${fmt(Math.abs(selectedData.left))}`
                     : (selectedData.spent > 0 ? `-${fmt(selectedData.spent)}` : `—${currency}`)}
