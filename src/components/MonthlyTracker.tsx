@@ -69,6 +69,18 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
 
   const hourlyRate = salary > 0 && monthlyHours > 0 ? salary / monthlyHours : 0;
 
+  // Count working days in month for distributing fixed costs
+  const workingDaysInMonth = useMemo(() => {
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    let count = 0;
+    for (let d = 1; d <= daysInMonth; d++) {
+      let dow = new Date(year, month, d).getDay();
+      dow = dow === 0 ? 6 : dow - 1;
+      if (getHoursForDow(dow) > 0) count++;
+    }
+    return count;
+  }, [year, month, getHoursForDow]);
+
   const monthSpent = useMemo(() => {
     const prefix = `${year}-${String(month + 1).padStart(2, "0")}`;
     let total = 0;
