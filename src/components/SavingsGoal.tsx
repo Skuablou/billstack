@@ -175,7 +175,7 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
   if (goals.length === 0) return null;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" id="savings-plans-display">
       <h2 className="font-display font-semibold text-foreground text-lg flex items-center gap-2">
         <Target className="w-5 h-5 text-primary" />
         Savings Plans
