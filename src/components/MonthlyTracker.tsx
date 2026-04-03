@@ -446,7 +446,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
             <div className="flex items-start gap-2 rounded-lg p-3" style={{ background: "hsl(var(--muted))" }}>
               <span className="text-base shrink-0">💡</span>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                BIG TIP: Write down the amount you spend that day by checking your daily expenses on your bank account in the night.
+                The trick: Log your daily spending every night by checking your bank app. You'll think twice before spending tomorrow.
               </p>
             </div>
           </motion.div>
