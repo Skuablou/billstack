@@ -132,7 +132,7 @@ export default function Index() {
       <header className="max-w-5xl mx-auto px-6 pt-6 md:pt-10 pb-2 relative z-10">
         <div className="flex items-center justify-between">
           <div className="min-w-0 shrink flex items-center gap-3">
-            <img src={billstackLogo} alt="BillStack" className="h-10 md:h-14 w-auto" />
+            <img src={billstackLogo} alt="BillStack" className="h-8 md:h-10 w-auto" />
             <p className="text-muted-foreground text-sm mt-1 hidden md:block">Keep track of all your monthly bills</p>
           </div>
 
