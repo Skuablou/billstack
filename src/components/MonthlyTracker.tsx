@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useMonthlyTracker } from "@/hooks/use-monthly-tracker";
 import { Subscription, getMonthlyTotal } from "@/lib/subscriptions";
+import { useStreak, getStreakLevel, getStreakMessage } from "@/hooks/use-streak";
+import StreakCard from "@/components/StreakCard";
+import { toast } from "sonner";
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DAY_LABELS = ["Mo","Tu","We","Th","Fr","Sa","Su"];
