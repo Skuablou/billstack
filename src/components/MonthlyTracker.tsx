@@ -293,7 +293,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
         </div>
         <div className="rounded-xl border border-border p-2.5" style={{ background: "hsl(var(--card))" }}>
           <p className="text-xs uppercase tracking-wider text-foreground font-medium mb-1">Fixed Cost</p>
-          <p className="text-lg font-display font-bold text-foreground">
+          <p className="text-lg font-display font-bold" style={{ color: "hsl(35 90% 50%)" }}>
             {totalSubscriptions > 0 ? `${totalSubscriptions.toFixed(0)}${currency}` : `0${currency}`}
           </p>
         </div>
