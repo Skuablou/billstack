@@ -56,7 +56,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Netflix"
-              className="bg-muted border-border text-foreground"
+              className="bg-muted border-border text-foreground focus-visible:ring-[hsl(295_55%_50%)] focus-visible:border-[hsl(295_55%_50%)]"
             />
           </div>
 
@@ -69,7 +69,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="14.99"
-              className="bg-muted border-border text-foreground"
+              className="bg-muted border-border text-foreground focus-visible:ring-[hsl(295_55%_50%)] focus-visible:border-[hsl(295_55%_50%)]"
             />
           </div>
 
@@ -142,7 +142,8 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+              className="flex-1 text-white hover:opacity-90"
+              style={{ backgroundColor: "hsl(295 55% 50%)" }}
             >
               Add
             </Button>
