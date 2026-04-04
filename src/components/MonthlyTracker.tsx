@@ -388,14 +388,6 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
         </table>
       </div>
 
-      {/* Streak Card */}
-      <StreakCard
-        current={streak.current}
-        best={streak.best}
-        totalDays={streak.totalDays}
-        thisMonth={streak.thisMonth}
-      />
-
       {/* Day detail panel */}
       <AnimatePresence>
         {selectedDay && selectedData && (
@@ -479,6 +471,14 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Streak Card - at bottom */}
+      <StreakCard
+        current={streak.current}
+        best={streak.best}
+        totalDays={streak.totalDays}
+        thisMonth={streak.thisMonth}
+      />
     </div>
   );
 }

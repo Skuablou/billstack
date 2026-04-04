@@ -56,15 +56,14 @@ export default function StreakCard({ current, best, totalDays, thisMonth }: Stre
           </div>
         </div>
 
-        {/* Day circles - show which days of this week had entries */}
+        {/* Day circles - 7 day cycle progress */}
         <div className="flex gap-1.5 justify-between mb-3">
-          {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((label, idx) => {
-            const dayNum = idx + 1;
+          {[1, 2, 3, 4, 5, 6, 7].map((dayNum) => {
             const isDone = dayNum <= completedToday;
             const isNext = dayNum === completedToday + 1;
 
             return (
-              <div key={label} className="flex flex-col items-center gap-1 flex-1">
+              <div key={dayNum} className="flex flex-col items-center gap-1 flex-1">
                 <div
                   className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-all"
                   style={{
@@ -83,9 +82,8 @@ export default function StreakCard({ current, best, totalDays, thisMonth }: Stre
                         : "hsl(var(--muted-foreground))",
                   }}
                 >
-                  {isDone ? "✓" : label}
+                  {isDone ? "✓" : dayNum}
                 </div>
-                <span className="text-[9px] text-muted-foreground">{dayNum}</span>
               </div>
             );
           })}
