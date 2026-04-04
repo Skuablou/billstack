@@ -14,6 +14,7 @@ interface Props {
 }
 
 export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Props) {
+  const { currency } = useCurrency();
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [billingCycle, setBillingCycle] = useState<"Monthly" | "Yearly">("Monthly");
