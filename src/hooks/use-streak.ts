@@ -39,7 +39,6 @@ export function getStreakMessage(streak: number): string {
   const messages = [
     `🔥 ${streak} day streak! ${level.tagline}`,
     `${level.icon} ${streak} days! You're a ${level.name}!`,
-    `🔥 ${streak} Tage am Stück! Weiter so!`,
     `${level.icon} ${streak} day streak! Keep grinding!`,
   ];
   return messages[Math.floor(Math.random() * messages.length)];
