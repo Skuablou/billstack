@@ -64,7 +64,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
 
           {/* Amount */}
           <div className="space-y-1.5">
-            <Label className="text-muted-foreground text-sm">Amount (€)</Label>
+            <Label className="text-muted-foreground text-sm">Amount ({currency})</Label>
             <Input
               type="number"
               step="0.01"
