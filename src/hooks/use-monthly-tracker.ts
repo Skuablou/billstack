@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/AuthContext";
 
-interface DayEntry { amt: number; id?: string }
+interface DayEntry { amt: number; id?: string; created_at?: string }
 type DataMap = Record<string, DayEntry[]>;
 
 export function useMonthlyTracker() {
