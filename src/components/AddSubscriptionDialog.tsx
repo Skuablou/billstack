@@ -28,7 +28,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
       id: crypto.randomUUID(),
       name,
       amount: parseFloat(amount),
-      currency: "€",
+      currency,
       category,
       billingCycle,
       billingDate: parseInt(billingDate),
