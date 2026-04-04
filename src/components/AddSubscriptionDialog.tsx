@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CATEGORIES, CATEGORY_COLORS, CATEGORY_ICONS, Subscription } from "@/lib/subscriptions";
+import { useCurrency } from "@/lib/CurrencyContext";
 
 interface Props {
   open: boolean;
