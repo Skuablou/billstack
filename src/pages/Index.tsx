@@ -323,9 +323,9 @@ export default function Index() {
                 {isPremium ? (
                   <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
                 ) : (
-                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(267 25% 14%), hsl(267 15% 10%))", borderColor: "hsl(267 60% 50% / 0.25)" }}>
-                    <h3 className="font-display font-semibold text-white flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goals</h3>
-                    <p className="text-white/70 text-sm">Set savings goals and track your progress.</p>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: theme === "light" ? "linear-gradient(135deg, hsl(267 25% 90%), hsl(267 15% 85%))" : "linear-gradient(135deg, hsl(267 25% 14%), hsl(267 15% 10%))", borderColor: "hsl(267 60% 50% / 0.25)" }}>
+                    <h3 className={`font-display font-semibold ${theme === "light" ? "text-foreground" : "text-white"} flex items-center gap-2`}><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goals</h3>
+                    <p className={`${theme === "light" ? "text-muted-foreground" : "text-white/70"} text-sm`}>Set savings goals and track your progress.</p>
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
                   </div>
                 )}
@@ -336,18 +336,18 @@ export default function Index() {
                 {isPremium ? (
                   <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
                 ) : (
-                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(267 35% 14%), hsl(267 25% 10%))", borderColor: "hsl(267 60% 50% / 0.25)" }}>
-                    <h3 className="font-display font-semibold text-white flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
-                    <p className="text-white/70 text-sm">Calculate your monthly budget and see what's left.</p>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: theme === "light" ? "linear-gradient(135deg, hsl(267 25% 90%), hsl(267 15% 85%))" : "linear-gradient(135deg, hsl(267 35% 14%), hsl(267 25% 10%))", borderColor: "hsl(267 60% 50% / 0.25)" }}>
+                    <h3 className={`font-display font-semibold ${theme === "light" ? "text-foreground" : "text-white"} flex items-center gap-2`}><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
+                    <p className={`${theme === "light" ? "text-muted-foreground" : "text-white/70"} text-sm`}>Calculate your monthly budget and see what's left.</p>
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
                   </div>
                 )}
                 {isPremium ? (
                   <SurvivalCalculator subscriptions={subscriptions} />
                 ) : (
-                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(0 30% 14%), hsl(0 20% 10%))", borderColor: "hsl(0 60% 50% / 0.25)" }}>
-                    <h3 className="font-display font-semibold text-white flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Survival Calculator</h3>
-                    <p className="text-white/70 text-sm">Find out how long you'd survive without income.</p>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: theme === "light" ? "linear-gradient(135deg, hsl(0 30% 90%), hsl(0 20% 85%))" : "linear-gradient(135deg, hsl(0 30% 14%), hsl(0 20% 10%))", borderColor: "hsl(0 60% 50% / 0.25)" }}>
+                    <h3 className={`font-display font-semibold ${theme === "light" ? "text-foreground" : "text-white"} flex items-center gap-2`}><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Survival Calculator</h3>
+                    <p className={`${theme === "light" ? "text-muted-foreground" : "text-white/70"} text-sm`}>Find out how long you'd survive without income.</p>
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
                   </div>
                 )}
@@ -447,27 +447,27 @@ export default function Index() {
                 {isPremium ? (
                   <SavingsGoalDisplay goals={activeGoals} onMarkPaid={markGoalPaid} onRemove={removeGoal} />
                 ) : (
-                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(267 25% 14%), hsl(267 15% 10%))", borderColor: "hsl(267 60% 50% / 0.25)" }}>
-                    <h3 className="font-display font-semibold text-white flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goals</h3>
-                    <p className="text-white/70 text-sm">Set savings goals and track your progress.</p>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: theme === "light" ? "linear-gradient(135deg, hsl(267 25% 90%), hsl(267 15% 85%))" : "linear-gradient(135deg, hsl(267 25% 14%), hsl(267 15% 10%))", borderColor: "hsl(267 60% 50% / 0.25)" }}>
+                    <h3 className={`font-display font-semibold ${theme === "light" ? "text-foreground" : "text-white"} flex items-center gap-2`}><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Savings Goals</h3>
+                    <p className={`${theme === "light" ? "text-muted-foreground" : "text-white/70"} text-sm`}>Set savings goals and track your progress.</p>
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
                   </div>
                 )}
                 {isPremium ? (
                   <BudgetCalculator subscriptions={subscriptions} savingsMonthly={savingsMonthly} />
                 ) : (
-                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(267 35% 14%), hsl(267 25% 10%))", borderColor: "hsl(267 60% 50% / 0.25)" }}>
-                    <h3 className="font-display font-semibold text-white flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
-                    <p className="text-white/70 text-sm">Calculate your monthly budget and see what's left.</p>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: theme === "light" ? "linear-gradient(135deg, hsl(267 25% 90%), hsl(267 15% 85%))" : "linear-gradient(135deg, hsl(267 35% 14%), hsl(267 25% 10%))", borderColor: "hsl(267 60% 50% / 0.25)" }}>
+                    <h3 className={`font-display font-semibold ${theme === "light" ? "text-foreground" : "text-white"} flex items-center gap-2`}><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Budget Calculator</h3>
+                    <p className={`${theme === "light" ? "text-muted-foreground" : "text-white/70"} text-sm`}>Calculate your monthly budget and see what's left.</p>
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
                   </div>
                 )}
                 {isPremium ? (
                   <SurvivalCalculator subscriptions={subscriptions} />
                 ) : (
-                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(0 30% 14%), hsl(0 20% 10%))", borderColor: "hsl(0 60% 50% / 0.25)" }}>
-                    <h3 className="font-display font-semibold text-white flex items-center gap-2"><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Survival Calculator</h3>
-                    <p className="text-white/70 text-sm">Find out how long you'd survive without income.</p>
+                  <div className="rounded-xl border p-5 space-y-3 relative overflow-hidden" style={{ background: theme === "light" ? "linear-gradient(135deg, hsl(0 30% 90%), hsl(0 20% 85%))" : "linear-gradient(135deg, hsl(0 30% 14%), hsl(0 20% 10%))", borderColor: "hsl(0 60% 50% / 0.25)" }}>
+                    <h3 className={`font-display font-semibold ${theme === "light" ? "text-foreground" : "text-white"} flex items-center gap-2`}><Crown className="w-4 h-4" style={{ color: "hsl(36 100% 50%)" }} /> Survival Calculator</h3>
+                    <p className={`${theme === "light" ? "text-muted-foreground" : "text-white/70"} text-sm`}>Find out how long you'd survive without income.</p>
                     <Button size="sm" className="rounded-full gap-1.5 text-black font-semibold text-xs" style={{ background: "linear-gradient(135deg, hsl(36 100% 50%), hsl(25 100% 50%))" }} onClick={() => setPremiumOpen(true)}><Crown className="w-3.5 h-3.5" /> Upgrade</Button>
                   </div>
                 )}
