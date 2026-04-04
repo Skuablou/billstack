@@ -471,6 +471,14 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Streak Card - at bottom */}
+      <StreakCard
+        current={streak.current}
+        best={streak.best}
+        totalDays={streak.totalDays}
+        thisMonth={streak.thisMonth}
+      />
     </div>
   );
 }
