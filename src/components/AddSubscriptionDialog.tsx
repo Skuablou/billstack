@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CATEGORIES, CATEGORY_COLORS, CATEGORY_ICONS, Subscription } from "@/lib/subscriptions";
+import { useCurrency } from "@/lib/CurrencyContext";
 
 interface Props {
   open: boolean;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Props) {
+  const { currency } = useCurrency();
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [billingCycle, setBillingCycle] = useState<"Monthly" | "Yearly">("Monthly");
@@ -26,7 +28,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
       id: crypto.randomUUID(),
       name,
       amount: parseFloat(amount),
-      currency: "€",
+      currency,
       category,
       billingCycle,
       billingDate: parseInt(billingDate),
@@ -62,7 +64,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
 
           {/* Amount */}
           <div className="space-y-1.5">
-            <Label className="text-muted-foreground text-sm">Amount (€)</Label>
+            <Label className="text-muted-foreground text-sm">Amount ({currency})</Label>
             <Input
               type="number"
               step="0.01"
