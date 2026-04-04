@@ -45,10 +45,19 @@ export function getStreakMessage(streak: number): string {
   return messages[Math.floor(Math.random() * messages.length)];
 }
 
-type DataMap = Record<string, { amt: number; id?: string }[]>;
+type DataMap = Record<string, { amt: number; id?: string; created_at?: string }[]>;
 
 export function calculateStreak(data: DataMap): { current: number; best: number; totalDays: number; thisMonth: number } {
-  const allDates = Object.keys(data).filter(k => data[k] && data[k].length > 0).sort();
+  // Anti-manipulation: only count days where at least one expense was logged on that same day
+  const allDates = Object.keys(data).filter(k => {
+    const entries = data[k];
+    if (!entries || entries.length === 0) return false;
+    return entries.some(e => {
+      if (!e.created_at) return true; // legacy entries without created_at still count
+      const createdDate = e.created_at.slice(0, 10); // "YYYY-MM-DD"
+      return createdDate === k;
+    });
+  }).sort();
   const totalDays = allDates.length;
 
   // This month count

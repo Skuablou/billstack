@@ -83,7 +83,7 @@ export function useMonthlyTracker() {
     if (inserted) {
       setData(prev => ({
         ...prev,
-        [dateKey]: [...(prev[dateKey] || []), { amt: Number((inserted as any).amount), id: (inserted as any).id }],
+        [dateKey]: [...(prev[dateKey] || []), { amt: Number((inserted as any).amount), id: (inserted as any).id, created_at: (inserted as any).created_at }],
       }));
     }
   }, [user]);
