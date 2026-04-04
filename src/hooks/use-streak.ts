@@ -12,9 +12,9 @@ export const STREAK_LEVELS: StreakLevel[] = [
   { name: "The Awakened", icon: "🐣", minDays: 7, tagline: "You woke up! Keep going." },
   { name: "The Observer", icon: "🔍", minDays: 14, tagline: "Watching your money like a hawk!" },
   { name: "The Grinder", icon: "⚡", minDays: 21, tagline: "3 weeks grinding! Respect." },
-  { name: "Sharp Mind", icon: "🎯", minDays: 28, tagline: "Razor-sharp financial vision!" },
-  { name: "The Relentless", icon: "🔥", minDays: 35, tagline: "Unstoppable! Beast mode activated." },
-  { name: "Diamond Hands", icon: "💎", minDays: 42, tagline: "Diamond hands. Unbreakable." },
+  { name: "The Strategist", icon: "🎯", minDays: 28, tagline: "Every dollar has a purpose." },
+  { name: "Cold Blooded", icon: "🔥", minDays: 35, tagline: "No impulse buys. No regrets." },
+  { name: "The Vault", icon: "💎", minDays: 42, tagline: "Your money doesn't leave without permission." },
   { name: "Legendary Banker", icon: "👑", minDays: 49, tagline: "Wall Street wants your number." },
 ];
 
