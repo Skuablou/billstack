@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/AuthContext";
 
-interface DayEntry { amt: number; id?: string }
+interface DayEntry { amt: number; id?: string; created_at?: string }
 type DataMap = Record<string, DayEntry[]>;
 
 export function useMonthlyTracker() {
@@ -44,7 +44,7 @@ export function useMonthlyTracker() {
         expenses.forEach((e: any) => {
           const key = e.date;
           if (!map[key]) map[key] = [];
-          map[key].push({ amt: Number(e.amount), id: e.id });
+          map[key].push({ amt: Number(e.amount), id: e.id, created_at: e.created_at });
         });
         setData(map);
       }
@@ -83,7 +83,7 @@ export function useMonthlyTracker() {
     if (inserted) {
       setData(prev => ({
         ...prev,
-        [dateKey]: [...(prev[dateKey] || []), { amt: Number((inserted as any).amount), id: (inserted as any).id }],
+        [dateKey]: [...(prev[dateKey] || []), { amt: Number((inserted as any).amount), id: (inserted as any).id, created_at: (inserted as any).created_at }],
       }));
     }
   }, [user]);
