@@ -30,11 +30,11 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
       name,
       amount: parseFloat(amount),
       currency,
-      category,
+      category: finalCategory,
       billingCycle,
       billingDate: parseInt(billingDate),
-      color: CATEGORY_COLORS[category] || CATEGORY_COLORS.Other,
-      icon: CATEGORY_ICONS[category] || CATEGORY_ICONS.Other,
+      color: CATEGORY_COLORS[finalCategory] || CATEGORY_COLORS.Other,
+      icon: CATEGORY_ICONS[finalCategory] || CATEGORY_ICONS.Other,
       reminderDays: 1,
     });
     setName("");
