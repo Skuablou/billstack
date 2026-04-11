@@ -19,7 +19,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
   const [amount, setAmount] = useState("");
   const [billingCycle, setBillingCycle] = useState<"Monthly" | "Yearly">("Monthly");
   const [billingDate, setBillingDate] = useState("1");
-  const [category, setCategory] = useState<string>("Other");
+  const [category, setCategory] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
