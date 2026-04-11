@@ -117,7 +117,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
                   <button
                     key={c}
                     type="button"
-                    onClick={() => setCategory(c)}
+                    onClick={() => setCategory((prev) => (prev === c ? "" : c))}
                     className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
                     style={{
                       borderColor: isSelected ? color : `${color}60`,
