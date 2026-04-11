@@ -124,9 +124,8 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
                     }`}
                     style={{
                       borderColor: isSelected ? color : "transparent",
-                      color: isSelected ? color : `${color}`,
+                      color: color,
                       backgroundColor: isSelected ? `${color}30` : `${color}10`,
-                      ringColor: isSelected ? color : undefined,
                     }}
                   >
                     {c}
