@@ -19,28 +19,29 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
   const [amount, setAmount] = useState("");
   const [billingCycle, setBillingCycle] = useState<"Monthly" | "Yearly">("Monthly");
   const [billingDate, setBillingDate] = useState("1");
-  const [category, setCategory] = useState<string>("Other");
+  const [category, setCategory] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !amount) return;
+    const finalCategory = category || "Other";
     onAdd({
       id: crypto.randomUUID(),
       name,
       amount: parseFloat(amount),
       currency,
-      category,
+      category: finalCategory,
       billingCycle,
       billingDate: parseInt(billingDate),
-      color: CATEGORY_COLORS[category] || CATEGORY_COLORS.Other,
-      icon: CATEGORY_ICONS[category] || CATEGORY_ICONS.Other,
+      color: CATEGORY_COLORS[finalCategory] || CATEGORY_COLORS.Other,
+      icon: CATEGORY_ICONS[finalCategory] || CATEGORY_ICONS.Other,
       reminderDays: 1,
     });
     setName("");
     setAmount("");
     setBillingCycle("Monthly");
     setBillingDate("1");
-    setCategory("Other");
+    setCategory("");
     onOpenChange(false);
   };
 
@@ -117,7 +118,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
                   <button
                     key={c}
                     type="button"
-                    onClick={() => setCategory(c)}
+                    onClick={() => setCategory((prev) => (prev === c ? "" : c))}
                     className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
                     style={{
                       borderColor: isSelected ? color : `${color}60`,
