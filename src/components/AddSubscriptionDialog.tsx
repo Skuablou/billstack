@@ -119,11 +119,13 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
                     key={c}
                     type="button"
                     onClick={() => setCategory((prev) => (prev === c ? "" : c))}
-                    className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium border-2 transition-all ${
+                      isSelected ? "ring-2 ring-offset-1 ring-offset-background scale-105" : "opacity-60 hover:opacity-80"
+                    }`}
                     style={{
-                      borderColor: isSelected ? color : `${color}60`,
+                      borderColor: isSelected ? color : "transparent",
                       color: color,
-                      backgroundColor: isSelected ? `${color}20` : `${color}10`,
+                      backgroundColor: isSelected ? `${color}30` : `${color}10`,
                     }}
                   >
                     {c}
