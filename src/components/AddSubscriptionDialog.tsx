@@ -41,7 +41,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
     setAmount("");
     setBillingCycle("Monthly");
     setBillingDate("1");
-    setCategory("Other");
+    setCategory("");
     onOpenChange(false);
   };
 
