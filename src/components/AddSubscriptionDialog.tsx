@@ -24,6 +24,7 @@ export default function AddSubscriptionDialog({ open, onOpenChange, onAdd }: Pro
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !amount) return;
+    const finalCategory = category || "Other";
     onAdd({
       id: crypto.randomUUID(),
       name,
