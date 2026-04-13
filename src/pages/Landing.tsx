@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { CreditCard, TrendingDown, Bell, PiggyBank } from "lucide-react";
+import appPreview from "@/assets/app-preview.png";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
@@ -55,6 +56,16 @@ export default function Landing() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5 }}
+          className="flex flex-col items-center gap-3"
+        >
+          <img src={appPreview} alt="BillStack App Preview" className="w-56 rounded-2xl" />
+          <p className="text-xs text-muted-foreground italic">Coming to Play Store soon</p>
+        </motion.div>
 
         <div className="space-y-3 pt-2">
           <Button
