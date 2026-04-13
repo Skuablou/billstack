@@ -63,7 +63,7 @@ export default function Landing() {
           transition={{ delay: 0.5 }}
           className="flex flex-col items-center gap-3"
         >
-          <img src={appPreview} alt="BillStack App Preview" className="w-56 rounded-2xl" />
+          <img src={appPreview} alt="BillStack App Preview" className="w-36 rounded-2xl" />
           <p className="text-xs text-muted-foreground italic">Coming to Play Store soon</p>
         </motion.div>
 
