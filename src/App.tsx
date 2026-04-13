@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/lib/ThemeContext";
 import { useAuth, AuthProvider } from "@/lib/AuthContext";
 import Index from "./pages/Index.tsx";
 import Auth from "./pages/Auth.tsx";
+import Landing from "./pages/Landing.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
