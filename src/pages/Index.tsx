@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import billstackLogo from "@/assets/billstack-logo.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff, CalendarClock, Wallet, Clock, Calculator, MoreVertical, X, CalendarDays, Sun, Moon, Filter, BarChart3 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -10,6 +10,7 @@ import SubscriptionCard from "@/components/SubscriptionCard";
 import AddSubscriptionDialog from "@/components/AddSubscriptionDialog";
 import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
+import BottomNav from "@/components/BottomNav";
 
 import BudgetCalculator from "@/components/BudgetCalculator";
 import SurvivalCalculator from "@/components/SurvivalCalculator";
@@ -50,6 +51,12 @@ export default function Index() {
   
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const sec = (location.state as { section?: number } | null)?.section;
+    if (typeof sec === "number") setActiveSection(sec);
+  }, [location.state]);
   const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
   const { activeGoals, addGoal, markGoalPaid, removeGoal } = useSavingsGoals();
   const { currency, toggle: toggleCurrency } = useCurrency();
@@ -138,7 +145,7 @@ export default function Index() {
       <header className="max-w-5xl mx-auto px-6 pt-6 md:pt-10 pb-2 relative z-10">
         <div className="flex items-center justify-between">
           <div className="min-w-0 shrink flex items-center gap-3">
-            <img src={billstackLogo} alt="BillStack" className="h-8 md:h-10 w-auto" />
+            <img src={billstackLogo} alt="BillStack" className="h-8 md:h-10 w-auto hidden md:block" />
             <p className="text-muted-foreground text-sm mt-1 hidden md:block">Keep track of all your monthly bills</p>
           </div>
 
@@ -480,30 +487,7 @@ export default function Index() {
         )}
       </main>
 
-      {/* Mobile Bottom Navigation */}
-      {isMobile && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/80 backdrop-blur-xl">
-          <div className="flex items-center justify-around py-2 px-4">
-            {[
-              { icon: Wallet, label: "Spendings", action: () => setActiveSection(0), active: activeSection === 0 },
-              { icon: Clock, label: "Upcoming", action: () => setActiveSection(1), active: activeSection === 1 },
-              { icon: CalendarDays, label: "Calendar", action: () => setActiveSection(2), active: activeSection === 2 },
-              { icon: Calculator, label: "Tools", action: () => setActiveSection(3), active: activeSection === 3 },
-              { icon: BarChart3, label: "Reports", action: () => navigate("/reports"), active: false },
-            ].map((item) => (
-              <button
-                key={item.label}
-                onClick={item.action}
-                className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-colors ${item.active ? "" : "text-muted-foreground"}`}
-                style={item.active ? { color: "#8100FF" } : undefined}
-              >
-                <item.icon className="w-5 h-5" />
-                <span className="text-[10px] font-medium">{item.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      <BottomNav activeSection={activeSection} onSectionChange={setActiveSection} currentRoute="home" />
 
       <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
       <PremiumDialog open={premiumOpen} onOpenChange={(open) => { setPremiumOpen(open); if (!open) setPremiumMessage(undefined); }} message={premiumMessage} />
