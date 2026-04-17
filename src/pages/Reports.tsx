@@ -66,46 +66,49 @@ export default function Reports() {
 
   const budget = salary > 0 ? salary : monthlySubsTotal * 2;
 
-  const getWeeklyData = (month: number, year: number) => {
-    const weeks = [0, 0, 0, 0];
+  const daysInMonth = (m: number, y: number) => new Date(y, m + 1, 0).getDate();
+
+  const getDailyCumulative = (month: number, year: number) => {
+    const days = daysInMonth(month, year);
+    const daily = new Array(days).fill(0);
     expenses.forEach((e) => {
       const d = new Date(e.date);
       if (d.getMonth() === month && d.getFullYear() === year) {
-        const weekIdx = Math.min(Math.floor((d.getDate() - 1) / 7), 3);
-        weeks[weekIdx] += Number(e.amount);
+        const idx = d.getDate() - 1;
+        if (idx >= 0 && idx < days) daily[idx] += Number(e.amount);
       }
     });
     const cumulative: number[] = [];
-    weeks.reduce((acc, val, i) => {
+    daily.reduce((acc, val, i) => {
       cumulative[i] = acc + val;
       return cumulative[i];
     }, 0);
     return cumulative;
   };
 
-  const thisMonthWeekly = getWeeklyData(currentMonth, currentYear);
-  const lastMonthWeekly = getWeeklyData(lastMonth, lastMonthYear);
+  const thisMonthDays = daysInMonth(currentMonth, currentYear);
+  const lastMonthDays = daysInMonth(lastMonth, lastMonthYear);
+  const thisMonthDaily = getDailyCumulative(currentMonth, currentYear);
+  const lastMonthDaily = getDailyCumulative(lastMonth, lastMonthYear);
 
-  const spentThisMonth = thisMonthWeekly[3] || 0;
-  const spentLastMonth = lastMonthWeekly[3] || 0;
+  const spentThisMonth = thisMonthDaily[thisMonthDays - 1] || 0;
+  const spentLastMonth = lastMonthDaily[lastMonthDays - 1] || 0;
 
-  const budgetData = [0.25, 0.5, 0.75, 1].map((p) => Math.round(budget * p));
+  const income = salary;
 
-  const budgetChartData = ["Week 1", "Week 2", "Week 3", "Week 4"].map(
-    (label, i) => ({
-      week: label,
-      spent: thisMonthWeekly[i],
-      budget: budgetData[i],
-    })
-  );
+  const budgetChartData = Array.from({ length: thisMonthDays }, (_, i) => ({
+    day: i + 1,
+    spent: thisMonthDaily[i],
+    budget: Math.round((budget / thisMonthDays) * (i + 1)),
+    income,
+  }));
 
-  const comparisonData = ["Week 1", "Week 2", "Week 3", "Week 4"].map(
-    (label, i) => ({
-      week: label,
-      thisMonth: thisMonthWeekly[i],
-      lastMonth: lastMonthWeekly[i],
-    })
-  );
+  const comparisonDays = Math.max(thisMonthDays, lastMonthDays);
+  const comparisonData = Array.from({ length: comparisonDays }, (_, i) => ({
+    day: i + 1,
+    thisMonth: i < thisMonthDays ? thisMonthDaily[i] : null,
+    lastMonth: i < lastMonthDays ? lastMonthDaily[i] : null,
+  }));
 
   const categoryTotals: Record<string, number> = {};
   subscriptions.forEach((s) => {
@@ -164,7 +167,7 @@ export default function Reports() {
               </div>
               <div className="text-sm font-semibold text-primary">{budgetPct}%</div>
             </div>
-            <div className="flex gap-3 text-xs text-muted-foreground mb-3">
+            <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mb-3">
               <span className="flex items-center gap-1.5">
                 <span className="w-3.5 h-0.5 bg-emerald-500 rounded" />
                 Spent
@@ -179,11 +182,17 @@ export default function Reports() {
                 />
                 Budget
               </span>
+              {income > 0 && (
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3.5 h-0.5 rounded" style={{ background: "#8100FF" }} />
+                  Income
+                </span>
+              )}
             </div>
             <ResponsiveContainer width="100%" height={180}>
               <AreaChart data={budgetChartData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="week" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} />
+                <XAxis dataKey="day" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} interval={Math.ceil(thisMonthDays / 6)} />
                 <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(v) => `€${v}`} />
                 <Tooltip
                   contentStyle={{
@@ -192,9 +201,13 @@ export default function Reports() {
                     borderRadius: "8px",
                     fontSize: "12px",
                   }}
+                  labelFormatter={(label) => `Day ${label}`}
                 />
                 <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={2.5} fill="rgba(16,185,129,0.12)" dot={false} />
                 <Line type="monotone" dataKey="budget" stroke="#a78bfa" strokeWidth={2} strokeDasharray="4 4" dot={false} />
+                {income > 0 && (
+                  <Line type="monotone" dataKey="income" stroke="#8100FF" strokeWidth={2} dot={false} />
+                )}
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -226,7 +239,7 @@ export default function Reports() {
             <ResponsiveContainer width="100%" height={180}>
               <LineChart data={comparisonData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="week" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} />
+                <XAxis dataKey="day" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} interval={Math.ceil(comparisonDays / 6)} />
                 <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(v) => `€${v}`} />
                 <Tooltip
                   contentStyle={{
