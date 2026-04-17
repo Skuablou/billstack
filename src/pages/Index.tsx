@@ -138,7 +138,7 @@ export default function Index() {
       <header className="max-w-5xl mx-auto px-6 pt-6 md:pt-10 pb-2 relative z-10">
         <div className="flex items-center justify-between">
           <div className="min-w-0 shrink flex items-center gap-3">
-            <img src={billstackLogo} alt="BillStack" className="h-8 md:h-10 w-auto" />
+            <img src={billstackLogo} alt="BillStack" className="h-8 md:h-10 w-auto hidden md:block" />
             <p className="text-muted-foreground text-sm mt-1 hidden md:block">Keep track of all your monthly bills</p>
           </div>
 
@@ -480,30 +480,7 @@ export default function Index() {
         )}
       </main>
 
-      {/* Mobile Bottom Navigation */}
-      {isMobile && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/80 backdrop-blur-xl">
-          <div className="flex items-center justify-around py-2 px-4">
-            {[
-              { icon: Wallet, label: "Spendings", action: () => setActiveSection(0), active: activeSection === 0 },
-              { icon: Clock, label: "Upcoming", action: () => setActiveSection(1), active: activeSection === 1 },
-              { icon: CalendarDays, label: "Calendar", action: () => setActiveSection(2), active: activeSection === 2 },
-              { icon: Calculator, label: "Tools", action: () => setActiveSection(3), active: activeSection === 3 },
-              { icon: BarChart3, label: "Reports", action: () => navigate("/reports"), active: false },
-            ].map((item) => (
-              <button
-                key={item.label}
-                onClick={item.action}
-                className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-colors ${item.active ? "" : "text-muted-foreground"}`}
-                style={item.active ? { color: "#8100FF" } : undefined}
-              >
-                <item.icon className="w-5 h-5" />
-                <span className="text-[10px] font-medium">{item.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      <BottomNav activeSection={activeSection} onSectionChange={setActiveSection} currentRoute="home" />
 
       <AddSubscriptionDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addSubscription} />
       <PremiumDialog open={premiumOpen} onOpenChange={(open) => { setPremiumOpen(open); if (!open) setPremiumMessage(undefined); }} message={premiumMessage} />

@@ -15,10 +15,9 @@ import {
   Area,
   AreaChart,
 } from "recharts";
-import { ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/AuthContext";
-import { Button } from "@/components/ui/button";
+import BottomNav from "@/components/BottomNav";
 
 type Expense = { date: string; amount: number };
 type Subscription = { amount: number; billing_cycle: string; category: string };
