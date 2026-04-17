@@ -260,7 +260,7 @@ export default function Index() {
       </AnimatePresence>
 
       {/* Stat Cards */}
-      <main className="max-w-5xl mx-auto px-6 pt-2 pb-8 md:py-8 relative z-10 pb-24 md:pb-8">
+      <main className="max-w-5xl mx-auto px-6 pt-2 md:pt-8 pb-28 md:pb-8 relative z-10">
         {/* Desktop: show everything */}
         {!isMobile ? (
           <>
