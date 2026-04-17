@@ -141,7 +141,7 @@ export default function Reports() {
   const hasData = expenses.length > 0 || subscriptions.length > 0;
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-32 md:pb-8">
       <header className="max-w-md mx-auto px-4 pt-6 pb-2">
         <h1 className="text-2xl font-semibold text-foreground">Reports</h1>
       </header>
