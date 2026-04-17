@@ -19,6 +19,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/AuthContext";
 import BottomNav from "@/components/BottomNav";
+import { MoreVertical } from "lucide-react";
 
 type Expense = { date: string; amount: number };
 type Subscription = { amount: number; billing_cycle: string; category: string };
@@ -142,8 +143,14 @@ export default function Reports() {
 
   return (
     <div className="min-h-screen bg-background pb-32 md:pb-8">
-      <header className="max-w-md mx-auto px-4 pt-6 pb-2">
-        <h1 className="text-2xl font-semibold text-foreground">Reports</h1>
+      <header className="max-w-md mx-auto px-4 pt-4 pb-2 flex items-center justify-end">
+        <button
+          onClick={() => navigate("/", { state: { openMenu: true } })}
+          className="rounded-full bg-card border border-border text-muted-foreground hover:text-foreground p-2"
+          aria-label="Open menu"
+        >
+          <MoreVertical className="w-5 h-5" />
+        </button>
       </header>
 
       {loading ? (
