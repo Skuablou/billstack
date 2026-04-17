@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import billstackLogo from "@/assets/billstack-logo.png";
 import { motion, AnimatePresence } from "framer-motion";
-import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff, CalendarClock, Wallet, Clock, Calculator, MoreVertical, X, CalendarDays, Sun, Moon, Filter } from "lucide-react";
+import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff, CalendarClock, Wallet, Clock, Calculator, MoreVertical, X, CalendarDays, Sun, Moon, Filter, BarChart3 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -48,6 +49,7 @@ export default function Index() {
   const [filterOpen, setFilterOpen] = useState(false);
   
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
   const { activeGoals, addGoal, markGoalPaid, removeGoal } = useSavingsGoals();
   const { currency, toggle: toggleCurrency } = useCurrency();
@@ -483,16 +485,17 @@ export default function Index() {
         <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/80 backdrop-blur-xl">
           <div className="flex items-center justify-around py-2 px-4">
             {[
-              { icon: Wallet, label: "Spendings" },
-              { icon: Clock, label: "Upcoming" },
-              { icon: CalendarDays, label: "Calendar" },
-              { icon: Calculator, label: "Tools" },
-            ].map((item, i) => (
+              { icon: Wallet, label: "Spendings", action: () => setActiveSection(0), active: activeSection === 0 },
+              { icon: Clock, label: "Upcoming", action: () => setActiveSection(1), active: activeSection === 1 },
+              { icon: CalendarDays, label: "Calendar", action: () => setActiveSection(2), active: activeSection === 2 },
+              { icon: Calculator, label: "Tools", action: () => setActiveSection(3), active: activeSection === 3 },
+              { icon: BarChart3, label: "Reports", action: () => navigate("/reports"), active: false },
+            ].map((item) => (
               <button
                 key={item.label}
-                onClick={() => setActiveSection(i)}
-                className={`flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-colors ${activeSection === i ? "" : "text-muted-foreground"}`}
-                style={activeSection === i ? { color: "#8100FF" } : undefined}
+                onClick={item.action}
+                className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-colors ${item.active ? "" : "text-muted-foreground"}`}
+                style={item.active ? { color: "#8100FF" } : undefined}
               >
                 <item.icon className="w-5 h-5" />
                 <span className="text-[10px] font-medium">{item.label}</span>
