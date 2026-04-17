@@ -19,6 +19,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/AuthContext";
 import BottomNav from "@/components/BottomNav";
+import { MoreVertical } from "lucide-react";
 
 type Expense = { date: string; amount: number };
 type Subscription = { amount: number; billing_cycle: string; category: string };
