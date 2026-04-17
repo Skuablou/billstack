@@ -108,18 +108,14 @@ export default function Reports() {
 
   const income = salary;
 
-  const budgetChartData = Array.from({ length: thisMonthDays }, (_, i) => {
-    const budgetAtDay = Math.round((budget / thisMonthDays) * (i + 1));
-    return {
-      day: i + 1,
-      spent: thisMonthDaily[i],
-      budget: budgetAtDay,
-      income,
-      // Danger zone: from budget line up to income line
-      dangerBase: budgetAtDay,
-      dangerSpan: income > budgetAtDay ? income - budgetAtDay : 0,
-    };
-  });
+  const budgetChartData = Array.from({ length: thisMonthDays }, (_, i) => ({
+    day: i + 1,
+    spent: thisMonthDaily[i],
+    budget,
+    income,
+    dangerBase: budget,
+    dangerSpan: income > budget ? income - budget : 0,
+  }));
 
   const comparisonDays = Math.max(thisMonthDays, lastMonthDays);
   const comparisonData = Array.from({ length: comparisonDays }, (_, i) => ({
