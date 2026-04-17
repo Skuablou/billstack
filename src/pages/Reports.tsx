@@ -139,10 +139,7 @@ export default function Reports() {
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      <header className="max-w-md mx-auto px-4 pt-6 pb-2 flex items-center gap-2">
-        <Button variant="ghost" size="icon" className="rounded-full" onClick={() => navigate("/")}>
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
+      <header className="max-w-md mx-auto px-4 pt-6 pb-2">
         <h1 className="text-2xl font-semibold text-foreground">Reports</h1>
       </header>
 
