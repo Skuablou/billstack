@@ -281,6 +281,7 @@ export default function Reports() {
           )}
         </div>
       )}
+      <BottomNav currentRoute="reports" />
     </div>
   );
 }
