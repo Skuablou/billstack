@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import billstackLogo from "@/assets/billstack-logo.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreditCard, TrendingUp, RefreshCw, Plus, User, LogOut, Crown, Bell, BellOff, CalendarClock, Wallet, Clock, Calculator, MoreVertical, X, CalendarDays, Sun, Moon, Filter, BarChart3 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -51,6 +51,12 @@ export default function Index() {
   
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const sec = (location.state as { section?: number } | null)?.section;
+    if (typeof sec === "number") setActiveSection(sec);
+  }, [location.state]);
   const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
   const { activeGoals, addGoal, markGoalPaid, removeGoal } = useSavingsGoals();
   const { currency, toggle: toggleCurrency } = useCurrency();
