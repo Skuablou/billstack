@@ -167,7 +167,7 @@ export default function Reports() {
               </div>
               <div className="text-sm font-semibold text-primary">{budgetPct}%</div>
             </div>
-            <div className="flex gap-3 text-xs text-muted-foreground mb-3">
+            <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mb-3">
               <span className="flex items-center gap-1.5">
                 <span className="w-3.5 h-0.5 bg-emerald-500 rounded" />
                 Spent
@@ -182,11 +182,17 @@ export default function Reports() {
                 />
                 Budget
               </span>
+              {income > 0 && (
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3.5 h-0.5 rounded" style={{ background: "#8100FF" }} />
+                  Income
+                </span>
+              )}
             </div>
             <ResponsiveContainer width="100%" height={180}>
               <AreaChart data={budgetChartData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="week" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} />
+                <XAxis dataKey="day" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} interval={Math.ceil(thisMonthDays / 6)} />
                 <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(v) => `€${v}`} />
                 <Tooltip
                   contentStyle={{
@@ -195,9 +201,13 @@ export default function Reports() {
                     borderRadius: "8px",
                     fontSize: "12px",
                   }}
+                  labelFormatter={(label) => `Day ${label}`}
                 />
                 <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={2.5} fill="rgba(16,185,129,0.12)" dot={false} />
                 <Line type="monotone" dataKey="budget" stroke="#a78bfa" strokeWidth={2} strokeDasharray="4 4" dot={false} />
+                {income > 0 && (
+                  <Line type="monotone" dataKey="income" stroke="#8100FF" strokeWidth={2} dot={false} />
+                )}
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -229,7 +239,7 @@ export default function Reports() {
             <ResponsiveContainer width="100%" height={180}>
               <LineChart data={comparisonData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="week" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} />
+                <XAxis dataKey="day" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} interval={Math.ceil(comparisonDays / 6)} />
                 <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(v) => `€${v}`} />
                 <Tooltip
                   contentStyle={{
