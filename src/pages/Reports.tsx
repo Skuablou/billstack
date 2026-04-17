@@ -19,7 +19,9 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/AuthContext";
 import BottomNav from "@/components/BottomNav";
-import { MoreVertical } from "lucide-react";
+import { MoreVertical, Pencil, Check, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 type Expense = { date: string; amount: number };
 type Subscription = { amount: number; billing_cycle: string; category: string };
@@ -30,7 +32,10 @@ export default function Reports() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [salary, setSalary] = useState(0);
+  const [monthlyBudget, setMonthlyBudget] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [editingBudget, setEditingBudget] = useState(false);
+  const [budgetInput, setBudgetInput] = useState("");
 
   useEffect(() => {
     if (!user) return;
@@ -45,13 +50,14 @@ export default function Reports() {
         .eq("user_id", user.id);
       const { data: settings } = await supabase
         .from("monthly_tracker_settings")
-        .select("salary")
+        .select("salary, monthly_budget")
         .eq("user_id", user.id)
         .maybeSingle();
 
       setExpenses((exp as Expense[]) || []);
       setSubscriptions((subs as Subscription[]) || []);
       setSalary(settings?.salary || 0);
+      setMonthlyBudget(Number(settings?.monthly_budget) || 0);
       setLoading(false);
     })();
   }, [user]);
@@ -65,12 +71,16 @@ export default function Reports() {
   const monthlySubsTotal = subscriptions
     .filter((s) => s.billing_cycle === "Monthly")
     .reduce((sum, s) => sum + Number(s.amount), 0);
+  const yearlySubsMonthly = subscriptions
+    .filter((s) => s.billing_cycle === "Yearly")
+    .reduce((sum, s) => sum + Number(s.amount) / 12, 0);
+  const subsBaseline = monthlySubsTotal + yearlySubsMonthly;
 
-  const budget = salary > 0 ? salary : monthlySubsTotal * 2;
+  const budget = monthlyBudget > 0 ? monthlyBudget : (salary > 0 ? salary : subsBaseline * 2);
 
   const daysInMonth = (m: number, y: number) => new Date(y, m + 1, 0).getDate();
 
-  const getDailyCumulative = (month: number, year: number) => {
+  const getDailyCumulative = (month: number, year: number, baseline = 0) => {
     const days = daysInMonth(month, year);
     const daily = new Array(days).fill(0);
     expenses.forEach((e) => {
@@ -84,14 +94,14 @@ export default function Reports() {
     daily.reduce((acc, val, i) => {
       cumulative[i] = acc + val;
       return cumulative[i];
-    }, 0);
+    }, baseline);
     return cumulative;
   };
 
   const thisMonthDays = daysInMonth(currentMonth, currentYear);
   const lastMonthDays = daysInMonth(lastMonth, lastMonthYear);
-  const thisMonthDaily = getDailyCumulative(currentMonth, currentYear);
-  const lastMonthDaily = getDailyCumulative(lastMonth, lastMonthYear);
+  const thisMonthDaily = getDailyCumulative(currentMonth, currentYear, subsBaseline);
+  const lastMonthDaily = getDailyCumulative(lastMonth, lastMonthYear, subsBaseline);
 
   const spentThisMonth = thisMonthDaily[thisMonthDays - 1] || 0;
   const spentLastMonth = lastMonthDaily[lastMonthDays - 1] || 0;
@@ -141,6 +151,36 @@ export default function Reports() {
 
   const hasData = expenses.length > 0 || subscriptions.length > 0;
 
+  const saveBudget = async () => {
+    if (!user) return;
+    const value = parseFloat(budgetInput);
+    if (isNaN(value) || value < 0) return;
+
+    const { data: existing } = await supabase
+      .from("monthly_tracker_settings")
+      .select("id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (existing) {
+      await supabase
+        .from("monthly_tracker_settings")
+        .update({ monthly_budget: value })
+        .eq("user_id", user.id);
+    } else {
+      await supabase
+        .from("monthly_tracker_settings")
+        .insert({ user_id: user.id, monthly_budget: value });
+    }
+    setMonthlyBudget(value);
+    setEditingBudget(false);
+  };
+
+  const startEditBudget = () => {
+    setBudgetInput(monthlyBudget > 0 ? String(monthlyBudget) : "");
+    setEditingBudget(true);
+  };
+
   return (
     <div className="min-h-screen bg-background pb-32 md:pb-8">
       <header className="max-w-md mx-auto px-4 pt-4 pb-2 flex items-center justify-end">
@@ -165,6 +205,25 @@ export default function Reports() {
         </div>
       ) : (
         <div className="p-4 max-w-md mx-auto space-y-3">
+          {monthlyBudget === 0 && !editingBudget && (
+            <div className="bg-card rounded-2xl border border-primary/30 p-4">
+              <div className="text-sm font-medium text-foreground mb-1">Set your monthly budget</div>
+              <p className="text-xs text-muted-foreground mb-3">
+                How much do you want to spend per month? This sets the dashed budget line.
+              </p>
+              <div className="flex gap-2">
+                <Input
+                  type="number"
+                  inputMode="decimal"
+                  placeholder="e.g. 1500"
+                  value={budgetInput}
+                  onChange={(e) => setBudgetInput(e.target.value)}
+                />
+                <Button onClick={saveBudget} size="sm">Save</Button>
+              </div>
+            </div>
+          )}
+
           <div className="bg-card rounded-2xl border border-primary/15 p-4">
             <div className="flex justify-between items-start mb-2">
               <div>
@@ -305,6 +364,51 @@ export default function Reports() {
               </ResponsiveContainer>
             </div>
           )}
+
+          <div className="bg-card rounded-2xl border border-primary/15 p-4">
+            <div className="flex justify-between items-center mb-2">
+              <div className="text-sm font-medium text-foreground">Monthly budget</div>
+              {!editingBudget && (
+                <button
+                  onClick={startEditBudget}
+                  className="text-muted-foreground hover:text-foreground p-1"
+                  aria-label="Edit budget"
+                >
+                  <Pencil className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+            {editingBudget ? (
+              <div className="flex gap-2">
+                <Input
+                  type="number"
+                  inputMode="decimal"
+                  placeholder="e.g. 1500"
+                  value={budgetInput}
+                  onChange={(e) => setBudgetInput(e.target.value)}
+                  autoFocus
+                />
+                <Button onClick={saveBudget} size="icon" variant="default">
+                  <Check className="w-4 h-4" />
+                </Button>
+                <Button onClick={() => setEditingBudget(false)} size="icon" variant="outline">
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl font-semibold text-primary">
+                  €{monthlyBudget > 0 ? monthlyBudget.toFixed(0) : "—"}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {monthlyBudget > 0 ? "per month" : "not set"}
+                </span>
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground mt-2">
+              This is the dashed line in your spend chart above.
+            </p>
+          </div>
         </div>
       )}
       <BottomNav currentRoute="reports" />

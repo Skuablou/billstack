@@ -1,0 +1,1 @@
+ALTER TABLE public.monthly_tracker_settings ADD COLUMN IF NOT EXISTS monthly_budget numeric NOT NULL DEFAULT 0;
