@@ -142,7 +142,7 @@ export default function Index() {
       <div className="fixed top-1/2 right-0 w-[400px] h-[400px] rounded-full blur-[140px] pointer-events-none" style={{ background: "hsl(210 70% 50% / 0.06)" }} />
 
       {/* Header */}
-      <header className="max-w-5xl mx-auto px-6 pt-2 md:pt-4 pb-2 relative z-10">
+      <header className="max-w-5xl mx-auto px-6 pt-4 md:pt-6 pb-2 relative z-10">
         <div className="flex items-center justify-between">
           <div className="min-w-0 shrink flex items-center gap-3">
             <img src={billstackLogo} alt="BillStack" className="h-8 md:h-10 w-auto hidden md:block" />
