@@ -14,6 +14,7 @@ import {
   CartesianGrid,
   Area,
   AreaChart,
+  ReferenceLine,
 } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/AuthContext";
@@ -193,7 +194,7 @@ export default function Reports() {
               <AreaChart data={budgetChartData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
                 <XAxis dataKey="day" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} interval={Math.ceil(thisMonthDays / 6)} />
-                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(v) => `€${v}`} domain={[0, (dataMax: number) => Math.ceil(Math.max(dataMax, income, budget) * 1.1)]} />
+                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(v) => `€${v}`} domain={[0, () => Math.ceil(Math.max(spentThisMonth, income, budget) * 1.25)]} />
                 <Tooltip
                   contentStyle={{
                     background: "#0f0f1e",
@@ -206,7 +207,12 @@ export default function Reports() {
                 <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={2.5} fill="rgba(16,185,129,0.12)" dot={false} />
                 <Line type="monotone" dataKey="budget" stroke="#a78bfa" strokeWidth={2} strokeDasharray="4 4" dot={false} />
                 {income > 0 && (
-                  <Line type="monotone" dataKey="income" stroke="#8100FF" strokeWidth={2} dot={false} />
+                  <ReferenceLine
+                    y={income}
+                    stroke="#8100FF"
+                    strokeWidth={2}
+                    label={{ value: `Income €${income}`, position: "insideTopRight", fill: "#8100FF", fontSize: 10 }}
+                  />
                 )}
               </AreaChart>
             </ResponsiveContainer>
