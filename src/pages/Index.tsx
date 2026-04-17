@@ -54,8 +54,9 @@ export default function Index() {
   const location = useLocation();
 
   useEffect(() => {
-    const sec = (location.state as { section?: number } | null)?.section;
-    if (typeof sec === "number") setActiveSection(sec);
+    const st = location.state as { section?: number; openMenu?: boolean } | null;
+    if (typeof st?.section === "number") setActiveSection(st.section);
+    if (st?.openMenu) setMenuOpen(true);
   }, [location.state]);
   const { subscriptions, addSubscription, deleteSubscription, updateSubscription } = useSubscriptions();
   const { activeGoals, addGoal, markGoalPaid, removeGoal } = useSavingsGoals();
