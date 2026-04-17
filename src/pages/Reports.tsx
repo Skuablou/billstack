@@ -255,6 +255,18 @@ export default function Reports() {
                 />
                 Budget
               </span>
+              {income > 0 && income > budget && (
+                <span className="flex items-center gap-1.5">
+                  <span
+                    className="w-3.5 h-2 rounded"
+                    style={{
+                      background:
+                        "repeating-linear-gradient(45deg, #ef4444 0 2px, transparent 2px 4px)",
+                    }}
+                  />
+                  Danger zone
+                </span>
+              )}
               {income > 0 && (
                 <span className="flex items-center gap-1.5">
                   <span className="w-3.5 h-0.5 rounded" style={{ background: "#8100FF" }} />
@@ -264,9 +276,15 @@ export default function Reports() {
             </div>
             <ResponsiveContainer width="100%" height={180}>
               <AreaChart data={budgetChartData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
+                <defs>
+                  <pattern id="dangerStripes" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+                    <rect width="6" height="6" fill="rgba(239,68,68,0.08)" />
+                    <line x1="0" y1="0" x2="0" y2="6" stroke="rgba(239,68,68,0.55)" strokeWidth="2" />
+                  </pattern>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
                 <XAxis dataKey="day" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} interval={Math.ceil(thisMonthDays / 6)} />
-                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(v) => `€${v}`} domain={[0, () => Math.ceil(Math.max(spentThisMonth, income, budget) * 1.25)]} />
+                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(v) => `€${v}`} domain={[0, Math.ceil(Math.max(spentThisMonth, income, budget) * 1.25)]} />
                 <Tooltip
                   contentStyle={{
                     background: "#0f0f1e",
@@ -275,9 +293,18 @@ export default function Reports() {
                     fontSize: "12px",
                   }}
                   labelFormatter={(label) => `Day ${label}`}
+                  formatter={(value: number, name: string) => {
+                    if (name === "dangerBase" || name === "dangerSpan") return null as unknown as [string, string];
+                    return [`€${Math.round(value)}`, name];
+                  }}
                 />
+                {/* Danger zone: invisible base + striped span stacked on top */}
+                <Area type="monotone" dataKey="dangerBase" stackId="danger" stroke="none" fill="transparent" isAnimationActive={false} activeDot={false} legendType="none" />
+                <Area type="monotone" dataKey="dangerSpan" stackId="danger" stroke="none" fill="url(#dangerStripes)" isAnimationActive={false} activeDot={false} legendType="none" />
+                {/* Budget line as Area so it renders reliably in AreaChart */}
+                <Area type="monotone" dataKey="budget" stroke="#a78bfa" strokeWidth={2} strokeDasharray="5 4" fill="transparent" dot={false} activeDot={false} />
+                {/* Spent on top */}
                 <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={2.5} fill="rgba(16,185,129,0.12)" dot={false} />
-                <Line type="monotone" dataKey="budget" stroke="#a78bfa" strokeWidth={2} strokeDasharray="4 4" dot={false} />
                 {income > 0 && (
                   <ReferenceLine
                     y={income}
