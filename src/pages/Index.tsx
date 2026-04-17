@@ -10,6 +10,7 @@ import SubscriptionCard from "@/components/SubscriptionCard";
 import AddSubscriptionDialog from "@/components/AddSubscriptionDialog";
 import PremiumDialog from "@/components/PremiumDialog";
 import UpcomingPayments from "@/components/UpcomingPayments";
+import BottomNav from "@/components/BottomNav";
 
 import BudgetCalculator from "@/components/BudgetCalculator";
 import SurvivalCalculator from "@/components/SurvivalCalculator";
