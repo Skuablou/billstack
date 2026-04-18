@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
-const DAYS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 interface BillRow { name: string; amount: string }
 
@@ -82,7 +82,7 @@ export default function Onboarding() {
       navigate("/", { replace: true });
     } catch (e) {
       console.error(e);
-      toast.error("Etwas ist schiefgelaufen");
+      toast.error("Something went wrong");
       setSubmitting(false);
     }
   };
@@ -109,14 +109,14 @@ export default function Onboarding() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6 pt-4">
         <span className="text-sm text-muted-foreground font-medium">
-          Schritt {step} von {totalSteps}
+          Step {step} of {totalSteps}
         </span>
         <button
           onClick={skip}
           disabled={submitting}
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          Überspringen
+          Skip
         </button>
       </div>
 
@@ -128,19 +128,19 @@ export default function Onboarding() {
           <div className="space-y-6 animate-in fade-in duration-300">
             <div>
               <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                Wie viel verdienst du im Monat?
+                How much do you earn per month?
               </h1>
               <p className="text-muted-foreground">
-                Dein monatliches Netto-Einkommen hilft uns, deine Finanzen zu tracken.
+                Your monthly net income helps us track your finances.
               </p>
             </div>
             <div>
-              <Label htmlFor="salary">Netto-Einkommen (€)</Label>
+              <Label htmlFor="salary">Net income (€)</Label>
               <Input
                 id="salary"
                 type="number"
                 inputMode="decimal"
-                placeholder="z.B. 2500"
+                placeholder="e.g. 2500"
                 value={salary}
                 onChange={(e) => setSalary(e.target.value)}
                 className="mt-2 text-lg h-12"
@@ -154,14 +154,14 @@ export default function Onboarding() {
           <div className="space-y-6 animate-in fade-in duration-300">
             <div>
               <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                Wann arbeitest du?
+                When do you work?
               </h1>
               <p className="text-muted-foreground">
-                Wähle deine Arbeitstage und gib die Stunden pro Tag an.
+                Pick your work days and enter the hours per day.
               </p>
             </div>
             <div>
-              <Label className="mb-3 block">Arbeitstage</Label>
+              <Label className="mb-3 block">Work days</Label>
               <div className="grid grid-cols-7 gap-2">
                 {DAYS.map((d, i) => (
                   <button
@@ -179,7 +179,7 @@ export default function Onboarding() {
               </div>
             </div>
             <div>
-              <Label htmlFor="hours">Stunden pro Arbeitstag</Label>
+              <Label htmlFor="hours">Hours per work day</Label>
               <Input
                 id="hours"
                 type="number"
@@ -196,10 +196,10 @@ export default function Onboarding() {
           <div className="space-y-6 animate-in fade-in duration-300">
             <div>
               <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                Deine größten Rechnungen
+                Your biggest bills
               </h1>
               <p className="text-muted-foreground">
-                Trage deine wichtigsten monatlichen Fixkosten ein (Miete, Strom, Abos…).
+                Add your most important monthly fixed costs (rent, electricity, subscriptions…).
               </p>
             </div>
             <div className="space-y-3">
@@ -229,7 +229,7 @@ export default function Onboarding() {
               {bills.length < 5 && (
                 <Button variant="outline" onClick={addBill} className="w-full">
                   <Plus className="h-4 w-4 mr-2" />
-                  Weitere Rechnung
+                  Add another bill
                 </Button>
               )}
             </div>
@@ -240,18 +240,18 @@ export default function Onboarding() {
           <div className="space-y-6 animate-in fade-in duration-300">
             <div>
               <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                Worauf sparst du?
+                What are you saving for?
               </h1>
               <p className="text-muted-foreground">
-                Setze ein Sparziel — wir helfen dir, es zu erreichen.
+                Set a savings goal — we'll help you reach it.
               </p>
             </div>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="gname">Name des Ziels</Label>
+                <Label htmlFor="gname">Goal name</Label>
                 <Input
                   id="gname"
-                  placeholder="z.B. Urlaub, Auto, Notgroschen"
+                  placeholder="e.g. Vacation, Car, Emergency fund"
                   value={goalName}
                   onChange={(e) => setGoalName(e.target.value)}
                   className="mt-2"
@@ -259,7 +259,7 @@ export default function Onboarding() {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label htmlFor="gamount">Zielbetrag (€)</Label>
+                  <Label htmlFor="gamount">Target amount (€)</Label>
                   <Input
                     id="gamount"
                     type="number"
@@ -271,7 +271,7 @@ export default function Onboarding() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="gdate">Zieldatum</Label>
+                  <Label htmlFor="gdate">Target date</Label>
                   <Input
                     id="gdate"
                     type="date"
@@ -282,7 +282,7 @@ export default function Onboarding() {
                 </div>
               </div>
               <div>
-                <Label className="mb-2 block">Sparrhythmus</Label>
+                <Label className="mb-2 block">Savings rhythm</Label>
                 <div className="grid grid-cols-2 gap-2">
                   {(["weekly", "monthly"] as const).map((iv) => (
                     <button
@@ -294,7 +294,7 @@ export default function Onboarding() {
                           : "bg-background text-muted-foreground border-border"
                       }`}
                     >
-                      {iv === "weekly" ? "Wöchentlich" : "Monatlich"}
+                      {iv === "weekly" ? "Weekly" : "Monthly"}
                     </button>
                   ))}
                 </div>
@@ -307,7 +307,7 @@ export default function Onboarding() {
       {/* Footer */}
       <div className="pt-6 pb-4">
         <Button onClick={next} disabled={submitting} className="w-full h-12 text-base font-semibold">
-          {step === totalSteps ? (submitting ? "Speichere…" : "Fertig") : "Weiter"}
+          {step === totalSteps ? (submitting ? "Saving…" : "Done") : "Next"}
         </Button>
       </div>
     </div>
