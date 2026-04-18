@@ -1,0 +1,1 @@
+UPDATE public.monthly_tracker_settings SET onboarding_completed = false;
