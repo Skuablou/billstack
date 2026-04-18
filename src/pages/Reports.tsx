@@ -490,11 +490,14 @@ export default function Reports() {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      background: "#0f0f1e",
-                      border: "1px solid rgba(139,92,246,0.3)",
+                      background: "hsl(var(--card))",
+                      border: "1px solid hsl(var(--border))",
                       borderRadius: "8px",
                       fontSize: "12px",
+                      color: "hsl(var(--foreground))",
                     }}
+                    itemStyle={{ color: "hsl(var(--foreground))" }}
+                    labelStyle={{ color: "hsl(var(--foreground))" }}
                     formatter={(value: number) => [`${currency}${value}`, "Amount"]}
                   />
                   <Legend
