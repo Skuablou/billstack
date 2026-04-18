@@ -110,11 +110,22 @@ export default function Reports() {
 
   const income = salary;
 
+  // Find first day where spent crosses (>=) budget / income
+  const findCrossDay = (threshold: number) => {
+    if (threshold <= 0) return -1;
+    for (let i = 0; i < thisMonthDays; i++) {
+      if (thisMonthDaily[i] >= threshold) return i;
+    }
+    return -1;
+  };
+  const budgetCrossIdx = findCrossDay(budget);
+  const incomeCrossIdx = findCrossDay(income);
+
   const budgetChartData = Array.from({ length: thisMonthDays }, (_, i) => ({
     day: i + 1,
     spent: thisMonthDaily[i],
-    budget,
-    income,
+    budget: budgetCrossIdx === -1 || i <= budgetCrossIdx ? budget : null,
+    income: incomeCrossIdx === -1 || i <= incomeCrossIdx ? income : null,
     fixedCost: subsBaseline,
     dangerBase: budget,
     dangerSpan: income > budget ? income - budget : 0,
