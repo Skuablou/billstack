@@ -276,29 +276,47 @@ export default function Onboarding() {
                 </div>
                 <div>
                   <Label htmlFor="gdate">Target date</Label>
-                  <Input
-                    id="gdate"
-                    type="date"
-                    value={goalDate}
-                    onChange={(e) => setGoalDate(e.target.value)}
-                    className="mt-2"
-                  />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        id="gdate"
+                        variant="outline"
+                        className={cn(
+                          "mt-2 w-full justify-start text-left font-normal h-10",
+                          !goalDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {goalDate ? format(goalDate, "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={goalDate}
+                        onSelect={setGoalDate}
+                        disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                        initialFocus
+                        className={cn("p-3 pointer-events-auto")}
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
               </div>
               <div>
                 <Label className="mb-2 block">Savings rhythm</Label>
-                <div className="grid grid-cols-2 gap-2">
-                  {(["weekly", "monthly"] as const).map((iv) => (
+                <div className="grid grid-cols-3 gap-2">
+                  {(["daily", "weekly", "monthly"] as const).map((iv) => (
                     <button
                       key={iv}
                       onClick={() => setGoalInterval(iv)}
-                      className={`h-11 rounded-lg font-medium text-sm border transition-colors ${
+                      className={`h-11 rounded-lg font-medium text-sm border transition-colors capitalize ${
                         goalInterval === iv
                           ? "bg-primary text-primary-foreground border-primary"
                           : "bg-background text-muted-foreground border-border"
                       }`}
                     >
-                      {iv === "weekly" ? "Weekly" : "Monthly"}
+                      {iv}
                     </button>
                   ))}
                 </div>
