@@ -18,6 +18,7 @@ import {
 } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/AuthContext";
+import { useCurrency } from "@/lib/CurrencyContext";
 import BottomNav from "@/components/BottomNav";
 import { MoreVertical, Pencil, Check, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,7 @@ type Subscription = { amount: number; billing_cycle: string; category: string };
 
 export default function Reports() {
   const { user } = useAuth();
+  const { currency } = useCurrency();
   const navigate = useNavigate();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
@@ -231,7 +233,7 @@ export default function Reports() {
               <div>
                 <div className="text-sm font-medium text-foreground">Monthly spend vs budget</div>
                 <div className="inline-block text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1">
-                  €{spentThisMonth.toFixed(0)} of €{budget.toFixed(0)}
+                  {currency}{spentThisMonth.toFixed(0)} of {currency}{budget.toFixed(0)}
                 </div>
               </div>
               <div className="text-sm font-semibold text-primary">{budgetPct}%</div>
@@ -287,17 +289,22 @@ export default function Reports() {
                   axisLine={false}
                   type="number"
                   domain={[1, thisMonthDays]}
-                  ticks={Array.from({ length: thisMonthDays }, (_, i) => i + 1)}
+                  ticks={(() => {
+                    const arr = [1];
+                    for (let d = 2; d <= thisMonthDays; d += 2) arr.push(d);
+                    if (arr[arr.length - 1] !== thisMonthDays) arr.push(thisMonthDays);
+                    return arr;
+                  })()}
                   interval={0}
-                  tickFormatter={(v) => (v === thisMonthDays || v % 2 === 0 ? String(v) : "")}
+                  tickFormatter={(v) => String(v)}
                 />
                 <YAxis
                   stroke="rgba(255,255,255,0.4)"
                   fontSize={10}
                   tickLine={false}
                   axisLine={false}
-                  width={48}
-                  tickFormatter={(v) => `€${Math.round(Number(v))}`}
+                  width={60}
+                  tickFormatter={(v) => `${currency}${Math.round(Number(v))}`}
                   domain={[0, (() => {
                     const peak = Math.max(spentThisMonth, income, budget);
                     if (peak <= 0) return 100;
@@ -336,7 +343,7 @@ export default function Reports() {
                         <div style={{ marginBottom: 4, opacity: 0.7 }}>Day {label}</div>
                         {items.map((it) => (
                           <div key={String(it.dataKey)} style={{ color: it.color }}>
-                            {it.name}: €{Math.round(Number(it.value))}
+                            {it.name}: {currency}{Math.round(Number(it.value))}
                           </div>
                         ))}
                       </div>
@@ -355,7 +362,7 @@ export default function Reports() {
                     y={income}
                     stroke="#8100FF"
                     strokeWidth={2}
-                    label={{ value: `Income €${income}`, position: "insideTopRight", fill: "#8100FF", fontSize: 10 }}
+                    label={{ value: `Income ${currency}${income}`, position: "insideTopRight", fill: "#8100FF", fontSize: 10 }}
                   />
                 )}
               </AreaChart>
@@ -367,14 +374,14 @@ export default function Reports() {
               <div>
                 <div className="text-sm font-medium text-foreground">This month vs last month</div>
                 <div className="inline-block text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1">
-                  {diff >= 0 ? "+" : ""}€{Math.abs(diff).toFixed(0)}
+                  {diff >= 0 ? "+" : ""}{currency}{Math.abs(diff).toFixed(0)}
                   <span className={`ml-1.5 ${diff < 0 ? "text-emerald-400" : "text-red-400"}`}>
                     {diff < 0 ? "" : "+"}
                     {diffPct}%
                   </span>
                 </div>
               </div>
-              <div className="text-sm font-semibold text-primary">€{spentThisMonth.toFixed(0)}</div>
+              <div className="text-sm font-semibold text-primary">{currency}{spentThisMonth.toFixed(0)}</div>
             </div>
             <div className="flex gap-3 text-xs text-muted-foreground mb-3">
               <span className="flex items-center gap-1.5">
@@ -390,7 +397,7 @@ export default function Reports() {
               <LineChart data={comparisonData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
                 <XAxis dataKey="day" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} interval={Math.ceil(comparisonDays / 6)} />
-                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(v) => `€${v}`} />
+                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} width={60} tickFormatter={(v) => `${currency}${v}`} />
                 <Tooltip
                   contentStyle={{
                     background: "#0f0f1e",
@@ -429,7 +436,7 @@ export default function Reports() {
                       borderRadius: "8px",
                       fontSize: "12px",
                     }}
-                    formatter={(value: number) => [`€${value}`, "Amount"]}
+                    formatter={(value: number) => [`${currency}${value}`, "Amount"]}
                   />
                   <Legend
                     verticalAlign="middle"
@@ -476,7 +483,7 @@ export default function Reports() {
             ) : (
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-semibold text-primary">
-                  €{monthlyBudget > 0 ? monthlyBudget.toFixed(0) : "—"}
+                  {currency}{monthlyBudget > 0 ? monthlyBudget.toFixed(0) : "—"}
                 </span>
                 <span className="text-xs text-muted-foreground">
                   {monthlyBudget > 0 ? "per month" : "not set"}
