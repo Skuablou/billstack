@@ -420,16 +420,16 @@ export default function Reports() {
                 This month
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-3.5 h-0.5 bg-white/30 rounded" />
+                <span className="w-3.5 h-0.5 bg-muted-foreground/40 rounded" />
                 Last month
               </span>
             </div>
             <ResponsiveContainer width="100%" height={180}>
               <LineChart data={comparisonData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.4} />
                 <XAxis
                   dataKey="day"
-                  stroke="rgba(255,255,255,0.4)"
+                  stroke="hsl(var(--muted-foreground))"
                   fontSize={10}
                   tickLine={false}
                   axisLine={false}
@@ -440,19 +440,19 @@ export default function Reports() {
                   minTickGap={4}
                   tickFormatter={(v) => String(v)}
                 />
-                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} width={60} tickFormatter={(v) => `${currency}${v}`} />
+                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={10} tickLine={false} axisLine={false} width={60} tick={{ fill: "hsl(var(--muted-foreground))" }} tickFormatter={(v) => `${currency}${v}`} />
                 <Tooltip
                   content={({ active, payload, label }) => {
                     if (!active || !payload || payload.length === 0) return null;
                     return (
                       <div
                         style={{
-                          background: "#0f0f1e",
-                          border: "1px solid rgba(139,92,246,0.3)",
+                          background: "hsl(var(--card))",
+                          border: "1px solid hsl(var(--border))",
                           borderRadius: 8,
                           fontSize: 12,
                           padding: "8px 10px",
-                          color: "rgba(255,255,255,0.85)",
+                          color: "hsl(var(--foreground))",
                         }}
                       >
                         <div style={{ marginBottom: 4, opacity: 0.7 }}>Day {label}</div>
@@ -466,7 +466,7 @@ export default function Reports() {
                   }}
                 />
                 <Line type="monotone" dataKey="thisMonth" name="This month" stroke="#a78bfa" strokeWidth={2.5} dot={false} />
-                <Line type="monotone" dataKey="lastMonth" name="Last month" stroke="rgba(255,255,255,0.35)" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="lastMonth" name="Last month" stroke="hsl(var(--muted-foreground))" strokeOpacity={0.5} strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
