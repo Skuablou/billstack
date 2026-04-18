@@ -384,16 +384,17 @@ export default function Reports() {
                 {/* Danger zone: invisible base + striped span stacked on top */}
                 <Area type="monotone" dataKey="dangerBase" stackId="danger" stroke="none" fill="transparent" isAnimationActive={false} activeDot={false} legendType="none" />
                 <Area type="monotone" dataKey="dangerSpan" stackId="danger" stroke="none" fill="url(#dangerStripes)" isAnimationActive={false} activeDot={false} legendType="none" />
-                {/* Budget line as Area so it renders reliably in AreaChart */}
-                <Area type="monotone" dataKey="budget" stroke="#a78bfa" strokeWidth={2} strokeDasharray="5 4" fill="transparent" dot={false} activeDot={false} />
+                {/* Budget line — cut off after spent crosses it */}
+                <Area type="monotone" dataKey="budget" stroke="#a78bfa" strokeWidth={2} strokeDasharray="5 4" fill="transparent" dot={false} activeDot={false} connectNulls={false} />
                 {/* Fixed cost baseline */}
                 {subsBaseline > 0 && (
                   <Area type="monotone" dataKey="fixedCost" name="Fixed cost" stroke="#f97316" strokeWidth={2} fill="transparent" dot={false} activeDot={false} />
                 )}
                 {/* Spent on top */}
                 <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={3} fill="rgba(16,185,129,0.18)" dot={{ fill: "#10b981", r: 2.5, strokeWidth: 0 }} activeDot={{ r: 5, fill: "#10b981", stroke: "#0f0f1e", strokeWidth: 2 }} />
+                {/* Income line — cut off after spent crosses it */}
                 {income > 0 && (
-                  <ReferenceLine y={income} stroke="#8100FF" strokeWidth={2} />
+                  <Area type="monotone" dataKey="income" name="Income" stroke="#8100FF" strokeWidth={2} fill="transparent" dot={false} activeDot={false} connectNulls={false} />
                 )}
               </AreaChart>
             </ResponsiveContainer>
