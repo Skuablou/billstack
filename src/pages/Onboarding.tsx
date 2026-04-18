@@ -307,7 +307,7 @@ export default function Onboarding() {
       {/* Footer */}
       <div className="pt-6 pb-4">
         <Button onClick={next} disabled={submitting} className="w-full h-12 text-base font-semibold">
-          {step === totalSteps ? (submitting ? "Speichere…" : "Fertig") : "Weiter"}
+          {step === totalSteps ? (submitting ? "Saving…" : "Done") : "Next"}
         </Button>
       </div>
     </div>
