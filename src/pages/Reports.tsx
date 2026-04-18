@@ -40,7 +40,6 @@ export default function Reports() {
   const [editingBudget, setEditingBudget] = useState(false);
   const [budgetInput, setBudgetInput] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hoveredSpent, setHoveredSpent] = useState<number | null>(null);
 
   useEffect(() => {
     if (!user) return;
@@ -282,15 +281,7 @@ export default function Reports() {
               )}
             </div>
             <ResponsiveContainer width="100%" height={180}>
-              <AreaChart
-                data={budgetChartData}
-                margin={{ top: 5, right: 5, bottom: 5, left: -20 }}
-                onMouseMove={(state: any) => {
-                  const p = state?.activePayload?.find((x: any) => x?.dataKey === "spent");
-                  if (p && typeof p.value === "number") setHoveredSpent(p.value);
-                }}
-                onMouseLeave={() => setHoveredSpent(null)}
-              >
+              <AreaChart data={budgetChartData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                 <defs>
                   <pattern id="dangerStripes" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
                     <rect width="8" height="8" fill="rgba(239,68,68,0.04)" />
@@ -404,22 +395,6 @@ export default function Reports() {
                 <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={3} fill="rgba(16,185,129,0.18)" dot={false} activeDot={{ r: 5, fill: "#10b981", stroke: "hsl(var(--card))", strokeWidth: 2 }} />
                 {income > 0 && (
                   <ReferenceLine y={income} stroke="#8100FF" strokeWidth={2} />
-                )}
-                {hoveredSpent !== null && hoveredSpent > 0 && (
-                  <ReferenceLine
-                    y={hoveredSpent}
-                    stroke="#10b981"
-                    strokeDasharray="3 3"
-                    strokeWidth={1}
-                    ifOverflow="extendDomain"
-                    label={{
-                      value: `${currency}${Math.round(hoveredSpent)}`,
-                      position: "insideLeft",
-                      fill: "#10b981",
-                      fontSize: 10,
-                      offset: 4,
-                    }}
-                  />
                 )}
               </AreaChart>
             </ResponsiveContainer>
