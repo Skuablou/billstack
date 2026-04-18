@@ -285,23 +285,11 @@ export default function Reports() {
                   fontSize={10}
                   tickLine={false}
                   axisLine={false}
-                  ticks={(() => {
-                    const spentDays = Array.from(
-                      new Set(
-                        expenses
-                          .filter((e) => {
-                            const d = new Date(e.date);
-                            return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-                          })
-                          .map((e) => new Date(e.date).getDate())
-                      )
-                    ).sort((a, b) => a - b);
-                    if (spentDays.length === 0) return [1, thisMonthDays];
-                    const maxTicks = 6;
-                    if (spentDays.length <= maxTicks) return spentDays;
-                    const step = Math.ceil(spentDays.length / maxTicks);
-                    return spentDays.filter((_, i) => i % step === 0);
-                  })()}
+                  type="number"
+                  domain={[1, thisMonthDays]}
+                  ticks={Array.from({ length: thisMonthDays }, (_, i) => i + 1)}
+                  interval={0}
+                  tickFormatter={(v) => (v === thisMonthDays || v % 2 === 0 ? String(v) : "")}
                 />
                 <YAxis
                   stroke="rgba(255,255,255,0.4)"
@@ -325,7 +313,7 @@ export default function Reports() {
                     if (name === "dangerBase" || name === "dangerSpan") return null;
                     return [`€${Math.round(value)}`, name];
                   }}
-                  itemSorter={(item) => (item.dataKey === "dangerBase" || item.dataKey === "dangerSpan" ? 1 : 0)}
+                  filterNull
                 />
                 {/* Danger zone: invisible base + striped span stacked on top */}
                 <Area type="monotone" dataKey="dangerBase" stackId="danger" stroke="none" fill="transparent" isAnimationActive={false} activeDot={false} legendType="none" />
