@@ -239,7 +239,7 @@ export default function Reports() {
               </div>
               <div className="text-sm font-semibold text-primary">{budgetPct}%</div>
             </div>
-            <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mb-3">
+            <div className="flex flex-wrap gap-x-2 gap-y-1 text-[10px] text-muted-foreground mb-3">
               <span className="flex items-center gap-1.5">
                 <span className="w-3.5 h-0.5 bg-emerald-500 rounded" />
                 Spent
