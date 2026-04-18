@@ -502,7 +502,10 @@ export default function Reports() {
                     align="right"
                     layout="vertical"
                     iconType="circle"
-                    wrapperStyle={{ fontSize: "11px", color: "rgba(255,255,255,0.7)" }}
+                    wrapperStyle={{ fontSize: "11px", color: "hsl(var(--foreground))" }}
+                    formatter={(value) => (
+                      <span style={{ color: "hsl(var(--foreground))" }}>{value}</span>
+                    )}
                   />
                 </PieChart>
               </ResponsiveContainer>
