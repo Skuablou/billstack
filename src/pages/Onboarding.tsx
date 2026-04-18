@@ -83,7 +83,7 @@ export default function Onboarding() {
         });
       }
 
-      navigate("/", { replace: true });
+      window.location.href = "/";
     } catch (e) {
       console.error(e);
       toast.error("Something went wrong");
