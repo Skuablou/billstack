@@ -389,7 +389,7 @@ export default function Reports() {
                   <Area type="monotone" dataKey="fixedCost" name="Fixed cost" stroke="#f97316" strokeWidth={2} fill="transparent" dot={false} activeDot={false} />
                 )}
                 {/* Spent on top */}
-                <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={3} fill="rgba(16,185,129,0.18)" dot={{ fill: "#10b981", r: 2.5, strokeWidth: 0 }} activeDot={{ r: 5, fill: "#10b981", stroke: "#0f0f1e", strokeWidth: 2 }} />
+                <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={3} fill="rgba(16,185,129,0.18)" dot={false} activeDot={{ r: 5, fill: "#10b981", stroke: "#0f0f1e", strokeWidth: 2 }} />
                 {income > 0 && (
                   <ReferenceLine y={income} stroke="#8100FF" strokeWidth={2} />
                 )}
