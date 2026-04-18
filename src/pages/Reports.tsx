@@ -40,6 +40,7 @@ export default function Reports() {
   const [editingBudget, setEditingBudget] = useState(false);
   const [budgetInput, setBudgetInput] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hoveredSpent, setHoveredSpent] = useState<number | null>(null);
 
   useEffect(() => {
     if (!user) return;
