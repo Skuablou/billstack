@@ -35,7 +35,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
   const {
     salary, setSalary, salaryInput, setSalaryInput, salaryConfirmed, confirmSalary,
     activeDays, setActiveDays, hours, setHours,
-    data, addExpense, deleteExpense,
+    data, addExpense, deleteExpense, loaded,
   } = useMonthlyTracker();
 
   const streak = useStreak(data);
