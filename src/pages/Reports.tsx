@@ -282,7 +282,15 @@ export default function Reports() {
               )}
             </div>
             <ResponsiveContainer width="100%" height={180}>
-              <AreaChart data={budgetChartData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
+              <AreaChart
+                data={budgetChartData}
+                margin={{ top: 5, right: 5, bottom: 5, left: -20 }}
+                onMouseMove={(state: any) => {
+                  const p = state?.activePayload?.find((x: any) => x?.dataKey === "spent");
+                  if (p && typeof p.value === "number") setHoveredSpent(p.value);
+                }}
+                onMouseLeave={() => setHoveredSpent(null)}
+              >
                 <defs>
                   <pattern id="dangerStripes" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
                     <rect width="8" height="8" fill="rgba(239,68,68,0.04)" />
