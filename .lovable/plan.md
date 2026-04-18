@@ -1,24 +1,54 @@
 
-User möchte: Wenn man im Chart auf einen Tag hovert, soll der Preis-Wert auch links an der Y-Achse angezeigt werden (als horizontale Hilfslinie/Marker), nicht nur im Tooltip.
-
-In Recharts wird das über den `Tooltip` mit `cursor` (vertikale Linie ist schon da) erweitert um eine **horizontale ReferenceLine** auf Höhe des gehoverten Wertes + Label links an der Y-Achse.
+Onboarding-Flow für neu registrierte User mit 4 Schritten.
 
 ## Plan
 
-**Datei:** `src/pages/Reports.tsx` — nur "Monthly spend vs budget" Chart
+### 1. DB-Migration
+Neue Spalte `onboarding_completed BOOLEAN DEFAULT false` in `monthly_tracker_settings` hinzufügen, um zu tracken ob Onboarding fertig ist.
 
-### Umsetzung
-1. Neuen State `hoveredValue: number | null` hinzufügen
-2. Tooltip-Content (oder via `onMouseMove` am ComposedChart) liest den `spent`-Wert des aktiven Tages und setzt `hoveredValue`
-3. Bei `onMouseLeave` → `setHoveredValue(null)`
-4. Conditional `<ReferenceLine y={hoveredValue} />` rendern mit:
-   - gestrichelte horizontale Linie in grün (`#10b981`, strokeDasharray "3 3")
-   - `label`-Prop mit Position `left` → zeigt `€{value}` direkt an der Y-Achse links
-   - Label-Style: grüner Hintergrund-Pill oder einfacher grüner Text
+### 2. Neue Komponente: `src/pages/Onboarding.tsx`
+4 Screens mit Progress Bar (1/4, 2/4, 3/4, 4/4):
 
-### Technik
-- `ComposedChart` akzeptiert `onMouseMove={(state) => state?.activePayload?.[0] && setHoveredValue(state.activePayload[0].value)}` und `onMouseLeave`
-- ReferenceLine-Label: `label={{ value: \`${currency}${Math.round(hoveredValue)}\`, position: "left", fill: "#10b981", fontSize: 10 }}`
+**Screen 1 — Monatliches Netto-Einkommen**
+- Number input
+- Speichert in `monthly_tracker_settings.salary`
 
-### Nicht ändern
-- Tooltip selbst, Y-Achsen-Ticks, Legende, anderen Charts bleiben unverändert
+**Screen 2 — Arbeitstage pro Woche**
+- 7 Toggle-Buttons (Mo-So) + Stunden pro Tag
+- Speichert in `monthly_tracker_settings.active_days` + `hours`
+
+**Screen 3 — Top monatliche Rechnungen**
+- Liste mit Name + Betrag (max 3-5 Zeilen, dynamisch addbar)
+- Speichert als rows in `subscriptions` (billing_cycle="Monthly")
+
+**Screen 4 — Sparziel**
+- Name, Zielbetrag, Zieldatum, Intervall
+- Speichert in `savings_goals`
+
+Jeder Screen hat:
+- Großen Titel + Erklärungstext
+- Skip-Button (oben rechts) + Weiter-Button (unten)
+- Progress Bar oben
+- Primary-Farbe #8100FF, Space Grotesk
+
+Nach Schritt 4 → `onboarding_completed = true` setzen → `navigate("/")`
+
+### 3. Routing in `src/App.tsx`
+- Neue Route `/onboarding`
+- `ProtectedRoute` erweitern: nach Auth-Check prüfen ob `onboarding_completed`. Falls nicht → redirect zu `/onboarding` (außer wenn schon auf `/onboarding`)
+
+### 4. Onboarding-Status Hook
+`src/hooks/use-onboarding-status.ts` — liest `onboarding_completed` aus `monthly_tracker_settings`. Falls keine Row existiert → `false`.
+
+### Wichtig
+- Alle Inputs optional/skippable, kein Zwang
+- Beim Skip einfach zum nächsten Screen ohne Save
+- Bei Skip von ALLEN Screens trotzdem `onboarding_completed = true` setzen damit es nicht wieder erscheint
+- Sprache: Deutsch (User-Präferenz aus Memory)
+- Existierende User: bekommen Onboarding NICHT (Migration setzt Default false aber wir filtern: wenn `salary > 0` oder Daten existieren → als completed markieren via Migration-SQL)
+
+### Files
+- NEU: `src/pages/Onboarding.tsx`
+- NEU: `src/hooks/use-onboarding-status.ts`
+- EDIT: `src/App.tsx` (Route + Redirect-Logik)
+- DB: Migration für neue Spalte + Backfill für existierende User
