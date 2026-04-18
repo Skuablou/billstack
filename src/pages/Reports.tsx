@@ -280,9 +280,9 @@ export default function Reports() {
             <ResponsiveContainer width="100%" height={180}>
               <AreaChart data={budgetChartData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                 <defs>
-                  <pattern id="dangerStripes" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
-                    <rect width="8" height="8" fill="rgba(239,68,68,0.04)" />
-                    <line x1="0" y1="0" x2="0" y2="8" stroke="rgba(239,68,68,0.35)" strokeWidth="1" />
+                  <pattern id="dangerStripes" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+                    <rect width="6" height="6" fill="rgba(239,68,68,0.08)" />
+                    <line x1="0" y1="0" x2="0" y2="6" stroke="rgba(239,68,68,0.55)" strokeWidth="2" />
                   </pattern>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
@@ -380,7 +380,7 @@ export default function Reports() {
                   <Area type="monotone" dataKey="fixedCost" name="Fixed cost" stroke="#f97316" strokeWidth={2} fill="transparent" dot={false} activeDot={false} />
                 )}
                 {/* Spent on top */}
-                <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={3} fill="rgba(16,185,129,0.18)" dot={{ fill: "#10b981", r: 2.5, strokeWidth: 0 }} activeDot={{ r: 5, fill: "#10b981", stroke: "#0f0f1e", strokeWidth: 2 }} />
+                <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={2.5} fill="rgba(16,185,129,0.12)" dot={false} />
                 {income > 0 && (
                   <ReferenceLine y={income} stroke="#8100FF" strokeWidth={2} />
                 )}
