@@ -296,10 +296,24 @@ export default function Reports() {
                   fontSize={10}
                   tickLine={false}
                   axisLine={false}
-                  width={44}
-                  tickFormatter={(v) => `€${Math.round(v)}`}
-                  domain={[0, Math.ceil(Math.max(spentThisMonth, income, budget) * 1.25 / 100) * 100]}
+                  width={48}
+                  tickFormatter={(v) => `€${Math.round(Number(v))}`}
+                  domain={[0, (() => {
+                    const peak = Math.max(spentThisMonth, income, budget);
+                    if (peak <= 0) return 100;
+                    const pow = Math.pow(10, Math.floor(Math.log10(peak)));
+                    return Math.ceil((peak * 1.15) / pow) * pow;
+                  })()]}
+                  ticks={(() => {
+                    const peak = Math.max(spentThisMonth, income, budget);
+                    if (peak <= 0) return [0, 25, 50, 75, 100];
+                    const pow = Math.pow(10, Math.floor(Math.log10(peak)));
+                    const top = Math.ceil((peak * 1.15) / pow) * pow;
+                    const step = top / 4;
+                    return [0, step, step * 2, step * 3, top].map((v) => Math.round(v));
+                  })()}
                   allowDecimals={false}
+                  interval={0}
                 />
                 <Tooltip
                   content={({ active, payload, label }) => {
