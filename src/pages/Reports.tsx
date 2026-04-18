@@ -251,7 +251,7 @@ export default function Reports() {
               <div className="text-sm font-semibold text-primary">{budgetPct}%</div>
             </div>
             <div className="flex flex-nowrap items-center gap-x-2 text-[10px] text-muted-foreground mb-3 overflow-hidden">
-              {income > 0 && (
+              {showIncomeLine && (
                 <span className="flex items-center gap-1 whitespace-nowrap">
                   <span className="w-2.5 h-0.5 rounded" style={{ background: "#8100FF" }} />
                   Income
@@ -384,7 +384,7 @@ export default function Reports() {
                 )}
                 {/* Spent on top */}
                 <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={2.5} fill="rgba(16,185,129,0.12)" dot={false} />
-                {income > 0 && (
+                {showIncomeLine && (
                   <ReferenceLine y={income} stroke="#8100FF" strokeWidth={2} />
                 )}
               </AreaChart>
