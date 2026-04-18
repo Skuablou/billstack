@@ -284,14 +284,14 @@ export default function Reports() {
                 <XAxis
                   dataKey="day"
                   stroke="rgba(255,255,255,0.4)"
-                  fontSize={9}
+                  fontSize={10}
                   tickLine={false}
                   axisLine={false}
                   type="number"
                   domain={[1, thisMonthDays]}
-                  ticks={Array.from({ length: thisMonthDays }, (_, i) => i + 1)}
+                  ticks={[1, 5, 10, 15, 20, 25, thisMonthDays]}
                   interval={0}
-                  minTickGap={1}
+                  minTickGap={4}
                   tickFormatter={(v) => String(v)}
                 />
                 <YAxis
