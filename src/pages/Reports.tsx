@@ -110,22 +110,11 @@ export default function Reports() {
 
   const income = salary;
 
-  // Find first day where spent crosses (>=) budget / income
-  const findCrossDay = (threshold: number) => {
-    if (threshold <= 0) return -1;
-    for (let i = 0; i < thisMonthDays; i++) {
-      if (thisMonthDaily[i] >= threshold) return i;
-    }
-    return -1;
-  };
-  const budgetCrossIdx = findCrossDay(budget);
-  const incomeCrossIdx = findCrossDay(income);
-
   const budgetChartData = Array.from({ length: thisMonthDays }, (_, i) => ({
     day: i + 1,
     spent: thisMonthDaily[i],
-    budget: budgetCrossIdx === -1 || i <= budgetCrossIdx ? budget : null,
-    income: incomeCrossIdx === -1 || i <= incomeCrossIdx ? income : null,
+    budget,
+    income,
     fixedCost: subsBaseline,
     dangerBase: budget,
     dangerSpan: income > budget ? income - budget : 0,
@@ -384,17 +373,16 @@ export default function Reports() {
                 {/* Danger zone: invisible base + striped span stacked on top */}
                 <Area type="monotone" dataKey="dangerBase" stackId="danger" stroke="none" fill="transparent" isAnimationActive={false} activeDot={false} legendType="none" />
                 <Area type="monotone" dataKey="dangerSpan" stackId="danger" stroke="none" fill="url(#dangerStripes)" isAnimationActive={false} activeDot={false} legendType="none" />
-                {/* Budget line — cut off after spent crosses it */}
-                <Area type="monotone" dataKey="budget" stroke="#a78bfa" strokeWidth={2} strokeDasharray="5 4" fill="transparent" dot={false} activeDot={false} connectNulls={false} />
+                {/* Budget line as Area so it renders reliably in AreaChart */}
+                <Area type="monotone" dataKey="budget" stroke="#a78bfa" strokeWidth={2} strokeDasharray="5 4" fill="transparent" dot={false} activeDot={false} />
                 {/* Fixed cost baseline */}
                 {subsBaseline > 0 && (
                   <Area type="monotone" dataKey="fixedCost" name="Fixed cost" stroke="#f97316" strokeWidth={2} fill="transparent" dot={false} activeDot={false} />
                 )}
                 {/* Spent on top */}
                 <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={3} fill="rgba(16,185,129,0.18)" dot={{ fill: "#10b981", r: 2.5, strokeWidth: 0 }} activeDot={{ r: 5, fill: "#10b981", stroke: "#0f0f1e", strokeWidth: 2 }} />
-                {/* Income line — cut off after spent crosses it */}
                 {income > 0 && (
-                  <Area type="monotone" dataKey="income" name="Income" stroke="#8100FF" strokeWidth={2} fill="transparent" dot={false} activeDot={false} connectNulls={false} />
+                  <ReferenceLine y={income} stroke="#8100FF" strokeWidth={2} />
                 )}
               </AreaChart>
             </ResponsiveContainer>
