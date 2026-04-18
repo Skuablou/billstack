@@ -225,7 +225,7 @@ export default function Index() {
               </button>
 
               <button onClick={() => { toggleCurrency(); setMenuOpen(false); }} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-foreground hover:bg-muted/50 transition-colors">
-                <span className="w-8 h-8 rounded-full border border-border flex items-center justify-center font-semibold text-sm">{currency}</span>
+                <span className="w-5 h-5 flex items-center justify-center font-semibold text-muted-foreground text-base">{currency}</span>
                 Switch to {currency === "€" ? "$" : "€"}
               </button>
 

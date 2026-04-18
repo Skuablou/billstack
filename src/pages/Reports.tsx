@@ -20,6 +20,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/AuthContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import BottomNav from "@/components/BottomNav";
+import SettingsMenu from "@/components/SettingsMenu";
 import { MoreVertical, Pencil, Check, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,7 @@ export default function Reports() {
   const [loading, setLoading] = useState(true);
   const [editingBudget, setEditingBudget] = useState(false);
   const [budgetInput, setBudgetInput] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -190,13 +192,14 @@ export default function Reports() {
     <div className="min-h-screen bg-background pb-32 md:pb-8">
       <header className="max-w-md mx-auto px-4 pt-4 pb-2 flex items-center justify-end">
         <button
-          onClick={() => navigate("/", { state: { openMenu: true } })}
+          onClick={() => setMenuOpen(true)}
           className="rounded-full bg-card border border-border text-muted-foreground hover:text-foreground p-2"
           aria-label="Open menu"
         >
           <MoreVertical className="w-5 h-5" />
         </button>
       </header>
+      <SettingsMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
 
       {loading ? (
         <div className="p-4 text-muted-foreground text-sm">Loading reports...</div>
@@ -487,11 +490,14 @@ export default function Reports() {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      background: "#0f0f1e",
-                      border: "1px solid rgba(139,92,246,0.3)",
+                      background: "hsl(var(--card))",
+                      border: "1px solid hsl(var(--border))",
                       borderRadius: "8px",
                       fontSize: "12px",
+                      color: "hsl(var(--foreground))",
                     }}
+                    itemStyle={{ color: "hsl(var(--foreground))" }}
+                    labelStyle={{ color: "hsl(var(--foreground))" }}
                     formatter={(value: number) => [`${currency}${value}`, "Amount"]}
                   />
                   <Legend
@@ -499,7 +505,10 @@ export default function Reports() {
                     align="right"
                     layout="vertical"
                     iconType="circle"
-                    wrapperStyle={{ fontSize: "11px", color: "rgba(255,255,255,0.7)" }}
+                    wrapperStyle={{ fontSize: "11px", color: "hsl(var(--foreground))" }}
+                    formatter={(value) => (
+                      <span style={{ color: "hsl(var(--foreground))" }}>{value}</span>
+                    )}
                   />
                 </PieChart>
               </ResponsiveContainer>
