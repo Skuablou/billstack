@@ -117,9 +117,9 @@ export default function Reports() {
     return Math.ceil((peak * 1.15) / pow) * pow;
   })();
   const dangerMaxSpan = budget > 0 ? budget * 0.1 : chartPeak * 0.1;
-  const yMax = budget > 0 ? budget + dangerMaxSpan : chartPeak;
+  const yMax = Math.max(budget > 0 ? budget + dangerMaxSpan : chartPeak, income, spentThisMonth);
   const dangerSpanValue = income > budget ? Math.min(income - budget, dangerMaxSpan) : 0;
-  const showIncomeLine = income > 0 && income <= yMax;
+  const showIncomeLine = income > 0;
 
   const budgetChartData = Array.from({ length: thisMonthDays }, (_, i) => ({
     day: i + 1,
@@ -250,8 +250,8 @@ export default function Reports() {
               </div>
               <div className="text-sm font-semibold text-primary">{budgetPct}%</div>
             </div>
-            <div className="flex flex-nowrap items-center gap-x-2 text-[10px] text-muted-foreground mb-3 overflow-hidden">
-              {showIncomeLine && (
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] text-muted-foreground mb-3">
+              {income > 0 && (
                 <span className="flex items-center gap-1 whitespace-nowrap">
                   <span className="w-2.5 h-0.5 rounded" style={{ background: "#8100FF" }} />
                   Income
@@ -384,7 +384,7 @@ export default function Reports() {
                 )}
                 {/* Spent on top */}
                 <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={2.5} fill="rgba(16,185,129,0.12)" dot={false} />
-                {showIncomeLine && (
+                {income > 0 && (
                   <ReferenceLine y={income} stroke="#8100FF" strokeWidth={2} />
                 )}
               </AreaChart>
