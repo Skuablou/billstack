@@ -405,6 +405,22 @@ export default function Reports() {
                 {income > 0 && (
                   <ReferenceLine y={income} stroke="#8100FF" strokeWidth={2} />
                 )}
+                {hoveredSpent !== null && hoveredSpent > 0 && (
+                  <ReferenceLine
+                    y={hoveredSpent}
+                    stroke="#10b981"
+                    strokeDasharray="3 3"
+                    strokeWidth={1}
+                    ifOverflow="extendDomain"
+                    label={{
+                      value: `${currency}${Math.round(hoveredSpent)}`,
+                      position: "insideLeft",
+                      fill: "#10b981",
+                      fontSize: 10,
+                      offset: 4,
+                    }}
+                  />
+                )}
               </AreaChart>
             </ResponsiveContainer>
           </div>
