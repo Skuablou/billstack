@@ -117,9 +117,9 @@ export default function Reports() {
     return Math.ceil((peak * 1.15) / pow) * pow;
   })();
   const dangerMaxSpan = budget > 0 ? budget * 0.1 : chartPeak * 0.1;
-  const yMax = Math.max(budget > 0 ? budget + dangerMaxSpan : chartPeak, income, spentThisMonth);
+  const yMax = budget > 0 ? budget + dangerMaxSpan : chartPeak;
   const dangerSpanValue = income > budget ? Math.min(income - budget, dangerMaxSpan) : 0;
-  const showIncomeLine = income > 0;
+  const showIncomeLine = income > 0 && income <= yMax;
 
   const budgetChartData = Array.from({ length: thisMonthDays }, (_, i) => ({
     day: i + 1,
