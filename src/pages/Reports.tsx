@@ -313,7 +313,15 @@ export default function Reports() {
                     const pow = Math.pow(10, Math.floor(Math.log10(peak)));
                     const top = Math.ceil((peak * 1.15) / pow) * pow;
                     const step = top / 4;
-                    return [0, step, step * 2, step * 3, top].map((v) => Math.round(v));
+                    const base = [0, step, step * 2, step * 3, top].map((v) => Math.round(v));
+                    const extras: number[] = [];
+                    if (budget > 0) extras.push(Math.round(budget));
+                    if (income > 0) extras.push(Math.round(income));
+                    const threshold = top * 0.06;
+                    const filtered = base.filter(
+                      (v) => !extras.some((e) => Math.abs(e - v) < threshold)
+                    );
+                    return Array.from(new Set([...filtered, ...extras])).sort((a, b) => a - b);
                   })()}
                   allowDecimals={false}
                   interval={0}
