@@ -245,6 +245,10 @@ export default function Reports() {
                 Spent
               </span>
               <span className="flex items-center gap-1.5">
+                <span className="w-3.5 h-0.5 rounded" style={{ background: "#f97316" }} />
+                Fixed cost
+              </span>
+              <span className="flex items-center gap-1.5">
                 <span
                   className="w-3.5 h-0.5 rounded"
                   style={{
