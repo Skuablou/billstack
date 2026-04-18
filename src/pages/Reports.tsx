@@ -390,7 +390,7 @@ export default function Reports() {
                 <div className="text-sm font-medium text-foreground">This month vs last month</div>
                 <div className="inline-block text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1">
                   {diff >= 0 ? "+" : ""}{currency}{Math.abs(diff).toFixed(0)}
-                  <span className={`ml-1.5 ${diff < 0 ? "text-emerald-400" : "text-red-400"}`}>
+                  <span className={`ml-1.5 ${diff < 0 ? "text-red-400" : "text-emerald-400"}`}>
                     {diff < 0 ? "" : "+"}
                     {diffPct}%
                   </span>
@@ -411,18 +411,46 @@ export default function Reports() {
             <ResponsiveContainer width="100%" height={180}>
               <LineChart data={comparisonData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="day" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} interval={Math.ceil(comparisonDays / 6)} />
+                <XAxis
+                  dataKey="day"
+                  stroke="rgba(255,255,255,0.4)"
+                  fontSize={10}
+                  tickLine={false}
+                  axisLine={false}
+                  type="number"
+                  domain={[1, comparisonDays]}
+                  ticks={[1, 5, 10, 15, 20, 25, comparisonDays]}
+                  interval={0}
+                  minTickGap={4}
+                  tickFormatter={(v) => String(v)}
+                />
                 <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} width={60} tickFormatter={(v) => `${currency}${v}`} />
                 <Tooltip
-                  contentStyle={{
-                    background: "#0f0f1e",
-                    border: "1px solid rgba(139,92,246,0.3)",
-                    borderRadius: "8px",
-                    fontSize: "12px",
+                  content={({ active, payload, label }) => {
+                    if (!active || !payload || payload.length === 0) return null;
+                    return (
+                      <div
+                        style={{
+                          background: "#0f0f1e",
+                          border: "1px solid rgba(139,92,246,0.3)",
+                          borderRadius: 8,
+                          fontSize: 12,
+                          padding: "8px 10px",
+                          color: "rgba(255,255,255,0.85)",
+                        }}
+                      >
+                        <div style={{ marginBottom: 4, opacity: 0.7 }}>Day {label}</div>
+                        {payload.map((it) => (
+                          <div key={String(it.dataKey)} style={{ color: it.color }}>
+                            {it.name}: {currency}{Math.round(Number(it.value))}
+                          </div>
+                        ))}
+                      </div>
+                    );
                   }}
                 />
-                <Line type="monotone" dataKey="thisMonth" stroke="#a78bfa" strokeWidth={2.5} dot={false} />
-                <Line type="monotone" dataKey="lastMonth" stroke="rgba(255,255,255,0.35)" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="thisMonth" name="This month" stroke="#a78bfa" strokeWidth={2.5} dot={false} />
+                <Line type="monotone" dataKey="lastMonth" name="Last month" stroke="rgba(255,255,255,0.35)" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
