@@ -110,14 +110,16 @@ export default function Reports() {
 
   const income = salary;
 
+  const rawPeak = Math.max(spentThisMonth, budget);
   const chartPeak = (() => {
-    const peak = Math.max(spentThisMonth, income, budget);
-    if (peak <= 0) return 100;
+    const peak = rawPeak > 0 ? rawPeak : 100;
     const pow = Math.pow(10, Math.floor(Math.log10(peak)));
     return Math.ceil((peak * 1.15) / pow) * pow;
   })();
-  const dangerMaxSpan = chartPeak * 0.1;
+  const dangerMaxSpan = budget > 0 ? budget * 0.1 : chartPeak * 0.1;
+  const yMax = budget > 0 ? budget + dangerMaxSpan : chartPeak;
   const dangerSpanValue = income > budget ? Math.min(income - budget, dangerMaxSpan) : 0;
+  const showIncomeLine = income > 0 && income <= yMax;
 
   const budgetChartData = Array.from({ length: thisMonthDays }, (_, i) => ({
     day: i + 1,
@@ -319,29 +321,21 @@ export default function Reports() {
                     const v = Number(payload.value);
                     let fill = "rgba(255,255,255,0.4)";
                     if (budget > 0 && v === Math.round(budget)) fill = "#a78bfa";
-                    else if (income > 0 && v === Math.round(income)) fill = "#8100FF";
+                    else if (showIncomeLine && v === Math.round(income)) fill = "#8100FF";
                     return (
                       <text x={x} y={y} dy={3} textAnchor="end" fontSize={10} fill={fill}>
                         {currency}{Math.round(v)}
                       </text>
                     );
                   }}
-                  domain={[0, (() => {
-                    const peak = Math.max(spentThisMonth, income, budget);
-                    if (peak <= 0) return 100;
-                    const pow = Math.pow(10, Math.floor(Math.log10(peak)));
-                    return Math.ceil((peak * 1.15) / pow) * pow;
-                  })()]}
+                  domain={[0, yMax]}
                   ticks={(() => {
-                    const peak = Math.max(spentThisMonth, income, budget);
-                    if (peak <= 0) return [0, 25, 50, 75, 100];
-                    const pow = Math.pow(10, Math.floor(Math.log10(peak)));
-                    const top = Math.ceil((peak * 1.15) / pow) * pow;
+                    const top = yMax;
                     const step = top / 4;
                     const base = [0, step, step * 2, step * 3, top].map((v) => Math.round(v));
                     const extras: number[] = [];
                     if (budget > 0) extras.push(Math.round(budget));
-                    if (income > 0) extras.push(Math.round(income));
+                    if (showIncomeLine) extras.push(Math.round(income));
                     const threshold = top * 0.06;
                     const filtered = base.filter(
                       (v) => !extras.some((e) => Math.abs(e - v) < threshold)
