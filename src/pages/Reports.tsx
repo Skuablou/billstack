@@ -364,12 +364,12 @@ export default function Reports() {
                     return (
                       <div
                         style={{
-                          background: "#0f0f1e",
-                          border: "1px solid rgba(139,92,246,0.3)",
+                          background: "hsl(var(--card))",
+                          border: "1px solid hsl(var(--border))",
                           borderRadius: 8,
                           fontSize: 12,
                           padding: "8px 10px",
-                          color: "rgba(255,255,255,0.85)",
+                          color: "hsl(var(--foreground))",
                         }}
                       >
                         <div style={{ marginBottom: 4, opacity: 0.7 }}>Day {label}</div>
