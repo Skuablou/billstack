@@ -67,16 +67,17 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
   const [goalName, setGoalName] = useState("");
   const [goalTotal, setGoalTotal] = useState("");
   const [goalDate, setGoalDate] = useState<Date>();
-  const [interval, setInterval] = useState<SavingsInterval>("weekly");
+  const [interval, setInterval] = useState<SavingsInterval | undefined>(undefined);
 
   const handleStartSaving = () => {
-    if (!goalName.trim() || !goalTotal || !goalDate) return;
+    if (!goalName.trim() || !goalTotal || !goalDate || !interval) return;
     const total = parseFloat(goalTotal);
     if (total <= 0) return;
     onAdd({ name: goalName.trim(), totalAmount: total, targetDate: goalDate, interval, paidPeriods: 0 });
     setGoalName("");
     setGoalTotal("");
     setGoalDate(undefined);
+    setInterval(undefined);
     // Auto-scroll to savings plans display
     setTimeout(() => {
       const el = document.getElementById("savings-plans-display");
