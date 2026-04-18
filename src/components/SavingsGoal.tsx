@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import { format, differenceInDays, differenceInWeeks, differenceInMonths } from "date-fns";
 import { cn } from "@/lib/utils";
 
-export type SavingsInterval = "weekly" | "monthly";
+export type SavingsInterval = "daily" | "weekly" | "monthly";
 
 export interface ActiveGoal {
   name: string;
@@ -23,10 +23,12 @@ export interface ActiveGoal {
 }
 
 function getIntervalDays(interval: SavingsInterval): number {
+  if (interval === "daily") return 1;
   return interval === "weekly" ? 7 : 30;
 }
 
 function getIntervalLabel(interval: SavingsInterval): string {
+  if (interval === "daily") return "day";
   return interval === "weekly" ? "wk" : "mo";
 }
 
@@ -39,6 +41,7 @@ export function getTotalPeriods(targetDate: Date, interval: SavingsInterval): nu
 export function getMonthlyEquivalent(goal: ActiveGoal): number {
   const totalPeriods = getTotalPeriods(goal.targetDate, goal.interval);
   const perPeriod = goal.totalAmount / totalPeriods;
+  if (goal.interval === "daily") return perPeriod * 30;
   if (goal.interval === "weekly") return perPeriod * (30 / 7);
   return perPeriod;
 }
@@ -64,16 +67,17 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
   const [goalName, setGoalName] = useState("");
   const [goalTotal, setGoalTotal] = useState("");
   const [goalDate, setGoalDate] = useState<Date>();
-  const [interval, setInterval] = useState<SavingsInterval>("weekly");
+  const [interval, setInterval] = useState<SavingsInterval | undefined>(undefined);
 
   const handleStartSaving = () => {
-    if (!goalName.trim() || !goalTotal || !goalDate) return;
+    if (!goalName.trim() || !goalTotal || !goalDate || !interval) return;
     const total = parseFloat(goalTotal);
     if (total <= 0) return;
     onAdd({ name: goalName.trim(), totalAmount: total, targetDate: goalDate, interval, paidPeriods: 0 });
     setGoalName("");
     setGoalTotal("");
     setGoalDate(undefined);
+    setInterval(undefined);
     // Auto-scroll to savings plans display
     setTimeout(() => {
       const el = document.getElementById("savings-plans-display");
@@ -112,10 +116,11 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
           className="bg-muted/50 border-border text-foreground h-10 text-sm"
         />
         <Select value={interval} onValueChange={(v) => setInterval(v as SavingsInterval)}>
-          <SelectTrigger className="bg-muted/50 border-border text-foreground h-10 text-sm">
-            <SelectValue />
+          <SelectTrigger className={cn("bg-muted/50 border-border h-10 text-sm", !interval ? "text-muted-foreground" : "text-foreground")}>
+            <SelectValue placeholder="Saving cycle" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="daily">Daily</SelectItem>
             <SelectItem value="weekly">Weekly</SelectItem>
             <SelectItem value="monthly">Monthly</SelectItem>
           </SelectContent>
@@ -148,7 +153,7 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       <Button
         className="w-full rounded-lg gap-1.5 text-sm font-semibold h-10"
         style={{ background: "linear-gradient(135deg, hsl(267 100% 50%), hsl(280 100% 55%))" }}
-        disabled={!goalName.trim() || !goalTotal || !goalDate}
+        disabled={!goalName.trim() || !goalTotal || !goalDate || !interval}
         onClick={handleStartSaving}
       >
         Start Saving
