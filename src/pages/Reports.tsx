@@ -110,6 +110,15 @@ export default function Reports() {
 
   const income = salary;
 
+  const chartPeak = (() => {
+    const peak = Math.max(spentThisMonth, income, budget);
+    if (peak <= 0) return 100;
+    const pow = Math.pow(10, Math.floor(Math.log10(peak)));
+    return Math.ceil((peak * 1.15) / pow) * pow;
+  })();
+  const dangerMaxSpan = chartPeak * 0.1;
+  const dangerSpanValue = income > budget ? Math.min(income - budget, dangerMaxSpan) : 0;
+
   const budgetChartData = Array.from({ length: thisMonthDays }, (_, i) => ({
     day: i + 1,
     spent: thisMonthDaily[i],
@@ -117,7 +126,7 @@ export default function Reports() {
     income,
     fixedCost: subsBaseline,
     dangerBase: budget,
-    dangerSpan: income > budget ? income - budget : 0,
+    dangerSpan: dangerSpanValue,
   }));
 
   const comparisonDays = Math.max(thisMonthDays, lastMonthDays);
