@@ -110,17 +110,6 @@ export default function Reports() {
 
   const income = salary;
 
-  const rawPeak = Math.max(spentThisMonth, budget);
-  const chartPeak = (() => {
-    const peak = rawPeak > 0 ? rawPeak : 100;
-    const pow = Math.pow(10, Math.floor(Math.log10(peak)));
-    return Math.ceil((peak * 1.15) / pow) * pow;
-  })();
-  const dangerMaxSpan = budget > 0 ? budget * 0.1 : chartPeak * 0.1;
-  const yMax = budget > 0 ? budget + dangerMaxSpan : chartPeak;
-  const dangerSpanValue = income > budget ? Math.min(income - budget, dangerMaxSpan) : 0;
-  const showIncomeLine = income > 0 && income <= yMax;
-
   const budgetChartData = Array.from({ length: thisMonthDays }, (_, i) => ({
     day: i + 1,
     spent: thisMonthDaily[i],
@@ -128,7 +117,7 @@ export default function Reports() {
     income,
     fixedCost: subsBaseline,
     dangerBase: budget,
-    dangerSpan: dangerSpanValue,
+    dangerSpan: income > budget ? income - budget : 0,
   }));
 
   const comparisonDays = Math.max(thisMonthDays, lastMonthDays);
@@ -250,7 +239,7 @@ export default function Reports() {
               </div>
               <div className="text-sm font-semibold text-primary">{budgetPct}%</div>
             </div>
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] text-muted-foreground mb-3">
+            <div className="flex flex-nowrap items-center gap-x-2 text-[10px] text-muted-foreground mb-3 overflow-hidden">
               {income > 0 && (
                 <span className="flex items-center gap-1 whitespace-nowrap">
                   <span className="w-2.5 h-0.5 rounded" style={{ background: "#8100FF" }} />
@@ -291,9 +280,9 @@ export default function Reports() {
             <ResponsiveContainer width="100%" height={180}>
               <AreaChart data={budgetChartData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                 <defs>
-                  <pattern id="dangerStripes" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
-                    <rect width="6" height="6" fill="rgba(239,68,68,0.08)" />
-                    <line x1="0" y1="0" x2="0" y2="6" stroke="rgba(239,68,68,0.55)" strokeWidth="2" />
+                  <pattern id="dangerStripes" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+                    <rect width="8" height="8" fill="rgba(239,68,68,0.04)" />
+                    <line x1="0" y1="0" x2="0" y2="8" stroke="rgba(239,68,68,0.35)" strokeWidth="1" />
                   </pattern>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
@@ -321,21 +310,29 @@ export default function Reports() {
                     const v = Number(payload.value);
                     let fill = "rgba(255,255,255,0.4)";
                     if (budget > 0 && v === Math.round(budget)) fill = "#a78bfa";
-                    else if (showIncomeLine && v === Math.round(income)) fill = "#8100FF";
+                    else if (income > 0 && v === Math.round(income)) fill = "#8100FF";
                     return (
                       <text x={x} y={y} dy={3} textAnchor="end" fontSize={10} fill={fill}>
                         {currency}{Math.round(v)}
                       </text>
                     );
                   }}
-                  domain={[0, yMax]}
+                  domain={[0, (() => {
+                    const peak = Math.max(spentThisMonth, income, budget);
+                    if (peak <= 0) return 100;
+                    const pow = Math.pow(10, Math.floor(Math.log10(peak)));
+                    return Math.ceil((peak * 1.15) / pow) * pow;
+                  })()]}
                   ticks={(() => {
-                    const top = yMax;
+                    const peak = Math.max(spentThisMonth, income, budget);
+                    if (peak <= 0) return [0, 25, 50, 75, 100];
+                    const pow = Math.pow(10, Math.floor(Math.log10(peak)));
+                    const top = Math.ceil((peak * 1.15) / pow) * pow;
                     const step = top / 4;
                     const base = [0, step, step * 2, step * 3, top].map((v) => Math.round(v));
                     const extras: number[] = [];
                     if (budget > 0) extras.push(Math.round(budget));
-                    if (showIncomeLine) extras.push(Math.round(income));
+                    if (income > 0) extras.push(Math.round(income));
                     const threshold = top * 0.06;
                     const filtered = base.filter(
                       (v) => !extras.some((e) => Math.abs(e - v) < threshold)
@@ -383,7 +380,7 @@ export default function Reports() {
                   <Area type="monotone" dataKey="fixedCost" name="Fixed cost" stroke="#f97316" strokeWidth={2} fill="transparent" dot={false} activeDot={false} />
                 )}
                 {/* Spent on top */}
-                <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={2.5} fill="rgba(16,185,129,0.12)" dot={false} />
+                <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={3} fill="rgba(16,185,129,0.18)" dot={{ fill: "#10b981", r: 2.5, strokeWidth: 0 }} activeDot={{ r: 5, fill: "#10b981", stroke: "#0f0f1e", strokeWidth: 2 }} />
                 {income > 0 && (
                   <ReferenceLine y={income} stroke="#8100FF" strokeWidth={2} />
                 )}
