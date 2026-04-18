@@ -300,7 +300,18 @@ export default function Reports() {
                   tickLine={false}
                   axisLine={false}
                   width={60}
-                  tickFormatter={(v) => `${currency}${Math.round(Number(v))}`}
+                  tick={(props) => {
+                    const { x, y, payload } = props;
+                    const v = Number(payload.value);
+                    let fill = "rgba(255,255,255,0.4)";
+                    if (budget > 0 && v === Math.round(budget)) fill = "#a78bfa";
+                    else if (income > 0 && v === Math.round(income)) fill = "#8100FF";
+                    return (
+                      <text x={x} y={y} dy={3} textAnchor="end" fontSize={10} fill={fill}>
+                        {currency}{Math.round(v)}
+                      </text>
+                    );
+                  }}
                   domain={[0, (() => {
                     const peak = Math.max(spentThisMonth, income, budget);
                     if (peak <= 0) return 100;
