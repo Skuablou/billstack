@@ -175,8 +175,8 @@ export default function Onboarding() {
           </div>
         )}
 
-        {step === 2 && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+        {s === 2 && (
+          <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                 When do you work?
@@ -217,8 +217,8 @@ export default function Onboarding() {
           </div>
         )}
 
-        {step === 3 && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+        {s === 3 && (
+          <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                 Your biggest bills
@@ -261,8 +261,8 @@ export default function Onboarding() {
           </div>
         )}
 
-        {step === 4 && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+        {s === 4 && (
+          <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                 What are you saving for?
@@ -345,6 +345,9 @@ export default function Onboarding() {
             </div>
           </div>
         )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Footer */}
