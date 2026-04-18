@@ -41,6 +41,7 @@ export function getTotalPeriods(targetDate: Date, interval: SavingsInterval): nu
 export function getMonthlyEquivalent(goal: ActiveGoal): number {
   const totalPeriods = getTotalPeriods(goal.targetDate, goal.interval);
   const perPeriod = goal.totalAmount / totalPeriods;
+  if (goal.interval === "daily") return perPeriod * 30;
   if (goal.interval === "weekly") return perPeriod * (30 / 7);
   return perPeriod;
 }
