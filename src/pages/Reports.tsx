@@ -318,16 +318,18 @@ export default function Reports() {
                     );
                   }}
                   domain={[0, (() => {
-                    const peak = Math.max(spentThisMonth, income, budget / 0.75, budget);
+                    const peak = Math.max(spentThisMonth, income, budget);
                     if (peak <= 0) return 100;
-                    return peak;
+                    const pow = Math.pow(10, Math.floor(Math.log10(peak)));
+                    return Math.ceil((peak * 1.15) / pow) * pow;
                   })()]}
                   ticks={(() => {
-                    const peak = Math.max(spentThisMonth, income, budget / 0.75, budget);
+                    const peak = Math.max(spentThisMonth, income, budget);
                     if (peak <= 0) return [0, 25, 50, 75, 100];
-                    const top = peak;
+                    const pow = Math.pow(10, Math.floor(Math.log10(peak)));
+                    const top = Math.ceil((peak * 1.15) / pow) * pow;
                     const step = top / 4;
-                    const base = [0, step, step * 2, step * 3].map((v) => Math.round(v));
+                    const base = [0, step, step * 2, step * 3, top].map((v) => Math.round(v));
                     const extras: number[] = [];
                     if (budget > 0) extras.push(Math.round(budget));
                     if (income > 0) extras.push(Math.round(income));
@@ -335,7 +337,7 @@ export default function Reports() {
                     const filtered = base.filter(
                       (v) => !extras.some((e) => Math.abs(e - v) < threshold)
                     );
-                    return Array.from(new Set([...filtered, ...extras, Math.round(top)])).sort((a, b) => a - b);
+                    return Array.from(new Set([...filtered, ...extras])).sort((a, b) => a - b);
                   })()}
                   allowDecimals={false}
                   interval={0}
@@ -378,7 +380,7 @@ export default function Reports() {
                   <Area type="monotone" dataKey="fixedCost" name="Fixed cost" stroke="#f97316" strokeWidth={2} fill="transparent" dot={false} activeDot={false} />
                 )}
                 {/* Spent on top */}
-                <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={3} fill="rgba(16,185,129,0.18)" dot={false} activeDot={{ r: 5, fill: "#10b981", stroke: "#0f0f1e", strokeWidth: 2 }} />
+                <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={3} fill="rgba(16,185,129,0.18)" dot={{ fill: "#10b981", r: 2.5, strokeWidth: 0 }} activeDot={{ r: 5, fill: "#10b981", stroke: "#0f0f1e", strokeWidth: 2 }} />
                 {income > 0 && (
                   <ReferenceLine y={income} stroke="#8100FF" strokeWidth={2} />
                 )}
