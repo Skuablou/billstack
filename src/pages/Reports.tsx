@@ -320,14 +320,25 @@ export default function Reports() {
                   domain={[0, (() => {
                     const peak = Math.max(spentThisMonth, income, budget);
                     if (peak <= 0) return 100;
-                    return Math.ceil(peak * 1.05);
+                    const target = peak * 1.05;
+                    const pow = Math.pow(10, Math.floor(Math.log10(target)));
+                    const step = pow / 2;
+                    return Math.ceil(target / step) * step;
                   })()]}
                   ticks={(() => {
                     const peak = Math.max(spentThisMonth, income, budget);
                     if (peak <= 0) return [0, 25, 50, 75, 100];
-                    const top = Math.ceil(peak * 1.05);
-                    const step = top / 4;
-                    const base = [0, step, step * 2, step * 3, top].map((v) => Math.round(v));
+                    const target = peak * 1.05;
+                    const pow = Math.pow(10, Math.floor(Math.log10(target)));
+                    const stepUnit = pow / 2;
+                    const top = Math.ceil(target / stepUnit) * stepUnit;
+                    const niceSteps = [pow / 2, pow, pow * 2, pow * 2.5, pow * 5];
+                    let step = niceSteps[0];
+                    for (const s of niceSteps) {
+                      if (top / s <= 5) { step = s; break; }
+                    }
+                    const base: number[] = [];
+                    for (let v = 0; v <= top + 0.001; v += step) base.push(Math.round(v));
                     const extras: number[] = [];
                     if (budget > 0) extras.push(Math.round(budget));
                     if (income > 0) extras.push(Math.round(income));
