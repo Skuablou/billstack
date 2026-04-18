@@ -288,10 +288,10 @@ export default function Reports() {
                     <line x1="0" y1="0" x2="0" y2="8" stroke="rgba(239,68,68,0.35)" strokeWidth="1" />
                   </pattern>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.4} />
                 <XAxis
                   dataKey="day"
-                  stroke="rgba(255,255,255,0.4)"
+                  stroke="hsl(var(--muted-foreground))"
                   fontSize={10}
                   tickLine={false}
                   axisLine={false}
@@ -303,7 +303,7 @@ export default function Reports() {
                   tickFormatter={(v) => String(v)}
                 />
                 <YAxis
-                  stroke="rgba(255,255,255,0.4)"
+                  stroke="hsl(var(--muted-foreground))"
                   fontSize={10}
                   tickLine={false}
                   axisLine={false}
@@ -311,7 +311,7 @@ export default function Reports() {
                   tick={(props) => {
                     const { x, y, payload } = props;
                     const v = Number(payload.value);
-                    let fill = "rgba(255,255,255,0.4)";
+                    let fill = "hsl(var(--muted-foreground))";
                     if (budget > 0 && v === Math.round(budget)) fill = "#a78bfa";
                     else if (income > 0 && v === Math.round(income)) fill = "#8100FF";
                     return (
