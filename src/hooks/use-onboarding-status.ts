@@ -18,17 +18,13 @@ export function useOnboardingStatus() {
     const check = async () => {
       const { data } = await supabase
         .from("monthly_tracker_settings")
-        .select("onboarding_completed, salary")
+        .select("onboarding_completed")
         .eq("user_id", user.id)
         .maybeSingle();
 
       // No row → new user → not completed
-      // Row exists → use the flag (or treat existing salary as completed)
-      if (!data) {
-        setCompleted(false);
-      } else {
-        setCompleted(data.onboarding_completed || Number(data.salary) > 0);
-      }
+      // Row exists → trust the flag exclusively
+      setCompleted(data?.onboarding_completed === true);
       setLoading(false);
     };
     check();
