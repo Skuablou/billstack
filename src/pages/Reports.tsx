@@ -391,7 +391,7 @@ export default function Reports() {
           <div className="bg-card rounded-2xl border border-primary/15 p-4">
             <div className="flex justify-between items-start mb-2">
               <div>
-                <div className="text-sm font-medium text-foreground">This month spendings vs last months spending</div>
+                <div className="text-sm font-medium text-foreground">This month spendings vs last months</div>
                 <div className="inline-block text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1">
                   {diff >= 0 ? "+" : ""}{currency}{Math.abs(diff).toFixed(0)}
                   <span className={`ml-1.5 ${diff < 0 ? "text-red-400" : "text-emerald-400"}`}>
