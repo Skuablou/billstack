@@ -39,6 +39,7 @@ export default function Reports() {
   const [loading, setLoading] = useState(true);
   const [editingBudget, setEditingBudget] = useState(false);
   const [budgetInput, setBudgetInput] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!user) return;
