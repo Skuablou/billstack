@@ -35,7 +35,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
   const {
     salary, setSalary, salaryInput, setSalaryInput, salaryConfirmed, confirmSalary,
     activeDays, setActiveDays, hours, setHours,
-    data, addExpense, deleteExpense,
+    data, addExpense, deleteExpense, loaded,
   } = useMonthlyTracker();
 
   const streak = useStreak(data);
@@ -219,7 +219,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
 
       {/* Salary input */}
       <AnimatePresence>
-        {!salaryConfirmed && (
+        {loaded && !salaryConfirmed && (
           <motion.div
             initial={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0, marginBottom: 0 }}
