@@ -375,6 +375,10 @@ export default function Reports() {
                 <Area type="monotone" dataKey="dangerSpan" stackId="danger" stroke="none" fill="url(#dangerStripes)" isAnimationActive={false} activeDot={false} legendType="none" />
                 {/* Budget line as Area so it renders reliably in AreaChart */}
                 <Area type="monotone" dataKey="budget" stroke="#a78bfa" strokeWidth={2} strokeDasharray="5 4" fill="transparent" dot={false} activeDot={false} />
+                {/* Fixed cost baseline */}
+                {subsBaseline > 0 && (
+                  <Area type="monotone" dataKey="fixedCost" name="Fixed cost" stroke="#f97316" strokeWidth={2} fill="transparent" dot={false} activeDot={false} />
+                )}
                 {/* Spent on top */}
                 <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={2.5} fill="rgba(16,185,129,0.12)" dot={false} />
                 {income > 0 && (
