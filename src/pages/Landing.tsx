@@ -64,7 +64,6 @@ export default function Landing() {
           className="flex flex-col items-center gap-3"
         >
           <img src={appPreview} alt="BillStack App Preview" className="w-36 rounded-2xl" />
-          <p className="text-xs text-muted-foreground italic">Coming to Play Store soon</p>
         </motion.div>
 
         <div className="space-y-3 pt-2">
