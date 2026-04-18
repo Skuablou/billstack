@@ -302,18 +302,32 @@ export default function Reports() {
                   allowDecimals={false}
                 />
                 <Tooltip
-                  contentStyle={{
-                    background: "#0f0f1e",
-                    border: "1px solid rgba(139,92,246,0.3)",
-                    borderRadius: "8px",
-                    fontSize: "12px",
+                  content={({ active, payload, label }) => {
+                    if (!active || !payload || payload.length === 0) return null;
+                    const items = payload.filter(
+                      (p) => p.dataKey !== "dangerBase" && p.dataKey !== "dangerSpan"
+                    );
+                    if (items.length === 0) return null;
+                    return (
+                      <div
+                        style={{
+                          background: "#0f0f1e",
+                          border: "1px solid rgba(139,92,246,0.3)",
+                          borderRadius: 8,
+                          fontSize: 12,
+                          padding: "8px 10px",
+                          color: "rgba(255,255,255,0.85)",
+                        }}
+                      >
+                        <div style={{ marginBottom: 4, opacity: 0.7 }}>Day {label}</div>
+                        {items.map((it) => (
+                          <div key={String(it.dataKey)} style={{ color: it.color }}>
+                            {it.name}: €{Math.round(Number(it.value))}
+                          </div>
+                        ))}
+                      </div>
+                    );
                   }}
-                  labelFormatter={(label) => `Day ${label}`}
-                  formatter={(value: number, name: string) => {
-                    if (name === "dangerBase" || name === "dangerSpan") return null;
-                    return [`€${Math.round(value)}`, name];
-                  }}
-                  filterNull
                 />
                 {/* Danger zone: invisible base + striped span stacked on top */}
                 <Area type="monotone" dataKey="dangerBase" stackId="danger" stroke="none" fill="transparent" isAnimationActive={false} activeDot={false} legendType="none" />
