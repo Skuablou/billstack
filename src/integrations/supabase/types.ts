@@ -84,6 +84,7 @@ export type Database = {
           hours: number[]
           id: string
           monthly_budget: number
+          onboarding_completed: boolean
           salary: number
           updated_at: string | null
           user_id: string
@@ -94,6 +95,7 @@ export type Database = {
           hours?: number[]
           id?: string
           monthly_budget?: number
+          onboarding_completed?: boolean
           salary?: number
           updated_at?: string | null
           user_id: string
@@ -104,6 +106,7 @@ export type Database = {
           hours?: number[]
           id?: string
           monthly_budget?: number
+          onboarding_completed?: boolean
           salary?: number
           updated_at?: string | null
           user_id?: string
