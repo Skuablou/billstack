@@ -336,7 +336,7 @@ export default function Index() {
                 </AnimatePresence>
                 <div className="space-y-2">
                   {subscriptions.length === 0 ? (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-xl bg-card border border-border p-12 text-center flex flex-col items-center gap-4"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p><img src={theme === "dark" ? duckEmptyDark : duckEmpty} alt="Confused duck" className="w-32 h-32 object-contain" /></motion.div>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-xl bg-card border border-border p-12 text-center flex flex-col items-center gap-4"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p><img src={theme === "dark" ? duckEmptyDark : duckEmpty} alt="Confused duck" className={`${theme === "dark" ? "w-40 h-40" : "w-32 h-32"} object-contain`} /></motion.div>
                   ) : [...subscriptions].filter(s => filterCategory === "All" || s.category === filterCategory).sort((a, b) => b.amount - a.amount).map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
                 </div>
                 {isPremium ? (
@@ -442,7 +442,7 @@ export default function Index() {
                   </AnimatePresence>
                   <div className="space-y-2">
                     {subscriptions.length === 0 ? (
-                      <div className="rounded-xl bg-card border border-border p-12 text-center flex flex-col items-center gap-4"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p><img src={theme === "dark" ? duckEmptyDark : duckEmpty} alt="Confused duck" className="w-32 h-32 object-contain" /></div>
+                      <div className="rounded-xl bg-card border border-border p-12 text-center flex flex-col items-center gap-4"><p className="text-muted-foreground">No spendings yet. Add one to get started!</p><img src={theme === "dark" ? duckEmptyDark : duckEmpty} alt="Confused duck" className={`${theme === "dark" ? "w-40 h-40" : "w-32 h-32"} object-contain`} /></div>
                     ) : [...subscriptions].filter(s => filterCategory === "All" || s.category === filterCategory).sort((a, b) => b.amount - a.amount).map((sub, i) => (<SubscriptionCard key={sub.id} subscription={sub} index={i} onDelete={deleteSubscription} onUpdate={updateSubscription} />))}
                   </div>
                 </div>
