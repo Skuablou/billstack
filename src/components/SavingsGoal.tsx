@@ -116,10 +116,11 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
           className="bg-muted/50 border-border text-foreground h-10 text-sm"
         />
         <Select value={interval} onValueChange={(v) => setInterval(v as SavingsInterval)}>
-          <SelectTrigger className="bg-muted/50 border-border text-foreground h-10 text-sm">
-            <SelectValue />
+          <SelectTrigger className={cn("bg-muted/50 border-border h-10 text-sm", !interval ? "text-muted-foreground" : "text-foreground")}>
+            <SelectValue placeholder="Saving cycle" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="daily">Daily</SelectItem>
             <SelectItem value="weekly">Weekly</SelectItem>
             <SelectItem value="monthly">Monthly</SelectItem>
           </SelectContent>
