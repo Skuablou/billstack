@@ -279,8 +279,40 @@ export default function Reports() {
                   </pattern>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="day" stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} interval={Math.ceil(thisMonthDays / 6)} />
-                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(v) => `€${v}`} domain={[0, Math.ceil(Math.max(spentThisMonth, income, budget) * 1.25)]} />
+                <XAxis
+                  dataKey="day"
+                  stroke="rgba(255,255,255,0.4)"
+                  fontSize={10}
+                  tickLine={false}
+                  axisLine={false}
+                  ticks={(() => {
+                    const spentDays = Array.from(
+                      new Set(
+                        expenses
+                          .filter((e) => {
+                            const d = new Date(e.date);
+                            return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+                          })
+                          .map((e) => new Date(e.date).getDate())
+                      )
+                    ).sort((a, b) => a - b);
+                    if (spentDays.length === 0) return [1, thisMonthDays];
+                    const maxTicks = 6;
+                    if (spentDays.length <= maxTicks) return spentDays;
+                    const step = Math.ceil(spentDays.length / maxTicks);
+                    return spentDays.filter((_, i) => i % step === 0);
+                  })()}
+                />
+                <YAxis
+                  stroke="rgba(255,255,255,0.4)"
+                  fontSize={10}
+                  tickLine={false}
+                  axisLine={false}
+                  width={44}
+                  tickFormatter={(v) => `€${Math.round(v)}`}
+                  domain={[0, Math.ceil(Math.max(spentThisMonth, income, budget) * 1.25 / 100) * 100]}
+                  allowDecimals={false}
+                />
                 <Tooltip
                   contentStyle={{
                     background: "#0f0f1e",
@@ -290,9 +322,10 @@ export default function Reports() {
                   }}
                   labelFormatter={(label) => `Day ${label}`}
                   formatter={(value: number, name: string) => {
-                    if (name === "dangerBase" || name === "dangerSpan") return null as unknown as [string, string];
+                    if (name === "dangerBase" || name === "dangerSpan") return null;
                     return [`€${Math.round(value)}`, name];
                   }}
+                  itemSorter={(item) => (item.dataKey === "dangerBase" || item.dataKey === "dangerSpan" ? 1 : 0)}
                 />
                 {/* Danger zone: invisible base + striped span stacked on top */}
                 <Area type="monotone" dataKey="dangerBase" stackId="danger" stroke="none" fill="transparent" isAnimationActive={false} activeDot={false} legendType="none" />
