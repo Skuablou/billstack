@@ -127,9 +127,30 @@ export default function Onboarding() {
       <Progress value={progress} className="mb-8 h-2" />
 
       {/* Content */}
-      <div className="flex-1 flex flex-col">
-        {step === 1 && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+      <div className="flex-1 flex flex-col relative" style={{ perspective: "1000px" }}>
+        {[1, 2, 3, 4].map((s) => {
+          const isActive = step === s;
+          const isPrev = s < step;
+          const transform = isActive
+            ? "rotateY(0deg) translateX(0)"
+            : isPrev
+              ? "rotateY(-15deg) translateX(-30px)"
+              : "rotateY(15deg) translateX(30px)";
+          return (
+            <div
+              key={s}
+              className="absolute inset-0"
+              style={{
+                transform,
+                opacity: isActive ? 1 : 0,
+                pointerEvents: isActive ? "auto" : "none",
+                transformStyle: "preserve-3d",
+                transformOrigin: "center",
+                transition: "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease",
+              }}
+            >
+        {s === 1 && (
+          <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                 How much do you earn per month?
@@ -154,8 +175,8 @@ export default function Onboarding() {
           </div>
         )}
 
-        {step === 2 && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+        {s === 2 && (
+          <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                 When do you work?
@@ -196,8 +217,8 @@ export default function Onboarding() {
           </div>
         )}
 
-        {step === 3 && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+        {s === 3 && (
+          <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                 Your biggest bills
@@ -240,8 +261,8 @@ export default function Onboarding() {
           </div>
         )}
 
-        {step === 4 && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+        {s === 4 && (
+          <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                 What are you saving for?
@@ -324,6 +345,9 @@ export default function Onboarding() {
             </div>
           </div>
         )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Footer */}
