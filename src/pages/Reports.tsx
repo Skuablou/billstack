@@ -29,6 +29,7 @@ type Subscription = { amount: number; billing_cycle: string; category: string };
 
 export default function Reports() {
   const { user } = useAuth();
+  const { currency } = useCurrency();
   const navigate = useNavigate();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
