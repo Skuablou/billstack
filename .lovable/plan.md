@@ -1,29 +1,24 @@
 
-Der User möchte zwei Anpassungen am "Monthly spend vs budget" Chart in `src/pages/Reports.tsx`:
+User möchte: Wenn man im Chart auf einen Tag hovert, soll der Preis-Wert auch links an der Y-Achse angezeigt werden (als horizontale Hilfslinie/Marker), nicht nur im Tooltip.
 
-1. **Danger Zone zu groß**: Aktuell erstreckt sich die Danger Zone von `budget` bis `income` (wenn income > budget). Das nimmt viel visuelle Fläche ein. Lösung: Die Danger Zone sollte schmaler/dezenter werden — z.B. nur ein dünner Streifen direkt über der Budget-Linie, oder die Stripes weniger dicht/transparenter.
-
-2. **Spending-Linie nicht spezifisch genug**: Die grüne "spent" Area ist als kumulative Tageslinie gezeichnet, aber wirkt zu glatt/unauffällig. Sie soll deutlicher/präziser sein — vermutlich dickere Linie, kräftigere Farbe und sichtbare Datenpunkte (Dots) damit man pro Tag genau sieht wo gespendet wurde.
+In Recharts wird das über den `Tooltip` mit `cursor` (vertikale Linie ist schon da) erweitert um eine **horizontale ReferenceLine** auf Höhe des gehoverten Wertes + Label links an der Y-Achse.
 
 ## Plan
 
-**Datei:** `src/pages/Reports.tsx` (nur der "Monthly spend vs budget" Chart-Block)
+**Datei:** `src/pages/Reports.tsx` — nur "Monthly spend vs budget" Chart
 
-### 1. Danger Zone dezenter machen
-- Stripes-Pattern transparenter: `rgba(239,68,68,0.04)` Background, Linien `rgba(239,68,68,0.35)` mit `strokeWidth=1` statt 2
-- Pattern-Größe von 6x6 auf 8x8 erhöhen → weniger dicht
-- So bleibt die Zone sichtbar, dominiert aber nicht mehr
+### Umsetzung
+1. Neuen State `hoveredValue: number | null` hinzufügen
+2. Tooltip-Content (oder via `onMouseMove` am ComposedChart) liest den `spent`-Wert des aktiven Tages und setzt `hoveredValue`
+3. Bei `onMouseLeave` → `setHoveredValue(null)`
+4. Conditional `<ReferenceLine y={hoveredValue} />` rendern mit:
+   - gestrichelte horizontale Linie in grün (`#10b981`, strokeDasharray "3 3")
+   - `label`-Prop mit Position `left` → zeigt `€{value}` direkt an der Y-Achse links
+   - Label-Style: grüner Hintergrund-Pill oder einfacher grüner Text
 
-### 2. Spending-Linie spezifischer
-- `strokeWidth` von 2.5 → 3
-- Sichtbare Dots pro Tag: `dot={{ fill: "#10b981", r: 2.5, strokeWidth: 0 }}`
-- `activeDot={{ r: 5, fill: "#10b981", stroke: "#0f0f1e", strokeWidth: 2 }}` für Hover-Highlight
-- Area-Fill etwas kräftiger: `rgba(16,185,129,0.18)` statt 0.12
-- Damit sieht man jeden Tag als Punkt → klar wo Ausgaben stattfanden
+### Technik
+- `ComposedChart` akzeptiert `onMouseMove={(state) => state?.activePayload?.[0] && setHoveredValue(state.activePayload[0].value)}` und `onMouseLeave`
+- ReferenceLine-Label: `label={{ value: \`${currency}${Math.round(hoveredValue)}\`, position: "left", fill: "#10b981", fontSize: 10 }}`
 
 ### Nicht ändern
-- Budget-Linie (lila gestrichelt) bleibt
-- Income ReferenceLine bleibt
-- Fixed-Cost-Linie (orange) bleibt
-- Legende, Achsen, Tooltip bleiben unverändert
-- Zweiter Chart (This vs Last Month) und Pie Chart unverändert
+- Tooltip selbst, Y-Achsen-Ticks, Legende, anderen Charts bleiben unverändert
