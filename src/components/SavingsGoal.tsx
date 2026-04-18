@@ -153,7 +153,7 @@ export function SavingsGoalForm({ onAdd }: FormProps) {
       <Button
         className="w-full rounded-lg gap-1.5 text-sm font-semibold h-10"
         style={{ background: "linear-gradient(135deg, hsl(267 100% 50%), hsl(280 100% 55%))" }}
-        disabled={!goalName.trim() || !goalTotal || !goalDate}
+        disabled={!goalName.trim() || !goalTotal || !goalDate || !interval}
         onClick={handleStartSaving}
       >
         Start Saving
