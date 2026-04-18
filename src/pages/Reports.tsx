@@ -239,18 +239,18 @@ export default function Reports() {
               </div>
               <div className="text-sm font-semibold text-primary">{budgetPct}%</div>
             </div>
-            <div className="flex flex-nowrap items-center gap-x-1.5 text-[9px] text-muted-foreground mb-3 overflow-hidden">
-              <span className="flex items-center gap-1 whitespace-nowrap">
-                <span className="w-2.5 h-0.5 bg-emerald-500 rounded" />
+            <div className="flex flex-nowrap items-center gap-x-2.5 text-[11px] text-muted-foreground mb-3 overflow-hidden">
+              <span className="flex items-center gap-1.5 whitespace-nowrap">
+                <span className="w-3 h-0.5 bg-emerald-500 rounded" />
                 Spent
               </span>
-              <span className="flex items-center gap-1 whitespace-nowrap">
-                <span className="w-2.5 h-0.5 rounded" style={{ background: "#f97316" }} />
+              <span className="flex items-center gap-1.5 whitespace-nowrap">
+                <span className="w-3 h-0.5 rounded" style={{ background: "#f97316" }} />
                 Fixed
               </span>
-              <span className="flex items-center gap-1 whitespace-nowrap">
+              <span className="flex items-center gap-1.5 whitespace-nowrap">
                 <span
-                  className="w-2.5 h-0.5 rounded"
+                  className="w-3 h-0.5 rounded"
                   style={{
                     background:
                       "repeating-linear-gradient(to right, #a78bfa 0 3px, transparent 3px 6px)",
@@ -259,9 +259,9 @@ export default function Reports() {
                 Budget
               </span>
               {income > 0 && income > budget && (
-                <span className="flex items-center gap-1 whitespace-nowrap">
+                <span className="flex items-center gap-1.5 whitespace-nowrap">
                   <span
-                    className="w-2.5 h-1.5 rounded"
+                    className="w-3 h-1.5 rounded"
                     style={{
                       background:
                         "repeating-linear-gradient(45deg, #ef4444 0 2px, transparent 2px 4px)",
@@ -271,8 +271,8 @@ export default function Reports() {
                 </span>
               )}
               {income > 0 && (
-                <span className="flex items-center gap-1 whitespace-nowrap">
-                  <span className="w-2.5 h-0.5 rounded" style={{ background: "#8100FF" }} />
+                <span className="flex items-center gap-1.5 whitespace-nowrap">
+                  <span className="w-3 h-0.5 rounded" style={{ background: "#8100FF" }} />
                   Income
                 </span>
               )}
