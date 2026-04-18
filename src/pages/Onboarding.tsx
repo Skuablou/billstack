@@ -36,8 +36,8 @@ export default function Onboarding() {
   // Step 4
   const [goalName, setGoalName] = useState("");
   const [goalAmount, setGoalAmount] = useState("");
-  const [goalDate, setGoalDate] = useState("");
-  const [goalInterval, setGoalInterval] = useState<"weekly" | "monthly">("monthly");
+  const [goalDate, setGoalDate] = useState<Date | undefined>(undefined);
+  const [goalInterval, setGoalInterval] = useState<"daily" | "weekly" | "monthly">("monthly");
 
   const totalSteps = 4;
   const progress = (step / totalSteps) * 100;
