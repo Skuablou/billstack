@@ -77,7 +77,7 @@ export default function Onboarding() {
           user_id: user.id,
           name: goalName.trim(),
           total_amount: Number(goalAmount),
-          target_date: goalDate,
+          target_date: format(goalDate, "yyyy-MM-dd"),
           interval: goalInterval,
           paid_periods: 0,
         });
