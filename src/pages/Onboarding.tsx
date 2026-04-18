@@ -199,7 +199,7 @@ export default function Onboarding() {
                 Your biggest bills
               </h1>
               <p className="text-muted-foreground">
-                Add your most important monthly fixed costs (rent, electricity, subscriptions…).
+                Add your most important monthly fixed costs (rent, insurance, subscriptions…).
               </p>
             </div>
             <div className="space-y-3">
