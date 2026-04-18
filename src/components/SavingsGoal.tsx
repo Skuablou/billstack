@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import { format, differenceInDays, differenceInWeeks, differenceInMonths } from "date-fns";
 import { cn } from "@/lib/utils";
 
-export type SavingsInterval = "weekly" | "monthly";
+export type SavingsInterval = "daily" | "weekly" | "monthly";
 
 export interface ActiveGoal {
   name: string;
@@ -23,10 +23,12 @@ export interface ActiveGoal {
 }
 
 function getIntervalDays(interval: SavingsInterval): number {
+  if (interval === "daily") return 1;
   return interval === "weekly" ? 7 : 30;
 }
 
 function getIntervalLabel(interval: SavingsInterval): string {
+  if (interval === "daily") return "day";
   return interval === "weekly" ? "wk" : "mo";
 }
 
