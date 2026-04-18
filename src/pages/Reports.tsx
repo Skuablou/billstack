@@ -21,7 +21,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import BottomNav from "@/components/BottomNav";
 import SettingsMenu from "@/components/SettingsMenu";
-import { MoreVertical, Pencil, Check, X } from "lucide-react";
+import { MoreVertical, Pencil, Check, X, ArrowLeft } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -190,11 +190,18 @@ export default function Reports() {
 
   return (
     <div className="min-h-screen bg-background pb-32 md:pb-8">
-      <header className="max-w-md mx-auto px-4 pt-4 pb-2 flex items-center justify-end">
+      <header className="max-w-md mx-auto px-4 pt-4 pb-2 flex items-center justify-between">
+        <button
+          onClick={() => navigate("/")}
+          className="rounded-full bg-card border border-border text-muted-foreground hover:text-foreground p-2 transition-colors"
+          aria-label="Back"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </button>
         <button
           onClick={() => setMenuOpen(true)}
-          className="rounded-full bg-card border border-border text-muted-foreground hover:text-foreground p-2"
-          aria-label="Open menu"
+          className="rounded-full bg-card border border-border text-muted-foreground hover:text-foreground p-2 transition-colors"
+          aria-label="Menu"
         >
           <MoreVertical className="w-5 h-5" />
         </button>
