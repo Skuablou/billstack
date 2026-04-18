@@ -115,6 +115,7 @@ export default function Reports() {
     spent: thisMonthDaily[i],
     budget,
     income,
+    fixedCost: subsBaseline,
     dangerBase: budget,
     dangerSpan: income > budget ? income - budget : 0,
   }));
