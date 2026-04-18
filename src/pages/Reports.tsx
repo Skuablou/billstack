@@ -346,7 +346,7 @@ export default function Reports() {
                   content={({ active, payload, label }) => {
                     if (!active || !payload || payload.length === 0) return null;
                     const items = payload.filter(
-                      (p) => p.dataKey !== "dangerBase" && p.dataKey !== "dangerSpan"
+                      (p) => p.dataKey !== "dangerBase" && p.dataKey !== "dangerSpan" && p.dataKey !== "fixedCost"
                     );
                     if (items.length === 0) return null;
                     return (
