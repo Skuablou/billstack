@@ -233,7 +233,7 @@ export default function Reports() {
               <div>
                 <div className="text-sm font-medium text-foreground">Monthly spend vs budget</div>
                 <div className="inline-block text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1">
-                  €{spentThisMonth.toFixed(0)} of €{budget.toFixed(0)}
+                  {currency}{spentThisMonth.toFixed(0)} of {currency}{budget.toFixed(0)}
                 </div>
               </div>
               <div className="text-sm font-semibold text-primary">{budgetPct}%</div>
@@ -289,17 +289,22 @@ export default function Reports() {
                   axisLine={false}
                   type="number"
                   domain={[1, thisMonthDays]}
-                  ticks={Array.from({ length: thisMonthDays }, (_, i) => i + 1)}
+                  ticks={(() => {
+                    const arr = [1];
+                    for (let d = 2; d <= thisMonthDays; d += 2) arr.push(d);
+                    if (arr[arr.length - 1] !== thisMonthDays) arr.push(thisMonthDays);
+                    return arr;
+                  })()}
                   interval={0}
-                  tickFormatter={(v) => (v === thisMonthDays || v % 2 === 0 ? String(v) : "")}
+                  tickFormatter={(v) => String(v)}
                 />
                 <YAxis
                   stroke="rgba(255,255,255,0.4)"
                   fontSize={10}
                   tickLine={false}
                   axisLine={false}
-                  width={48}
-                  tickFormatter={(v) => `€${Math.round(Number(v))}`}
+                  width={60}
+                  tickFormatter={(v) => `${currency}${Math.round(Number(v))}`}
                   domain={[0, (() => {
                     const peak = Math.max(spentThisMonth, income, budget);
                     if (peak <= 0) return 100;
@@ -338,7 +343,7 @@ export default function Reports() {
                         <div style={{ marginBottom: 4, opacity: 0.7 }}>Day {label}</div>
                         {items.map((it) => (
                           <div key={String(it.dataKey)} style={{ color: it.color }}>
-                            {it.name}: €{Math.round(Number(it.value))}
+                            {it.name}: {currency}{Math.round(Number(it.value))}
                           </div>
                         ))}
                       </div>
