@@ -219,7 +219,7 @@ export default function MonthlyTracker({ subscriptions = [], isPremium = false, 
 
       {/* Salary input */}
       <AnimatePresence>
-        {!salaryConfirmed && (
+        {loaded && !salaryConfirmed && (
           <motion.div
             initial={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0, marginBottom: 0 }}
