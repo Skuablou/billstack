@@ -289,13 +289,9 @@ export default function Reports() {
                   axisLine={false}
                   type="number"
                   domain={[1, thisMonthDays]}
-                  ticks={(() => {
-                    const arr = [1];
-                    for (let d = 2; d <= thisMonthDays; d += 2) arr.push(d);
-                    if (arr[arr.length - 1] !== thisMonthDays) arr.push(thisMonthDays);
-                    return arr;
-                  })()}
-                  interval={0}
+                  ticks={Array.from({ length: thisMonthDays }, (_, i) => i + 1)}
+                  interval="preserveStartEnd"
+                  minTickGap={8}
                   tickFormatter={(v) => String(v)}
                 />
                 <YAxis
