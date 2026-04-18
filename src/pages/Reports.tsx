@@ -382,12 +382,7 @@ export default function Reports() {
                 {/* Spent on top */}
                 <Area type="monotone" dataKey="spent" stroke="#10b981" strokeWidth={2.5} fill="rgba(16,185,129,0.12)" dot={false} />
                 {income > 0 && (
-                  <ReferenceLine
-                    y={income}
-                    stroke="#8100FF"
-                    strokeWidth={2}
-                    label={{ value: `Income ${currency}${income}`, position: "insideTopRight", fill: "#8100FF", fontSize: 10 }}
-                  />
+                  <ReferenceLine y={income} stroke="#8100FF" strokeWidth={2} />
                 )}
               </AreaChart>
             </ResponsiveContainer>
