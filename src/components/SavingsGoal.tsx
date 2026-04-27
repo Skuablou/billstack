@@ -224,16 +224,16 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
 
             <div className="grid grid-cols-3 gap-3">
               <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(267 40% 20% / 0.6)" }}>
-                <p className="text-xs text-muted-foreground">Target</p>
-                <p className="text-sm font-bold text-foreground">{fmt(goal.totalAmount)}</p>
+                <p className="text-xs text-white/70">Target</p>
+                <p className="text-sm font-bold text-white">{fmt(goal.totalAmount)}</p>
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(267 40% 20% / 0.6)" }}>
-                <p className="text-xs text-muted-foreground">Per {getIntervalLabel(goal.interval)}</p>
-                <p className="text-sm font-bold" style={{ color: "hsl(267 100% 60%)" }}>{fmt(perPeriod)}</p>
+                <p className="text-xs text-white/70">Per {getIntervalLabel(goal.interval)}</p>
+                <p className="text-sm font-bold text-white">{fmt(perPeriod)}</p>
               </div>
               <div className="rounded-lg p-2.5 text-center" style={{ backgroundColor: "hsl(267 40% 20% / 0.6)" }}>
-                <p className="text-xs text-muted-foreground">Saved</p>
-                <p className="text-sm font-bold" style={{ color: "hsl(145 70% 45%)" }}>{fmt(savedSoFar)}</p>
+                <p className="text-xs text-white/70">Saved</p>
+                <p className="text-sm font-bold text-white">{fmt(savedSoFar)}</p>
               </div>
             </div>
 
