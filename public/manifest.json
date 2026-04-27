@@ -4,7 +4,7 @@
   "description": "Track all your monthly bills",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a12",
+  "background_color": "#ffffff",
   "theme_color": "#8100FF",
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
