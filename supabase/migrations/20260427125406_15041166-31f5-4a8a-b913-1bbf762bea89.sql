@@ -1,0 +1,1 @@
+DELETE FROM public.premium_users WHERE user_id = '719927a8-89f4-467b-8bcb-0e54e47d10b5';
