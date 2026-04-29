@@ -6,20 +6,20 @@ import { CreditCard, PiggyBank, Bell } from "lucide-react";
 const SLIDES = [
   {
     icon: CreditCard,
-    title: "Alle Rechnungen im Blick",
-    desc: "Verwalte alle deine monatlichen Abos und Fixkosten an einem Ort — übersichtlich und stressfrei.",
+    title: "All your bills in one place",
+    desc: "Manage all your monthly subscriptions and fixed costs in one spot — clear and stress-free.",
     color: "hsl(267 100% 50%)",
   },
   {
     icon: PiggyBank,
-    title: "Sparziele erreichen",
-    desc: "Setze Sparziele und sieh in Echtzeit, wie nah du deinem Traum schon bist.",
+    title: "Reach your savings goals",
+    desc: "Set savings goals and see in real time how close you are to your dream.",
     color: "hsl(145 70% 45%)",
   },
   {
     icon: Bell,
-    title: "Nie wieder vergessen",
-    desc: "Smarte Erinnerungen sorgen dafür, dass du keine Zahlung mehr verpasst.",
+    title: "Never miss a payment",
+    desc: "Smart reminders make sure you never miss a bill again.",
     color: "hsl(28 95% 55%)",
   },
 ];
@@ -51,7 +51,7 @@ export default function Walkthrough({ onDone }: { onDone: () => void }) {
           onClick={skip}
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          Überspringen
+          Skip
         </button>
       </div>
 
@@ -89,7 +89,7 @@ export default function Walkthrough({ onDone }: { onDone: () => void }) {
           onClick={next}
           className="w-full h-12 text-base font-semibold"
         >
-          {isLast ? "Los geht's" : "Weiter"}
+          {isLast ? "Get started" : "Next"}
         </Button>
       </div>
     </div>

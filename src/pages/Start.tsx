@@ -67,7 +67,7 @@ export default function Start() {
               <span style={{ background: "linear-gradient(135deg, hsl(267 100% 50%), hsl(280 100% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
             </h1>
             <p className="text-muted-foreground mt-2 text-base">
-              Alle Rechnungen. Ein Ort. Null Stress.
+              All your bills. One place. Zero stress.
             </p>
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function Start() {
             onClick={() => navigate("/auth")}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            Du hast schon ein Konto? <span className="text-primary font-medium">Anmelden</span>
+            Already have an account? <span className="text-primary font-medium">Sign in</span>
           </button>
         </div>
       </motion.div>
