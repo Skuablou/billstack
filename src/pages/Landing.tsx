@@ -70,23 +70,6 @@ export default function Landing() {
           </p>
         </div>
       </motion.div>
-
-        <div className="space-y-3 pt-2">
-          <Button
-            size="lg"
-            className="w-full h-12 text-base font-semibold"
-            onClick={() => navigate("/auth?mode=register")}
-          >
-            Get Started Free
-          </Button>
-          <p className="text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <button onClick={() => navigate("/auth")} className="text-primary hover:underline font-medium">
-              Sign in
-            </button>
-          </p>
-        </div>
-      </motion.div>
     </div>
   );
 }
