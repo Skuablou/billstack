@@ -10,7 +10,6 @@ import { useOnboardingStatus } from "@/hooks/use-onboarding-status";
 import Index from "./pages/Index.tsx";
 import Auth from "./pages/Auth.tsx";
 import Landing from "./pages/Landing.tsx";
-import Start from "./pages/Start.tsx";
 import Reports from "./pages/Reports.tsx";
 import Onboarding from "./pages/Onboarding.tsx";
 import NotFound from "./pages/NotFound.tsx";
@@ -23,7 +22,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
   if (loading || (isAuthenticated && onboardingLoading)) return null;
-  if (!isAuthenticated) return <Navigate to="/start" replace />;
+  if (!isAuthenticated) return <Navigate to="/landing" replace />;
   if (completed === false && location.pathname !== "/onboarding") {
     return <Navigate to="/onboarding" replace />;
   }
@@ -43,7 +42,6 @@ const App = () => (
               <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
               <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
               <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
-              <Route path="/start" element={<Start />} />
               <Route path="/landing" element={<Landing />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="*" element={<NotFound />} />
