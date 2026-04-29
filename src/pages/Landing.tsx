@@ -28,48 +28,36 @@ export default function Landing() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-lg w-full text-center space-y-8 relative z-10"
+        className="max-w-lg w-full text-center space-y-5 relative z-10 py-4"
       >
         <div>
-          <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-5">
-            <CreditCard className="w-8 h-8 text-primary" />
-          </div>
-          <h1 className="text-4xl font-display font-bold text-foreground">
+          <h1 className="text-3xl font-display font-bold text-foreground">
             <span style={{ background: "linear-gradient(135deg, hsl(145 70% 45%), hsl(145 80% 40%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Bill</span>
             <span style={{ background: "linear-gradient(135deg, hsl(267 100% 50%), hsl(280 100% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
           </h1>
-          <p className="text-muted-foreground mt-2 text-lg">All your bills. One place. Zero stress.</p>
+          <p className="text-muted-foreground mt-1 text-sm">All your bills. One place. Zero stress.</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 text-left">
+        <div className="grid grid-cols-2 gap-2.5 text-left">
           {features.map((f, i) => (
             <motion.div
               key={f.title}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 + i * 0.08 }}
-              className="rounded-xl border border-border bg-card p-4 space-y-2"
+              className="rounded-xl border border-border bg-card p-3 space-y-1"
             >
-              <f.icon className="w-5 h-5 text-primary" />
-              <h3 className="text-sm font-semibold text-foreground">{f.title}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
+              <f.icon className="w-4 h-4 text-primary" />
+              <h3 className="text-xs font-semibold text-foreground">{f.title}</h3>
+              <p className="text-[11px] text-muted-foreground leading-snug">{f.desc}</p>
             </motion.div>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5 }}
-          className="flex flex-col items-center gap-3"
-        >
-          <img src={appPreview} alt="BillStack App Preview" className="w-36 rounded-2xl" />
-        </motion.div>
-
-        <div className="space-y-3 pt-2">
+        <div className="space-y-2 pt-1">
           <Button
             size="lg"
-            className="w-full h-12 text-base font-semibold"
+            className="w-full h-11 text-base font-semibold"
             onClick={() => navigate("/auth?mode=register")}
           >
             Get Started Free
