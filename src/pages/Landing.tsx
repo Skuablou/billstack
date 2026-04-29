@@ -54,6 +54,15 @@ export default function Landing() {
           ))}
         </div>
 
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5 }}
+          className="flex flex-col items-center"
+        >
+          <img src={appPreview} alt="BillStack App Preview" className="w-28 rounded-2xl" />
+        </motion.div>
+
         <div className="space-y-2 pt-1">
           <Button
             size="lg"
