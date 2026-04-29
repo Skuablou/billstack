@@ -56,8 +56,8 @@ export default function Auth() {
         className="w-full max-w-sm"
       >
         <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-4">
-            <CreditCard className="w-7 h-7 text-primary" />
+          <div className="w-20 h-20 flex items-center justify-center mx-auto mb-4">
+            <img src={duckLogo} alt="BillStack duck mascot" className="w-20 h-20 object-contain" />
           </div>
           <h1 className="text-2xl font-display font-bold text-foreground">
             <span style={{ background: "linear-gradient(135deg, hsl(145 70% 45%), hsl(145 80% 40%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Bill</span><span style={{ background: "linear-gradient(135deg, hsl(267 100% 50%), hsl(280 100% 55%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Stack</span>
