@@ -23,7 +23,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
   if (loading || (isAuthenticated && onboardingLoading)) return null;
-  if (!isAuthenticated) return <Navigate to="/landing" replace />;
+  if (!isAuthenticated) return <Navigate to="/start" replace />;
   if (completed === false && location.pathname !== "/onboarding") {
     return <Navigate to="/onboarding" replace />;
   }
