@@ -10,6 +10,7 @@ import { useOnboardingStatus } from "@/hooks/use-onboarding-status";
 import Index from "./pages/Index.tsx";
 import Auth from "./pages/Auth.tsx";
 import Landing from "./pages/Landing.tsx";
+import Start from "./pages/Start.tsx";
 import Reports from "./pages/Reports.tsx";
 import Onboarding from "./pages/Onboarding.tsx";
 import NotFound from "./pages/NotFound.tsx";
