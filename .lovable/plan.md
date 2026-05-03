@@ -1,40 +1,54 @@
 
-# Splash Screen + Onboarding Walkthrough + Start Activity
+Onboarding-Flow für neu registrierte User mit 4 Schritten.
 
-Dein Fiverr-Entwickler hat recht: Für die Google Play Store Zulassung brauchst du native-wirkende Screens bevor die eigentliche App (WebView) geladen wird. Ich erstelle diese als Web-Seiten innerhalb deiner App, die im TWA genauso wie native Screens aussehen.
+## Plan
 
-## Was gebaut wird
+### 1. DB-Migration
+Neue Spalte `onboarding_completed BOOLEAN DEFAULT false` in `monthly_tracker_settings` hinzufügen, um zu tracken ob Onboarding fertig ist.
 
-### 1. Splash Screen (`/start`)
-- Vollbild-Splash mit BillStack Logo und animiertem Ladeindikator
-- Wird 2-3 Sekunden angezeigt, dann automatisch weiter zum Walkthrough
-- Dunkler Hintergrund mit dem BillStack Branding (#8100FF)
+### 2. Neue Komponente: `src/pages/Onboarding.tsx`
+4 Screens mit Progress Bar (1/4, 2/4, 3/4, 4/4):
 
-### 2. Onboarding Walkthrough (`/start` - Schritt 2)
-- 3 Slides die man durchswipen kann:
-  - **Slide 1**: "Alle Rechnungen an einem Ort" - mit Icon
-  - **Slide 2**: "Jahresübersicht & Sparziele" - mit Icon
-  - **Slide 3**: "Erinnerungen & nie wieder verpassen" - mit Icon
-- Dot-Indicator unten, Skip-Button oben rechts
-- Animierte Übergänge zwischen den Slides
+**Screen 1 — Monatliches Netto-Einkommen**
+- Number input
+- Speichert in `monthly_tracker_settings.salary`
 
-### 3. Start Activity (nach dem Walkthrough)
-- Großer **"Start"** Button in der Mitte
-- BillStack Logo oben
-- Klick auf Start navigiert zur Landing/Auth Seite (die eigentliche App)
+**Screen 2 — Arbeitstage pro Woche**
+- 7 Toggle-Buttons (Mo-So) + Stunden pro Tag
+- Speichert in `monthly_tracker_settings.active_days` + `hours`
 
-## Technische Details
+**Screen 3 — Top monatliche Rechnungen**
+- Liste mit Name + Betrag (max 3-5 Zeilen, dynamisch addbar)
+- Speichert als rows in `subscriptions` (billing_cycle="Monthly")
 
-### Neue Datei
-- `src/pages/Start.tsx` — Enthält alle 3 Phasen (Splash → Walkthrough → Start Button) als State-Machine
+**Screen 4 — Sparziel**
+- Name, Zielbetrag, Zieldatum, Intervall
+- Speichert in `savings_goals`
 
-### Geänderte Dateien
-- `src/App.tsx` — Neue Route `/start` hinzufügen, Default-Route für nicht-eingeloggte User auf `/start` statt `/landing` setzen
-- `src/pages/Landing.tsx` — Nicht-eingeloggte User die direkt `/landing` aufrufen werden normal behandelt
+Jeder Screen hat:
+- Großen Titel + Erklärungstext
+- Skip-Button (oben rechts) + Weiter-Button (unten)
+- Progress Bar oben
+- Primary-Farbe #8100FF, Space Grotesk
 
-### Logik
-- `localStorage` speichert ob der User den Walkthrough schon gesehen hat (`billstack_walkthrough_seen`)
-- Beim ersten Besuch: `/start` → Splash → Walkthrough → Start → Landing/Auth
-- Bei weiteren Besuchen: Direkt zur Landing-Seite (kein Walkthrough mehr)
+Nach Schritt 4 → `onboarding_completed = true` setzen → `navigate("/")`
 
-Kein Backend/Datenbank-Änderungen nötig.
+### 3. Routing in `src/App.tsx`
+- Neue Route `/onboarding`
+- `ProtectedRoute` erweitern: nach Auth-Check prüfen ob `onboarding_completed`. Falls nicht → redirect zu `/onboarding` (außer wenn schon auf `/onboarding`)
+
+### 4. Onboarding-Status Hook
+`src/hooks/use-onboarding-status.ts` — liest `onboarding_completed` aus `monthly_tracker_settings`. Falls keine Row existiert → `false`.
+
+### Wichtig
+- Alle Inputs optional/skippable, kein Zwang
+- Beim Skip einfach zum nächsten Screen ohne Save
+- Bei Skip von ALLEN Screens trotzdem `onboarding_completed = true` setzen damit es nicht wieder erscheint
+- Sprache: Deutsch (User-Präferenz aus Memory)
+- Existierende User: bekommen Onboarding NICHT (Migration setzt Default false aber wir filtern: wenn `salary > 0` oder Daten existieren → als completed markieren via Migration-SQL)
+
+### Files
+- NEU: `src/pages/Onboarding.tsx`
+- NEU: `src/hooks/use-onboarding-status.ts`
+- EDIT: `src/App.tsx` (Route + Redirect-Logik)
+- DB: Migration für neue Spalte + Backfill für existierende User
