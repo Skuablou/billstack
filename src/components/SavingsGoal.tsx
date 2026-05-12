@@ -202,10 +202,11 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
             className="rounded-xl border p-5 space-y-4"
             style={{
               background: isLight ? "linear-gradient(135deg, hsl(267 70% 92%), hsl(267 50% 86%))" : "linear-gradient(135deg, hsl(267 60% 24%), hsl(267 40% 16%))",
-              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : (isLight ? "hsl(267 70% 55%)" : "hsl(267 70% 40%)"),
+              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : isMissed ? "hsl(0 75% 55% / 0.6)" : (isLight ? "hsl(267 70% 55%)" : "hsl(267 70% 40%)"),
               borderWidth: "2px",
               boxShadow: isComplete
                 ? "0 0 30px -10px hsl(36 100% 50% / 0.3)"
+                : isMissed ? "0 0 30px -10px hsl(0 75% 55% / 0.3)"
                 : isLight ? "0 4px 20px -6px hsl(267 80% 60% / 0.3)" : "0 0 30px -10px hsl(267 80% 50% / 0.1)",
             }}
           >
