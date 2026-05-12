@@ -272,7 +272,31 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
               </div>
             </div>
 
-            {!isComplete ? (
+            {isComplete ? (
+              <div className="rounded-lg p-3 text-center" style={{ backgroundColor: "hsl(36 100% 50% / 0.1)", border: "1px solid hsl(36 100% 50% / 0.3)" }}>
+                <p className="text-sm font-semibold" style={{ color: "hsl(36 100% 50%)" }}>
+                  🎉 Goal reached!
+                </p>
+              </div>
+            ) : isMissed ? (
+              <div className="space-y-2">
+                <div className="rounded-lg p-3 text-center" style={{ backgroundColor: "hsl(0 75% 55% / 0.12)", border: "1px solid hsl(0 75% 55% / 0.4)" }}>
+                  <p className="text-sm font-semibold" style={{ color: "hsl(0 80% 60%)" }}>
+                    ⏰ Deadline missed
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    You're {fmt(shortfall)} short of {fmt(goal.totalAmount)}. Extend the date or close this goal.
+                  </p>
+                </div>
+                <Button
+                  onClick={() => onRemove(i)}
+                  variant="outline"
+                  className="w-full rounded-lg text-sm font-semibold h-10"
+                >
+                  Close goal
+                </Button>
+              </div>
+            ) : (
               <Button
                 onClick={() => onMarkPaid(i)}
                 className="w-full rounded-lg gap-2 text-sm font-semibold h-10"
@@ -281,12 +305,6 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
                 <Check className="w-4 h-4" />
                 Mark as Paid ({getIntervalLabel(goal.interval)})
               </Button>
-            ) : (
-              <div className="rounded-lg p-3 text-center" style={{ backgroundColor: "hsl(36 100% 50% / 0.1)", border: "1px solid hsl(36 100% 50% / 0.3)" }}>
-                <p className="text-sm font-semibold" style={{ color: "hsl(36 100% 50%)" }}>
-                  🎉 Goal reached!
-                </p>
-              </div>
             )}
           </motion.div>
         );
