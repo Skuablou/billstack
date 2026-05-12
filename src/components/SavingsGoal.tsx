@@ -191,6 +191,8 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
         const perPeriod = goal.totalAmount / totalPeriods;
         const savedSoFar = perPeriod * goal.paidPeriods;
         const isComplete = goal.paidPeriods >= totalPeriods;
+        const isMissed = !isComplete && new Date() > goal.targetDate;
+        const shortfall = Math.max(0, goal.totalAmount - savedSoFar);
 
         return (
           <motion.div
