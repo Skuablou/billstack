@@ -191,6 +191,8 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
         const perPeriod = goal.totalAmount / totalPeriods;
         const savedSoFar = perPeriod * goal.paidPeriods;
         const isComplete = goal.paidPeriods >= totalPeriods;
+        const isMissed = !isComplete && new Date() > goal.targetDate;
+        const shortfall = Math.max(0, goal.totalAmount - savedSoFar);
 
         return (
           <motion.div
@@ -200,10 +202,11 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
             className="rounded-xl border p-5 space-y-4"
             style={{
               background: isLight ? "linear-gradient(135deg, hsl(267 70% 92%), hsl(267 50% 86%))" : "linear-gradient(135deg, hsl(267 60% 24%), hsl(267 40% 16%))",
-              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : (isLight ? "hsl(267 70% 55%)" : "hsl(267 70% 40%)"),
+              borderColor: isComplete ? "hsl(36 100% 50% / 0.5)" : isMissed ? "hsl(0 75% 55% / 0.6)" : (isLight ? "hsl(267 70% 55%)" : "hsl(267 70% 40%)"),
               borderWidth: "2px",
               boxShadow: isComplete
                 ? "0 0 30px -10px hsl(36 100% 50% / 0.3)"
+                : isMissed ? "0 0 30px -10px hsl(0 75% 55% / 0.3)"
                 : isLight ? "0 4px 20px -6px hsl(267 80% 60% / 0.3)" : "0 0 30px -10px hsl(267 80% 50% / 0.1)",
             }}
           >
@@ -269,7 +272,31 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
               </div>
             </div>
 
-            {!isComplete ? (
+            {isComplete ? (
+              <div className="rounded-lg p-3 text-center" style={{ backgroundColor: "hsl(36 100% 50% / 0.1)", border: "1px solid hsl(36 100% 50% / 0.3)" }}>
+                <p className="text-sm font-semibold" style={{ color: "hsl(36 100% 50%)" }}>
+                  🎉 Goal reached!
+                </p>
+              </div>
+            ) : isMissed ? (
+              <div className="space-y-2">
+                <div className="rounded-lg p-3 text-center" style={{ backgroundColor: "hsl(0 75% 55% / 0.12)", border: "1px solid hsl(0 75% 55% / 0.4)" }}>
+                  <p className="text-sm font-semibold" style={{ color: "hsl(0 80% 60%)" }}>
+                    ⏰ Deadline missed
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    You're {fmt(shortfall)} short of {fmt(goal.totalAmount)}. Extend the date or close this goal.
+                  </p>
+                </div>
+                <Button
+                  onClick={() => onRemove(i)}
+                  variant="outline"
+                  className="w-full rounded-lg text-sm font-semibold h-10"
+                >
+                  Close goal
+                </Button>
+              </div>
+            ) : (
               <Button
                 onClick={() => onMarkPaid(i)}
                 className="w-full rounded-lg gap-2 text-sm font-semibold h-10"
@@ -278,12 +305,6 @@ export function SavingsGoalDisplay({ goals, onMarkPaid, onRemove }: DisplayProps
                 <Check className="w-4 h-4" />
                 Mark as Paid ({getIntervalLabel(goal.interval)})
               </Button>
-            ) : (
-              <div className="rounded-lg p-3 text-center" style={{ backgroundColor: "hsl(36 100% 50% / 0.1)", border: "1px solid hsl(36 100% 50% / 0.3)" }}>
-                <p className="text-sm font-semibold" style={{ color: "hsl(36 100% 50%)" }}>
-                  🎉 Goal reached!
-                </p>
-              </div>
             )}
           </motion.div>
         );
